@@ -35,3 +35,45 @@
 
 4. **清理工作**：
    - 实验结束后，记得关闭所有运行中的进程，并断开电源以保护设备安全。
+
+---
+
+#### 四、Python示例代码
+下面提供了一个简单的Python代码示例，用于实现双色LED的红绿交替闪烁：
+
+```python
+import RPi.GPIO as GPIO
+import time
+
+# Define GPIO pins for the LED (BCM numbering)
+RED_PIN = 19  # Red part of the dual-color LED
+GREEN_PIN = 20  # Green part of the dual-color LED
+
+# Setup GPIO mode and pin directions
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(RED_PIN, GPIO.OUT)
+GPIO.setup(GREEN_PIN, GPIO.OUT)
+
+try:
+    while True:
+        # Turn on red LED
+        GPIO.output(RED_PIN, GPIO.HIGH)
+        GPIO.output(GREEN_PIN, GPIO.LOW)
+        print("Red LED is ON")
+        time.sleep(1)  # Wait for 1 second
+        
+        # Turn on green LED
+        GPIO.output(RED_PIN, GPIO.LOW)
+        GPIO.output(GREEN_PIN, GPIO.HIGH)
+        print("Green LED is ON")
+        time.sleep(1)  # Wait for 1 second
+
+except KeyboardInterrupt:
+    print("Program stopped by user")
+
+finally:
+    # Clean up GPIO settings before exiting
+    GPIO.cleanup()
+```
+
+这段代码将使双色LED按照红-绿-红-绿的顺序交替闪烁，每次持续1秒钟。你可以根据需要调整时间间隔或其他参数。
