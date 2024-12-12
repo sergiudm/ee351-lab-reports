@@ -1,17 +1,18 @@
-# Welcome to MkDocs
+# EE351实验报告
+此处是南方科技大学EE351“微机原理与嵌入式系统”24Fall课程实验报告的主页，你可以在这里找到所有的实验报告。
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+> 本课程所有实验在树莓派4B上进行，使用的操作系统为Raspberry Pi OS。
 
-## Commands
+## 实验报告列表
+- [实验一：树莓派开发环境搭建](./lab1.md)
+- [实验二：双色灯实验](./lab2.md)
+- [实验三：轻触开关实验](./lab3.md)
+- [实验四：PCF8691模数转换器实验](./lab4.md)
+- [实验五：模拟温湿度传感器实验](./lab5.md)
+- [实验六：超声波传感器实验](./lab6.md)
+- [实验七：蜂鸣器实验](./lab7.md)
+- [实验八：PS2操纵杆实验](./lab8.md)
+- [实验九：红外遥控实验](./lab9.md)
+- [实验十：中断实验](./lab10.md)
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+作者: [韩骐骏](https://github.com/sergiudm)
