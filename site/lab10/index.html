@@ -446,7 +446,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      实验介绍
+      一、实验介绍
     </span>
   </a>
   
@@ -455,7 +455,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      实验原理
+      二、实验原理
     </span>
   </a>
   
@@ -464,7 +464,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      实验步骤
+      三、实验步骤
     </span>
   </a>
   
@@ -535,7 +535,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      实验介绍
+      一、实验介绍
     </span>
   </a>
   
@@ -544,7 +544,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      实验原理
+      二、实验原理
     </span>
   </a>
   
@@ -553,7 +553,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      实验步骤
+      三、实验步骤
     </span>
   </a>
   
@@ -574,10 +574,18 @@
                   
 
 
-<h1 id="lab-10">Lab 10</h1>
-<h2 id="_1">实验介绍</h2>
-<h2 id="_2">实验原理</h2>
-<h2 id="_3">实验步骤</h2>
+<h1 id="lab-10">Lab 10实验报告：中断实验</h1>
+<h2 id="_1">一、实验介绍</h2>
+<p>本实验介绍了外部中断的概念及其在树莓派上的应用，目的是让学员理解如何利用中断机制提高程序响应速度，以及如何处理来自外部设备如按键、传感器等的即时事件。</p>
+<h2 id="_2">二、实验原理</h2>
+<ul>
+<li><code>add_event_detect()</code>函数：用来监控指定GPIO引脚的状态变化，并可以选择性地调用回调函数。</li>
+<li><code>wait_for_edge()</code>函数：阻塞程序直到检测到特定边沿触发，这样可以减少CPU资源占用。</li>
+</ul>
+<h2 id="_3">三、实验步骤</h2>
+<p>构建电路，连接不同的外部设备比如按键、LED灯等。
+编程思路：定义回调函数监听GPIO引脚状态改变，一旦检测到状态变化就触发相应的动作。
+编写代码实现对外部设备的中断响应，例如当按下按键时点亮LED灯。</p>
 
 
 
