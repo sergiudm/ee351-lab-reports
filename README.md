@@ -4,6 +4,7 @@
 > 本课程所有实验在树莓派4B上进行，使用的操作系统为RaspberryPi OS-64-bit-desktop。
 
 本实验用到的硬件设备包括：
+
 - 树莓派4B
 - PCF8591模数转换器
 - 传感器模块（如温度传感器、超声波传感器等）
@@ -12,6 +13,7 @@
 - 面包板、杜邦线等
 
 本实验用到的软件工具包括：
+
 - [RPi.GPIO](https://pypi.org/project/RPi.GPIO/)库（Python）
 - [wiringPi](https://github.com/WiringPi/WiringPi)库（C/C++）
 - [python-smbus](https://archive.kernel.org/oldwiki/i2c.wiki.kernel.org/index.php/I2C_Tools.html)库（I2C通信）
