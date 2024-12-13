@@ -750,10 +750,10 @@
    D --&gt; E{写入控制字节(启动A/D转换)}
    E --&gt; F{读取模拟值}
    F --&gt; G{计算LED亮度}
-   G --&gt; H{设置LED亮度}
-   H --&gt; I{延时}
-   I --&gt; D
-   D -- 中断 --&gt; J[退出]</code></pre>
+   G --&gt; H{延时}
+   H --&gt; D
+   H --&gt; I{退出}
+   I --&gt; J[结束]</code></pre>
 Python代码
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>

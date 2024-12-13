@@ -705,20 +705,7 @@
 <li>为了防止按键抖动，可以在检测到按键状态变化后加入一个小的延时。</li>
 </ol>
 <p>程序框图：
-<pre class="mermaid"><code>graph LR
-    A[开始] --&gt; B[设置GPIO模式]
-    B --&gt; C[循环]
-    C --&gt; D[检测按键状态]
-    D --&gt; E[按键按下]
-    E --&gt; F[点亮红灯]
-    F --&gt; G[熄灭绿灯]
-    G --&gt; H[等待0.1秒]
-    H --&gt; I[检测按键状态]
-    I --&gt; J[按键松开]
-    J --&gt; K[点亮绿灯]
-    K --&gt; L[熄灭红灯]
-    L --&gt; M[等待0.1秒]
-    M --&gt; C</code></pre></p>
+<img alt="alt text" src="../image-4.png" /></p>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
@@ -797,16 +784,7 @@
 <p>在编写代码时，需要注意消除好按键抖动。</p>
 </div>
 <p>程序框图：
-<pre class="mermaid"><code>graph LR
-    A[开始] --&gt; B{设置GPIO引脚}
-    B --&gt; C{循环}
-    C --&gt; D{检测按键状态}
-    D --&gt; E{按键按下}
-    E --&gt; F{切换LED状态}
-    F --&gt; G{等待0.5秒}
-    G --&gt; H{切换LED状态}
-    H --&gt; I{等待0.5秒}
-    I --&gt; C</code></pre></p>
+<img alt="alt text" src="../image-5.png" /></p>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
