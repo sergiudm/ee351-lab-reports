@@ -1,4 +1,4 @@
-### Lab1实验报告：Raspberry Pi初体验与环境搭建实验
+### Lab1实验报告：Raspberry Pi开发环境搭建
 
 #### 一、实验介绍
 本次实验将配置后续实验用到的软硬件环境，包括操作系统、网络、远程连接等。
@@ -59,7 +59,6 @@
 1. **连接Wi-Fi**：
    - 在命令行中输入`sudo raspi-config`打开配置菜单。
    - 选择“Network Options”，然后按照提示输入您的Wi-Fi SSID和密码。
-   - 或者直接编辑`/etc/wpa_supplicant/wpa_supplicant.conf`文件添加Wi-Fi信息。
    
 2. **验证网络连接**：
    - 使用`ping www.bing.com`测试是否能成功访问外部网站。
@@ -72,11 +71,6 @@
    - 使用`sudo apt-get upgrade`命令来更新所有现有的软件包至最新版本。
 
 3. **安装额外的开发工具**：
-   - 安装Python相关工具：
-     ```bash
-     sudo apt-get install python3-pip
-     pip3 install --upgrade pip
-     ```
    - 安装Git用于版本控制：
      ```bash
      sudo apt-get install git

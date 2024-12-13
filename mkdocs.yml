@@ -97,6 +97,10 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.superfences 
   - pymdownx.keys
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+
 extra_javascript:
   - javascripts/katex.js
   - https://unpkg.com/katex@0/dist/katex.min.js
