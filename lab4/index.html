@@ -744,17 +744,16 @@
 </ol>
 <p>程序框图：
 <pre class="mermaid"><code>graph LR
-    A[开始] --&gt; B{初始化I2C总线}
-    B --&gt; C{设置PCF8591地址和控制位}
-    C --&gt; D{循环开始}
-    D --&gt; E{写入控制字节(启动A/D转换)}
-    E --&gt; F{读取模拟值}
-    F --&gt; G{打印模拟值}
-    G --&gt; H{映射模拟值到LED亮度}
-    H --&gt; I{打印LED亮度}
-    I --&gt; J{延时}
-    J --&gt; D
-    D -- 中断 --&gt; K[退出]</code></pre>
+   A[开始] --&gt; B{初始化I2C总线}
+   B --&gt; C{设置PCF8591地址和控制位}
+   C --&gt; D{循环开始}
+   D --&gt; E{写入控制字节(启动A/D转换)}
+   E --&gt; F{读取模拟值}
+   F --&gt; G{计算LED亮度}
+   G --&gt; H{设置LED亮度}
+   H --&gt; I{延时}
+   I --&gt; D
+   D -- 中断 --&gt; J[退出]</code></pre>
 Python代码
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
