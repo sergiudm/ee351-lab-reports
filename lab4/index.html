@@ -687,7 +687,8 @@
 四个模拟输入，一个模拟输出和一个串行 <span class="arithmatex">\(I^2C\)</span> 总线接口。三个地址引脚 <span class="arithmatex">\(A_0，A_1
 和 A_2\)</span> 用于对硬件地址进行编程，从而允许使用多达 8 个连接到 <span class="arithmatex">\(I^2C\)</span> 总线的设备，
 而无需额外的硬件。通过两行双向 <span class="arithmatex">\(I^2C\)</span> 总线串行传输与设备之间的地址，控制和
-数据。该设备的功能包括模拟输入多路复用，片上跟踪和保持功能，8 位模数转换
+数据。
+该设备的功能包括模拟输入多路复用，片上跟踪和保持功能，8 位模数转换
 和 8 位数模转换。最大转换率由 <span class="arithmatex">\(I^2C\)</span> 总线的最大速度决定。
 本次实验目标为：通过控制 PCF8591，将 LED 灯点亮。</p>
 <h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
@@ -751,8 +752,18 @@
 <li>导入必要的库后，创建一个SMBus实例并与PCF8591建立连接，读取AIN0上的模拟值并根据该值调整AOUT输出，进而控制LED亮度。</li>
 </ol>
 <p>程序框图：
-<a class="glightbox" href="../image-12.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../image-12.png" /></a>
-Python代码</p>
+<pre class="mermaid"><code>graph LR
+   A[开始] --&gt; B{初始化I2C总线}
+   B --&gt; C{设置PCF8591地址和控制位}
+   C --&gt; D{循环开始}
+   D --&gt; E{写入控制字节(启动A/D转换)}
+   E --&gt; F{读取模拟值}
+   F --&gt; G{计算LED亮度}
+   G --&gt; H{设置LED亮度}
+   H --&gt; I{延时}
+   I --&gt; D
+   D -- 中断 --&gt; J[退出]</code></pre>
+Python代码
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
@@ -806,7 +817,7 @@ Python代码</p>
 <a id="__codelineno-0-25" name="__codelineno-0-25"></a>
 <a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a>   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exiting...&quot;</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></table></div></p>
 
 
 

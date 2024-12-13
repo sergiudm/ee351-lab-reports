@@ -767,7 +767,12 @@
 <li>编写函数<code>play_music()</code>，该函数定义了一系列音符及其对应的频率，并通过循环调用这些频率来驱动蜂鸣器发出音乐。</li>
 </ol>
 <p>程序框图：
-<a class="glightbox" href="../image-8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../image-8.png" /></a></p>
+<pre class="mermaid"><code>graph LR
+    A[开始] --&gt; B{设置GPIO引脚}
+    B --&gt; C{播放音乐}
+    C --&gt; D{设置频率}
+    D --&gt; E{等待}
+    E --&gt; C</code></pre></p>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>

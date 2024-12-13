@@ -731,7 +731,16 @@ Z 轴上按下。处于静止位置时，其在 X 和 Y 方向产生约 2.5V 的
 <li>创建一个SMBus实例并与PCF8591建立连接，读取AIN0和AIN1上的模拟值，并根据这些值计算出对应的LED亮度。</li>
 </ol>
 <p>程序框图：
-<a class="glightbox" href="../image-9.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../image-9.png" /></a>
+<pre class="mermaid"><code>    graph LR
+        A[开始] --&gt; B{初始化I2C总线}
+        B --&gt; C{设置PCF8591地址和控制位}
+        C --&gt; D{循环开始}
+        D --&gt; E{读取X轴和Y轴模拟值}
+        E --&gt; F{计算LED亮度}
+        F --&gt; G{设置LED亮度}
+        G --&gt; H{延时}
+        H --&gt; D
+        D -- 中断 --&gt; I[退出]</code></pre>
 Python代码
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
