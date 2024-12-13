@@ -14,7 +14,7 @@
    - 在本实验中使用的有源蜂鸣器为低电平触发，即当GPIO引脚设置为低电平时，蜂鸣器会响起；反之则停止发声。
 
 2. **无源蜂鸣器**：
-   - 没有内置驱动电路，必须由外部提供特定频率的方波信号才能工作。可以通过改变方波的频率来调整发出的声音频率，进而实现不同的音符。
+   - 没有内置驱动电路，必须由外部提供特定频率的方波信号才能工作。由于声音频率可控，可以发出“do re mi fa so la xi”的声效。在一些特例中，可以和 LED 复用一个控制口。
    - PFM（Pulse-Frequency Modulation）是一种仅使用两个电平（高/低）表示模拟信号的调制方式，在这里用来生成可变频率的脉冲序列以驱动无源蜂鸣器。
    - PWM（Pulse-Width Modulation）虽然不是本次实验的重点，但作为一种常见的调制技术，它同样适用于控制蜂鸣器或其他设备的输出特性。
 
@@ -23,59 +23,19 @@
    - 对于无源蜂鸣器，则需要创建一个包含多个音符频率值的列表，并依次遍历这个列表，每次根据当前音符设定适当的PWM频率，使蜂鸣器按照指定旋律发声。
 
 #### 三、实验步骤
-##### （1）有源蜂鸣器
+#### （1）有源蜂鸣器实验
 1. **硬件连接**：
-   - 根据提供的表格，确保正确连接Raspberry Pi、T型转接板和有源蜂鸣器模块之间的I/O、VCC和GND引脚。
-   - 注意电源使用3.3V！
+   - 连接Raspberry Pi、T型转接板和有源蜂鸣器模块之间的I/O、VCC**3.3V**和GND引脚。![alt text](image-12.png)
+   - 通电后，蜂鸣器会发出持续的“滴滴”声音。
+
+#### （2）无源蜂鸣器实验
+1. **硬件连接**：
+   - 连接Raspberry Pi、T型转接板和无源蜂鸣器模块之间的I/O、VCC和GND引脚。![alt text](image-11.png)
+   - 确保选择支持PWM输出的GPIO引脚（本次使用GPIO11，BCM编号）。
 
 2. **编写代码**：
-   - 使用Python语言编写程序，首先需要安装RPi.GPIO库以控制GPIO引脚。
-   - 编写函数`play_tone()`，该函数负责周期性地切换GPIO引脚的状态，使得蜂鸣器每隔一段时间响一次，模拟出连续的提示音效果。
-   - 下面是一个简单的代码示例：
-
-```python
-import RPi.GPIO as GPIO
-import time
-
-# Define GPIO pin for the buzzer (BCM numbering)
-BUZZER_PIN = 17  # BCM 17, physical pin 11
-
-# Setup GPIO mode and pin direction
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(BUZZER_PIN, GPIO.OUT)
-
-def play_tone(duration=0.5):
-    """Play a tone using the active buzzer."""
-    try:
-        # Turn on the buzzer (low level trigger)
-        GPIO.output(BUZZER_PIN, GPIO.LOW)
-        time.sleep(duration)
-        
-        # Turn off the buzzer
-        GPIO.output(BUZZER_PIN, GPIO.HIGH)
-        time.sleep(0.1)  # Short pause between tones
-
-    except KeyboardInterrupt:
-        print("Stopped by user")
-
-finally:
-    GPIO.cleanup()  # Clean up GPIO settings before exiting
-
-if __name__ == "__main__":
-    print("Playing tone...")
-    while True:
-        play_tone()
-```
-
-##### （2）无源蜂鸣器
-1. **硬件连接**：
-   - 同样根据提供的表格，确保正确连接Raspberry Pi、T型转接板和无源蜂鸣器模块之间的I/O、VCC和GND引脚。
-   - 确保选择支持PWM输出的GPIO引脚（如GPIO18，BCM编号）。
-
-2. **编写代码**：
-   - 使用Python语言编写程序，首先需要安装RPi.GPIO库以及pigpio库（用于更精确地控制PWM）。
+   - 导入`RPi.GPIO`和`pigpio`库，设置蜂鸣器的GPIO引脚和频率参数。
    - 编写函数`play_music()`，该函数定义了一系列音符及其对应的频率，并通过循环调用这些频率来驱动蜂鸣器发出音乐。
-   - 下面是一个简单的代码示例：
 
 ```python
 import RPi.GPIO as GPIO
@@ -94,8 +54,7 @@ NOTES = {
     'C5': 523, 'D5': 587, 'E5': 659, 'F5': 698, 'G5': 784, 'A5': 880, 'B5': 988,
 }
 
-# A simple melody to play
-MELODY = ['C4', 'D4', 'E4', 'C4', 'E4', 'D4', 'C4']
+MELODY = ['C4', 'D4', 'E4', 'C4', 'E4', 'D4', 'C4', 'C4', 'D4', 'D4', 'E4', 'E4', 'C4', 'D4', 'E4']
 
 # Function to set frequency of the passive buzzer
 def set_frequency(freq):
@@ -121,10 +80,3 @@ if __name__ == "__main__":
     print("Playing music...")
     play_music(MELODY)
 ```
-
-3. **测试与验证**：
-   - 分别运行上述编写的Python脚本，观察有源蜂鸣器是否能持续发出提示音，以及无源蜂鸣器是否能够按照预定旋律播放音乐。
-   - 如果可能的话，尝试调整代码中的参数（如音符持续时间和间隔），看看是否会对输出效果产生影响。
-
-4. **清理工作**：
-   - 实验结束后，请记得关闭所有运行中的进程，并断开电源以保护设备安全。

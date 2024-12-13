@@ -1,21 +1,26 @@
 ### Lab9实验报告：红外遥控实验
 
 #### 一、实验介绍
-本实验旨在通过使用红外接收头和LIRC库，在Raspberry Pi上实现对红外遥控器信号的接收与解码。红外通信是一种利用不可见光波段（通常为近红外）进行短距离无线数据传输的技术，广泛应用于电视、空调等家用电器的遥控操作中。本次实验的任务是设置Raspberry Pi以识别来自普通红外遥控器的按键命令，并能够根据接收到的不同脉冲模式执行相应的动作。
+遥控器接收头是用于接收遥控器所发射信号进而读取按键信息而执行操作
+的一种光电信号转换器件。
+遥控器接收头是利用最新的 IC 技术开发和设计出来的小型红外控系统接收
+器。在支架上装着 PIN 二极管和前置放大器，环氧树脂包装成一个红外过滤器，
+解调输出信号可以由微处理器解码，一般三条腿的红外线遥控接收头是接收、放
+大、解调一体头，接收头输出的是解调后的数据信号，Raspberry pi 里面需要相
+应的读取程序。
+红外通信是利用红外技术实现两点间的近距离保密通信和信息转发。
+它一般由红外发射和接收系统两部分组成。发射系统对一个红外辐射源进行
+调制后发射红外信号，而接收系统用光学装置和红外探测器进行接收，就构成红
+外通信系统。
+![alt text](image-15.png)
 
 #### 二、实验原理
-1. **红外通信基础**：
-   - 红外发射端通过对一个红外LED灯发出经过调制后的载波信号来发送信息；接收端则采用专门设计的红外接收头，它不仅包含光电转换元件（如PIN二极管），还集成了前置放大器和解调电路，可以直接输出已经解调好的数字信号供微处理器进一步处理。
-   
-2. **红外接收头工作流程**：
-   - 当红外接收头捕捉到由遥控器发出的红外信号时，内部的PIN二极管会将光信号转化为电流变化，经过放大和解调后产生代表按键编码的数字脉冲序列。
-   - 每个遥控器按键对应特定的脉冲模式，因此可以通过解析这些脉冲来确定用户按下了哪个键。
-
-3. **LIRC库的作用**：
-   - LIRC（Linux Infrared Remote Control）是一个开源项目，提供了多种接口用于管理和配置红外遥控设备。在本实验中，我们将使用LIRC库读取并解释从红外接收头获取的数据流，从而实现对各种遥控指令的支持。
-
+在本实验中，我们使用 lirc 库读取遥控器按钮返回的红外信号，并将它们转
+换为按钮值。
 #### 三、实验步骤
-1. **安装LIRC及相关配置**：
+1. **连接电路**
+   连接遥控器接收头到 Raspberry Pi 的 GPIO 引脚上，如下图所示：![alt text](image-16.png)
+2. **安装LIRC及相关配置**：
    - 使用以下命令安装LIRC软件包及其依赖项：
      ```bash
      sudo apt-get update
@@ -27,7 +32,7 @@
      dtoverlay=gpio-ir-tx,gpio_pin=23
      ```
 
-2. **调整驱动设置**：
+3. **调整驱动设置**：
    - 编辑位于`/etc/lirc/lirc_options.conf`的LIRC配置文件，更改默认驱动程序和设备路径：
      ```bash
      sudo nano /etc/lirc/lirc_options.conf
@@ -38,48 +43,116 @@
      device = /dev/lirc0
      ```
 
-3. **重启系统**：
+4. **重启系统**：
    - 执行完上述配置更改后，请重启Raspberry Pi以使新的设置生效：
      ```bash
      sudo reboot
      ```
 
-4. **测试IR接收器**：
+5. **测试IR接收器**：
    - 重启完成后，可以使用`irw`命令查看当前接收到的红外信号。打开终端窗口并输入：
      ```bash
      irw
      ```
-   - 此时按下遥控器上的任意按键，你应该能在屏幕上看到对应的十六进制代码输出。
+   - 此时按下遥控器上的任意按键，观察屏幕上的十六进制代码输出。![alt text](image-17.png)
+6. **记录红外代码**:
+   在终端输入`irrecord -l`命令，按照提示操作，记录红外遥控器的按键代码。
+   屏幕上输出的十六进制代码如下：
+   ```text
+   KEY_0
+   KEY_102ND
+   KEY_10CHANNELSDOWN
+   KEY_10CHANNELSUP
+   KEY_1
+   KEY_2
+   KEY_3
+   KEY_3D_MODE
+   KEY_4
+   KEY_5
+   KEY_6
+   KEY_7
+   KEY_8
+   KEY_9
+   KEY_A
+   KEY_AB
+   KEY_ADDRESSBOOK
+   KEY_AGAIN
+   KEY_ALTERASE
+   KEY_ANGLE
+   KEY_APOSTROPHE
+   KEY_APPSELECT
+   KEY_ARCHIVE
+   KEY_ASPECT_RATIO
+   KEY_ASSISTANT
+   KEY_ATTENDANT_OFF
+   ```
 
-5. **编写控制逻辑**：
-   - 根据实际需求开发Python或其他语言的应用程序，监听来自LIRC的服务端口，解析收到的红外命令，并据此触发预设的操作（比如播放音乐、切换频道等）。
-   - 下面是一个简单的Python示例，展示了如何读取并打印出所有接收到的红外事件：
+7. **开始录制**：
+   在终端输入`irrecord -d /dev/lirc0 ~/lircd.conf`命令，按照提示操作，录制红外遥控器的按键代码。
+
+8. **保存文件**:
+   保存文件后，将其复制到`/etc/lirc/lircd.conf`目录下：
+   ```bash
+   sudo cp ~/lircd.conf /etc/lirc/lircd.conf
+   ```
+9. **重命名文件**:
+   重命名文件后，重启LIRC服务：
+   ```bash
+   cd /etc/lirc/lircd.conf.d
+   sudo mv devinput.lircd.conf devinput.lircd.dist
+   sudo service lircd restart
+   sudo lircd --nodaemon --device /dev/lirc1 --driver default
+   ```
+10. **测试遥控器**:
+    在终端输入`sudo irw`命令，按下遥控器上的按键，观察屏幕上的输出。
+
+11. **关联Python程序**:
+    修改文件名
+   ```bash
+   cd /etc/lirc
+   sudo mv irexec.lircrc lircrc
+   ```
+   编辑`/etc/lirc/lircrc`文件，添加以下内容：
+   ```text
+   begin
+         prog = irexec
+         button = KEY_1
+         config = echo "Button 1 pressed"
+   end
+   begin
+         prog = irexec
+         button = KEY_2
+         config = echo "Button 2 pressed"
+   end
+   begin
+         prog = irexec
+         button = KEY_3
+         config = echo "Button 3 pressed"
+   end
+   begin
+         prog = test.py
+   ```
+12. **编写Python程序**:
+
 
 ```python
-import subprocess
+import lirc
 
-def listen_to_remote():
-    try:
-        process = subprocess.Popen(['irw'], stdout=subprocess.PIPE)
-        
-        while True:
-            line = process.stdout.readline().decode('utf-8').strip()
-            if not line:
-                break
-            
-            print("Received IR command:", line)
+def pasreset(data): #解析按键
+   if data == 'echo "KEY_1"':
+      print("1 按下") #遥控器按下1:
+   elif data == 'echo "KEY_2"':
+      print("2 按下") #遥控器按下2:
+   elif data == 'echo "KEY_3"':
+      print("3 按下") #遥控器按下3:
 
-    except KeyboardInterrupt:
-        print("\nListening stopped.")
-
-if __name__ == "__main__":
-    print("Listening for IR commands...")
-    listen_to_remote()
+with lirc.LircdConnection("test.py",) as conn:
+   while True:
+      string = conn.readline()
+      pasreset(string)
+      print("收到:",end = '')
+      print(type(string))
 ```
 
-6. **验证结果**：
-   - 运行编写的Python脚本，尝试用遥控器发送不同的按键信号，观察是否能正确接收到相应的编码。
-   - 如果一切正常，接下来就可以根据具体应用场景扩展程序的功能了，比如关联某些按键到特定任务上。
-
-7. **清理工作**：
-   - 实验结束后，请记得关闭所有运行中的进程，并断开电源以保护设备安全。
+13. **运行Python程序**:
+    在终端输入`python3 test.py`命令，按下遥控器上的按键，观察终端上的输出。
