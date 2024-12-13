@@ -739,6 +739,17 @@
 <li>编写函数<code>ultrasonic_callback()</code>，该函数用于处理超声波传感器测距的逻辑，每次按键按下时调用一次。</li>
 <li>使用<code>GPIO.wait_for_edge()</code>方法等待轻触按键按下，然后调用<code>ultrasonic_callback()</code>函数。</li>
 </ol>
+<p>程序框图：
+<pre class="mermaid"><code>graph LR
+    A[开始] --&gt; B{设置GPIO引脚}
+    B --&gt; C{添加事件检测}
+    C --&gt; D{等待按键按下}
+    D --&gt; E{调用回调函数}
+    E --&gt; F{测距}
+    F --&gt; G{打印距离}
+    G --&gt; H{切换LED状态}
+    H --&gt; D</code></pre>
+Python代码：</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>

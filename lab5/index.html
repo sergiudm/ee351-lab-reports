@@ -739,6 +739,20 @@ NTC 热敏电阻电路相对简单，价格低廉，组件精确，可以轻松�
 <li>导入必要的库。</li>
 <li>创建一个SMBus实例并与PCF8591建立连接，读取AIN0上的模拟值并根据该值计算温度。</li>
 </ol>
+<p>程序框图：
+<pre class="mermaid"><code>   graph LR
+      A[开始] --&gt; B{初始化I2C总线}
+      B --&gt; C{设置PCF8591地址和控制位}
+      C --&gt; D{循环开始}
+      D --&gt; E{写入控制字节(启动A/D转换)}
+      E --&gt; F{读取模拟值}
+      F --&gt; G{计算电压Vr}
+      G --&gt; H{计算热敏电阻阻值Rt}
+      H --&gt; I{使用Steinhart-Hart方程计算温度}
+      I --&gt; J{打印温度值}
+      J --&gt; K{延时}
+      K --&gt; D
+      D -- 中断 --&gt; L[退出]</code></pre></p>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
