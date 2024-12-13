@@ -604,7 +604,11 @@
 
 <h3 id="lab10">Lab10实验报告：中断实验<a class="headerlink" href="#lab10" title="Permanent link">&para;</a></h3>
 <h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
-<p>本实验旨在通过使用外部中断机制，学习如何在Raspberry Pi上实现对不同外接设备（如按键开关）的及时响应。外部中断允许系统暂停当前任务以优先处理紧急事件，例如硬件设备输入或定时器到期等。本次实验的任务是设置树莓派能够监听特定GPIO引脚上的状态变化，并在检测到有效边沿时触发预定义的动作，如点亮LED灯。</p>
+<p>在计算机系统中，外部中断是指在程序执行过程中，由外部输入触发的一
+种机制，用于暂停当前程序的执行，转而执行其他指定任务。外部中断的存在
+主要是为了处理紧急事件，例如硬件设备的输入、定时器的到期等。树莓派也
+可实现类似的功能。本次实验任务为通过中断机制在树莓派上实现对不同外接
+设备的及时响应。任务一为通过中断实现对按键的响应，改变LED灯的状态；任二为通过中断实现按键每按下一次，超声波传感器测距一次。</p>
 <h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>树莓派中断函数</strong>：</li>
@@ -612,37 +616,41 @@
 <p>使用<code>GPIO.add_event_detect()</code>方法来监控指定GPIO引脚的状态改变。此方法接受四个参数：</p>
 <ul>
 <li><code>channel</code>：需要监测的GPIO引脚编号。</li>
-<li><code>edge</code>：指定要监测的边沿类型，可以是上升沿（<code>GPIO.RISING</code>）、下降沿（<code>GPIO.FALLING</code>）或者两者皆可（<code>GPIO.BOTH</code>）。</li>
-<li><code>callback</code>：当检测到状态变化时调用的回调函数（可选）。</li>
-<li><code>bouncetime</code>：用于消除机械按键抖动的时间间隔（毫秒单位），即两次有效状态变化之间所需的最小时间差（可选）。</li>
+<li><code>edge</code>：指定要监测的边沿类型，可以是上升沿（<code>GPIO.RISING</code>）、下降沿（<code>GPIO.FALLING</code>）或者两者皆可（<code>GPIO.BOTH</code>）。<img alt="alt text" src="../image-18.png" /></li>
+<li><code>callback</code>：当检测到状态变化时调用的回调函数（可选）。<blockquote>
+<p>回调函数：在编程中，回调函数是指在某个事件发生时由系统调用的函数。在这里，回调函数用于处理按键按下时的逻辑，例如切换LED的状态。</p>
+</blockquote>
+</li>
+<li><code>bouncetime</code>：用于消除机械按键抖动的时间间隔（ms），即两次有效状态变化之间所需的最小时间差（可选）。</li>
 </ul>
 </li>
 <li>
-<p><strong>阻塞式等待边缘触发</strong>：</p>
+<p><strong><code>GPIO.wait_for_edge(channel, GPIO.RISING)</code></strong>：</p>
 </li>
 <li>
-<p>另一种方式是使用<code>GPIO.wait_for_edge()</code>函数，在检测到指定边沿之前阻止程序继续执行。这种方法占用较少CPU资源，但会使主程序处于等待状态直到条件满足。</p>
+<p>另一种方式是使用<code>GPIO.wait_for_edge()</code>函数，在检测到指定边沿之前阻止程序继续执行。这种方法占用较少CPU资源。</p>
 </li>
 <li>
 <p><strong>按键去抖动</strong>：</p>
 </li>
-<li>由于物理按键按下时可能会产生短暂的电压波动（即“抖动”），因此在实际应用中通常会加入软件延时或者硬件滤波来确保每个按键动作只被记录一次。</li>
+<li>由于物理按键按下时可能会产生短暂的电压波动（即“抖动”），因此在实际应用中通常会加入软件延时或者硬件滤波来确保每个按键动作只被记录一次,在<a href="../lab3/">lab3</a>中已经有所涉及,当时是通过手动设置延时来实现的消抖。</li>
 </ol>
 <h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>建立电路</strong>：</li>
-<li>根据提供的表格，确保正确连接Raspberry Pi、T型转接板和轻触按键模块之间的SIG(S)、VCC和GND引脚。</li>
+<li>连接Raspberry Pi、T型转接板和轻触按键模块之间的SIG(S)、VCC和GND引脚。</li>
 <li>将轻触按键模块的SIG(S)引脚连接到Raspberry Pi的GPIO23（BCM编号），VCC引脚接5V电源，GND引脚接地。</li>
 <li>
-<p>同样地，准备一个或多个LED用于指示按键状态的变化。例如，红色LED的阳极通过限流电阻连接到GPIO17，阴极接地；绿色LED则连接到GPIO27。</p>
+<p>把LED灯和超声波传感器的电路连接到树莓派上，具体连接方式见<a href="../lab6/">lab6</a>和<a href="../lab8/">lab8</a>。</p>
 </li>
 <li>
-<p><strong>编写代码</strong>：</p>
+<p><strong>编写Python程序</strong>:</p>
 </li>
-<li>使用Python语言编写程序，首先需要安装RPi.GPIO库以控制GPIO引脚。</li>
-<li>编写函数<code>setup_gpio()</code>初始化GPIO模式和方向，以及配置按键引脚为输入并启用内部上拉电阻。</li>
-<li>定义回调函数<code>button_pressed_callback()</code>，该函数将在每次按键按下时被调用，并负责切换LED的颜色。</li>
-<li>下面是一个简单的代码示例：</li>
+<li>导入<code>RPi.GPIO</code>库，设置轻触按键的GPIO引脚编号。</li>
+<li>编写函数<code>button_callback()</code>，该函数用于处理轻触按键按下时的逻辑，例如切换LED灯的状态。</li>
+<li>使用<code>GPIO.add_event_detect()</code>方法监控轻触按键的状态变化，当检测到按键按下时调用<code>button_callback()</code>函数。</li>
+<li>编写函数<code>ultrasonic_callback()</code>，该函数用于处理超声波传感器测距的逻辑，每次按键按下时调用一次。</li>
+<li>使用<code>GPIO.wait_for_edge()</code>方法等待轻触按键按下，然后调用<code>ultrasonic_callback()</code>函数。</li>
 </ol>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
@@ -690,72 +698,80 @@
 <span class="normal"><a href="#__codelineno-0-44">44</a></span>
 <span class="normal"><a href="#__codelineno-0-45">45</a></span>
 <span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">time</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># Define GPIO pins for the LED and button (BCM numbering)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="n">RED_LED_PIN</span> <span class="o">=</span> <span class="mi">17</span>  <span class="c1"># BCM 17, physical pin 11</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="n">GREEN_LED_PIN</span> <span class="o">=</span> <span class="mi">27</span>  <span class="c1"># BCM 27, physical pin 13</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="n">BUTTON_PIN</span> <span class="o">=</span> <span class="mi">23</span>  <span class="c1"># BCM 23, physical pin 16</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="k">def</span> <span class="nf">setup_gpio</span><span class="p">():</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Setup GPIO mode and pin directions.&quot;&quot;&quot;</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a>    <span class="c1"># Setup LEDs as output</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a>    <span class="c1"># Setup button as input with pull-up resistor</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="k">def</span> <span class="nf">button_pressed_callback</span><span class="p">(</span><span class="n">channel</span><span class="p">):</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Callback function called when the button is pressed.&quot;&quot;&quot;</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="n">BUTTON_PIN</span><span class="p">:</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Button pressed!&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>        <span class="c1"># Toggle between red and green LED</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>        <span class="k">if</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">):</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>        <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># Define GPIO pins for the button and LED</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="n">BUTTON_PIN</span> <span class="o">=</span> <span class="mi">23</span>  <span class="c1"># BCM numbering</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="n">LED_PIN</span> <span class="o">=</span> <span class="mi">18</span>  <span class="c1"># BCM numbering</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="c1"># Define GPIO pins for the ultrasonic sensor</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">TRIG</span> <span class="o">=</span> <span class="mi">17</span>  <span class="c1"># BCM numbering</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">ECHO</span> <span class="o">=</span> <span class="mi">18</span>  <span class="c1"># BCM numbering</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="c1"># Setup GPIO mode and pin directions</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">ECHO</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">)</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="c1"># Function to toggle LED state</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="k">def</span> <span class="nf">button_callback</span><span class="p">(</span><span class="n">channel</span><span class="p">):</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="k">if</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">LED_PIN</span><span class="p">):</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="c1"># Function to measure distance with ultrasonic sensor</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="k">def</span> <span class="nf">ultrasonic_callback</span><span class="p">(</span><span class="n">channel</span><span class="p">):</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="c1"># Send a 10us pulse to TRIG</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.00001</span><span class="p">)</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32"></a>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="n">setup_gpio</span><span class="p">()</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="c1"># Add event detection on the button pin with debouncing</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">add_event_detect</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">FALLING</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">button_pressed_callback</span><span class="p">,</span> <span class="n">bouncetime</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Waiting for button press...&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Keep script running to allow callbacks to work</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Program stopped by user&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="k">finally</span><span class="p">:</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>  <span class="c1"># Clean up GPIO settings before exiting</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="c1"># Wait for ECHO to go high</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="k">while</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">ECHO</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a>        <span class="n">pulse_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="c1"># Wait for ECHO to go low again</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="k">while</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">ECHO</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="n">pulse_end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="c1"># Calculate duration of the pulse</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="n">pulse_duration</span> <span class="o">=</span> <span class="n">pulse_end</span> <span class="o">-</span> <span class="n">pulse_start</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a>    <span class="c1"># Calculate distance in cm</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="n">distance</span> <span class="o">=</span> <span class="n">pulse_duration</span> <span class="o">*</span> <span class="mi">34300</span> <span class="o">/</span> <span class="mi">2</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distance: </span><span class="si">{</span><span class="n">distance</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="c1"># Add event detection for the button</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">add_event_detect</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">FALLING</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">button_callback</span><span class="p">,</span> <span class="n">bouncetime</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Press the button to toggle the LED state.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Press the button to measure distance with the ultrasonic sensor.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">wait_for_edge</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">FALLING</span><span class="p">)</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56"></a>        <span class="n">ultrasonic_callback</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">)</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Cleaning up...&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
-<ol>
-<li><strong>测试与验证</strong>：</li>
-<li>执行上述编写的Python脚本，尝试按下轻触按键，观察LED是否能够在红绿之间交替亮起。</li>
-<li>
-<p>检查输出结果是否符合预期，并根据实际情况微调代码逻辑，比如调整按键去抖时间（<code>bouncetime</code>参数）。</p>
-</li>
-<li>
-<p><strong>功能扩展</strong>：</p>
-</li>
-<li>在基础版本的基础上，可以进一步开发更复杂的交互逻辑，例如实现多模式切换（按一下红灯亮，再按一下红灯闪烁，接着绿灯亮，再次按一下绿灯闪烁...如此循环）。</li>
-<li>
-<p>注意保存最终版本的代码及视频记录，以便提交作业。</p>
-</li>
-<li>
-<p><strong>清理工作</strong>：</p>
-</li>
-<li>实验结束后，请记得关闭所有运行中的进程，并断开电源以保护设备安全。</li>
-</ol>
 
 
 
