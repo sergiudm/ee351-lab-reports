@@ -651,8 +651,8 @@
 
   <h1>红外遥控实验</h1>
 
-<h3 id="lab9">Lab9实验报告：红外遥控实验<a class="headerlink" href="#lab9" title="Permanent link">&para;</a></h3>
-<h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<h3 id="lab9">Lab9实验报告：红外遥控实验</h3>
+<h4 id="_1">一、实验介绍</h4>
 <p>遥控器接收头是用于接收遥控器所发射信号进而读取按键信息而执行操作
 的一种光电信号转换器件。
 遥控器接收头是利用最新的 IC 技术开发和设计出来的小型红外控系统接收
@@ -665,110 +665,82 @@
 调制后发射红外信号，而接收系统用光学装置和红外探测器进行接收，就构成红
 外通信系统。
 <img alt="alt text" src="../image-15.png" /></p>
-<h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<h4 id="_2">二、实验原理</h4>
 <p>在本实验中，我们使用 lirc 库读取遥控器按钮返回的红外信号，并将它们转
 换为按钮值。</p>
-<h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<h4 id="_3">三、实验步骤</h4>
 <ol>
 <li><strong>连接电路</strong>
    连接遥控器接收头到 Raspberry Pi 的 GPIO 引脚上，如下图所示：<img alt="alt text" src="../image-16.png" /></li>
 <li><strong>安装LIRC及相关配置</strong>：</li>
 <li>使用以下命令安装LIRC软件包及其依赖项：
-     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
-<span class="normal"><a href="#__codelineno-0-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>lirc
-</code></pre></div></td></tr></table></div></li>
+     <code>bash
+     sudo apt-get update
+     sudo apt-get install lirc</code></li>
 <li>
 <p>修改<code>/boot/config.txt</code>文件中的红外模块部分，确保启用了红外接收功能，并指定了正确的GPIO引脚编号（例如接收引脚为22，发射引脚为23）。添加或修改如下行：
-     <div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
-<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>dtoverlay=gpio-ir,gpio_pin=22
-<a id="__codelineno-1-2" name="__codelineno-1-2"></a>dtoverlay=gpio-ir-tx,gpio_pin=23
-</code></pre></div></td></tr></table></div></p>
+     <code>text
+     dtoverlay=gpio-ir,gpio_pin=22
+     dtoverlay=gpio-ir-tx,gpio_pin=23</code></p>
 </li>
 <li>
 <p><strong>调整驱动设置</strong>：</p>
 </li>
 <li>
 <p>编辑位于<code>/etc/lirc/lirc_options.conf</code>的LIRC配置文件，更改默认驱动程序和设备路径：
-     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/lirc/lirc_options.conf
-</code></pre></div></td></tr></table></div>
+     <code>bash
+     sudo nano /etc/lirc/lirc_options.conf</code>
      将内容更改为：
-     <div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
-<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a>driver = default
-<a id="__codelineno-3-2" name="__codelineno-3-2"></a>device = /dev/lirc0
-</code></pre></div></td></tr></table></div></p>
+     <code>text
+     driver = default
+     device = /dev/lirc0</code></p>
 </li>
 <li>
 <p><strong>重启系统</strong>：</p>
 </li>
 <li>
 <p>执行完上述配置更改后，请重启Raspberry Pi以使新的设置生效：
-     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>sudo<span class="w"> </span>reboot
-</code></pre></div></td></tr></table></div></p>
+     <code>bash
+     sudo reboot</code></p>
 </li>
 <li>
 <p><strong>测试IR接收器</strong>：</p>
 </li>
 <li>重启完成后，可以使用<code>irw</code>命令查看当前接收到的红外信号。打开终端窗口并输入：
-     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a>irw
-</code></pre></div></td></tr></table></div></li>
+     <code>bash
+     irw</code></li>
 <li>此时按下遥控器上的任意按键，观察屏幕上的十六进制代码输出。<img alt="alt text" src="../image-17.png" /></li>
 <li>
 <p><strong>记录红外代码</strong>:
    在终端输入<code>irrecord -l</code>命令，按照提示操作，记录红外遥控器的按键代码。
    屏幕上输出的十六进制代码如下：
-   <div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-6-10">10</a></span>
-<span class="normal"><a href="#__codelineno-6-11">11</a></span>
-<span class="normal"><a href="#__codelineno-6-12">12</a></span>
-<span class="normal"><a href="#__codelineno-6-13">13</a></span>
-<span class="normal"><a href="#__codelineno-6-14">14</a></span>
-<span class="normal"><a href="#__codelineno-6-15">15</a></span>
-<span class="normal"><a href="#__codelineno-6-16">16</a></span>
-<span class="normal"><a href="#__codelineno-6-17">17</a></span>
-<span class="normal"><a href="#__codelineno-6-18">18</a></span>
-<span class="normal"><a href="#__codelineno-6-19">19</a></span>
-<span class="normal"><a href="#__codelineno-6-20">20</a></span>
-<span class="normal"><a href="#__codelineno-6-21">21</a></span>
-<span class="normal"><a href="#__codelineno-6-22">22</a></span>
-<span class="normal"><a href="#__codelineno-6-23">23</a></span>
-<span class="normal"><a href="#__codelineno-6-24">24</a></span>
-<span class="normal"><a href="#__codelineno-6-25">25</a></span>
-<span class="normal"><a href="#__codelineno-6-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a>KEY_0
-<a id="__codelineno-6-2" name="__codelineno-6-2"></a>KEY_102ND
-<a id="__codelineno-6-3" name="__codelineno-6-3"></a>KEY_10CHANNELSDOWN
-<a id="__codelineno-6-4" name="__codelineno-6-4"></a>KEY_10CHANNELSUP
-<a id="__codelineno-6-5" name="__codelineno-6-5"></a>KEY_1
-<a id="__codelineno-6-6" name="__codelineno-6-6"></a>KEY_2
-<a id="__codelineno-6-7" name="__codelineno-6-7"></a>KEY_3
-<a id="__codelineno-6-8" name="__codelineno-6-8"></a>KEY_3D_MODE
-<a id="__codelineno-6-9" name="__codelineno-6-9"></a>KEY_4
-<a id="__codelineno-6-10" name="__codelineno-6-10"></a>KEY_5
-<a id="__codelineno-6-11" name="__codelineno-6-11"></a>KEY_6
-<a id="__codelineno-6-12" name="__codelineno-6-12"></a>KEY_7
-<a id="__codelineno-6-13" name="__codelineno-6-13"></a>KEY_8
-<a id="__codelineno-6-14" name="__codelineno-6-14"></a>KEY_9
-<a id="__codelineno-6-15" name="__codelineno-6-15"></a>KEY_A
-<a id="__codelineno-6-16" name="__codelineno-6-16"></a>KEY_AB
-<a id="__codelineno-6-17" name="__codelineno-6-17"></a>KEY_ADDRESSBOOK
-<a id="__codelineno-6-18" name="__codelineno-6-18"></a>KEY_AGAIN
-<a id="__codelineno-6-19" name="__codelineno-6-19"></a>KEY_ALTERASE
-<a id="__codelineno-6-20" name="__codelineno-6-20"></a>KEY_ANGLE
-<a id="__codelineno-6-21" name="__codelineno-6-21"></a>KEY_APOSTROPHE
-<a id="__codelineno-6-22" name="__codelineno-6-22"></a>KEY_APPSELECT
-<a id="__codelineno-6-23" name="__codelineno-6-23"></a>KEY_ARCHIVE
-<a id="__codelineno-6-24" name="__codelineno-6-24"></a>KEY_ASPECT_RATIO
-<a id="__codelineno-6-25" name="__codelineno-6-25"></a>KEY_ASSISTANT
-<a id="__codelineno-6-26" name="__codelineno-6-26"></a>KEY_ATTENDANT_OFF
-</code></pre></div></td></tr></table></div></p>
+   <code>text
+   KEY_0
+   KEY_102ND
+   KEY_10CHANNELSDOWN
+   KEY_10CHANNELSUP
+   KEY_1
+   KEY_2
+   KEY_3
+   KEY_3D_MODE
+   KEY_4
+   KEY_5
+   KEY_6
+   KEY_7
+   KEY_8
+   KEY_9
+   KEY_A
+   KEY_AB
+   KEY_ADDRESSBOOK
+   KEY_AGAIN
+   KEY_ALTERASE
+   KEY_ANGLE
+   KEY_APOSTROPHE
+   KEY_APPSELECT
+   KEY_ARCHIVE
+   KEY_ASPECT_RATIO
+   KEY_ASSISTANT
+   KEY_ATTENDANT_OFF</code></p>
 </li>
 <li>
 <p><strong>开始录制</strong>：
@@ -777,19 +749,16 @@
 <li>
 <p><strong>保存文件</strong>:
    保存文件后，将其复制到<code>/etc/lirc/lircd.conf</code>目录下：
-   <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a>sudo<span class="w"> </span>cp<span class="w"> </span>~/lircd.conf<span class="w"> </span>/etc/lirc/lircd.conf
-</code></pre></div></td></tr></table></div></p>
+   <code>bash
+   sudo cp ~/lircd.conf /etc/lirc/lircd.conf</code></p>
 </li>
 <li><strong>重命名文件</strong>:
    重命名文件后，重启LIRC服务：
-   <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
-<span class="normal"><a href="#__codelineno-8-2">2</a></span>
-<span class="normal"><a href="#__codelineno-8-3">3</a></span>
-<span class="normal"><a href="#__codelineno-8-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>/etc/lirc/lircd.conf.d
-<a id="__codelineno-8-2" name="__codelineno-8-2"></a>sudo<span class="w"> </span>mv<span class="w"> </span>devinput.lircd.conf<span class="w"> </span>devinput.lircd.dist
-<a id="__codelineno-8-3" name="__codelineno-8-3"></a>sudo<span class="w"> </span>service<span class="w"> </span>lircd<span class="w"> </span>restart
-<a id="__codelineno-8-4" name="__codelineno-8-4"></a>sudo<span class="w"> </span>lircd<span class="w"> </span>--nodaemon<span class="w"> </span>--device<span class="w"> </span>/dev/lirc1<span class="w"> </span>--driver<span class="w"> </span>default
-</code></pre></div></td></tr></table></div></li>
+   <code>bash
+   cd /etc/lirc/lircd.conf.d
+   sudo mv devinput.lircd.conf devinput.lircd.dist
+   sudo service lircd restart
+   sudo lircd --nodaemon --device /dev/lirc1 --driver default</code></li>
 <li>
 <p><strong>测试遥控器</strong>:
     在终端输入<code>sudo irw</code>命令，按下遥控器上的按键，观察屏幕上的输出。</p>
@@ -797,80 +766,48 @@
 <li>
 <p><strong>关联Python程序</strong>:
     修改文件名
-   <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
-<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="nb">cd</span><span class="w"> </span>/etc/lirc
-<a id="__codelineno-9-2" name="__codelineno-9-2"></a>sudo<span class="w"> </span>mv<span class="w"> </span>irexec.lircrc<span class="w"> </span>lircrc
-</code></pre></div></td></tr></table></div>
+   <code>bash
+   cd /etc/lirc
+   sudo mv irexec.lircrc lircrc</code>
    编辑<code>/etc/lirc/lircrc</code>文件，添加以下内容：
-   <div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-10-10">10</a></span>
-<span class="normal"><a href="#__codelineno-10-11">11</a></span>
-<span class="normal"><a href="#__codelineno-10-12">12</a></span>
-<span class="normal"><a href="#__codelineno-10-13">13</a></span>
-<span class="normal"><a href="#__codelineno-10-14">14</a></span>
-<span class="normal"><a href="#__codelineno-10-15">15</a></span>
-<span class="normal"><a href="#__codelineno-10-16">16</a></span>
-<span class="normal"><a href="#__codelineno-10-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a>begin
-<a id="__codelineno-10-2" name="__codelineno-10-2"></a>      prog = irexec
-<a id="__codelineno-10-3" name="__codelineno-10-3"></a>      button = KEY_1
-<a id="__codelineno-10-4" name="__codelineno-10-4"></a>      config = echo &quot;Button 1 pressed&quot;
-<a id="__codelineno-10-5" name="__codelineno-10-5"></a>end
-<a id="__codelineno-10-6" name="__codelineno-10-6"></a>begin
-<a id="__codelineno-10-7" name="__codelineno-10-7"></a>      prog = irexec
-<a id="__codelineno-10-8" name="__codelineno-10-8"></a>      button = KEY_2
-<a id="__codelineno-10-9" name="__codelineno-10-9"></a>      config = echo &quot;Button 2 pressed&quot;
-<a id="__codelineno-10-10" name="__codelineno-10-10"></a>end
-<a id="__codelineno-10-11" name="__codelineno-10-11"></a>begin
-<a id="__codelineno-10-12" name="__codelineno-10-12"></a>      prog = irexec
-<a id="__codelineno-10-13" name="__codelineno-10-13"></a>      button = KEY_3
-<a id="__codelineno-10-14" name="__codelineno-10-14"></a>      config = echo &quot;Button 3 pressed&quot;
-<a id="__codelineno-10-15" name="__codelineno-10-15"></a>end
-<a id="__codelineno-10-16" name="__codelineno-10-16"></a>begin
-<a id="__codelineno-10-17" name="__codelineno-10-17"></a>      prog = test.py
-</code></pre></div></td></tr></table></div></p>
+   <code>text
+   begin
+         prog = irexec
+         button = KEY_1
+         config = echo "Button 1 pressed"
+   end
+   begin
+         prog = irexec
+         button = KEY_2
+         config = echo "Button 2 pressed"
+   end
+   begin
+         prog = irexec
+         button = KEY_3
+         config = echo "Button 3 pressed"
+   end
+   begin
+         prog = test.py</code></p>
 </li>
 <li><strong>编写Python程序</strong>:</li>
 </ol>
-<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-11-10">10</a></span>
-<span class="normal"><a href="#__codelineno-11-11">11</a></span>
-<span class="normal"><a href="#__codelineno-11-12">12</a></span>
-<span class="normal"><a href="#__codelineno-11-13">13</a></span>
-<span class="normal"><a href="#__codelineno-11-14">14</a></span>
-<span class="normal"><a href="#__codelineno-11-15">15</a></span>
-<span class="normal"><a href="#__codelineno-11-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="kn">import</span> <span class="nn">lirc</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2"></a>
-<a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="k">def</span> <span class="nf">pasreset</span><span class="p">(</span><span class="n">data</span><span class="p">):</span> <span class="c1">#解析按键</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4"></a>   <span class="k">if</span> <span class="n">data</span> <span class="o">==</span> <span class="s1">&#39;echo &quot;KEY_1&quot;&#39;</span><span class="p">:</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5"></a>      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1 按下&quot;</span><span class="p">)</span> <span class="c1">#遥控器按下1:</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6"></a>   <span class="k">elif</span> <span class="n">data</span> <span class="o">==</span> <span class="s1">&#39;echo &quot;KEY_2&quot;&#39;</span><span class="p">:</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7"></a>      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2 按下&quot;</span><span class="p">)</span> <span class="c1">#遥控器按下2:</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8"></a>   <span class="k">elif</span> <span class="n">data</span> <span class="o">==</span> <span class="s1">&#39;echo &quot;KEY_3&quot;&#39;</span><span class="p">:</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9"></a>      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3 按下&quot;</span><span class="p">)</span> <span class="c1">#遥控器按下3:</span>
-<a id="__codelineno-11-10" name="__codelineno-11-10"></a>
-<a id="__codelineno-11-11" name="__codelineno-11-11"></a><span class="k">with</span> <span class="n">lirc</span><span class="o">.</span><span class="n">LircdConnection</span><span class="p">(</span><span class="s2">&quot;test.py&quot;</span><span class="p">,)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12"></a>   <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a id="__codelineno-11-13" name="__codelineno-11-13"></a>      <span class="n">string</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
-<a id="__codelineno-11-14" name="__codelineno-11-14"></a>      <span class="n">pasreset</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-<a id="__codelineno-11-15" name="__codelineno-11-15"></a>      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;收到:&quot;</span><span class="p">,</span><span class="n">end</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-<a id="__codelineno-11-16" name="__codelineno-11-16"></a>      <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
-</code></pre></div></td></tr></table></div>
+<pre><code class="language-python">import lirc
+
+def pasreset(data): #解析按键
+   if data == 'echo &quot;KEY_1&quot;':
+      print(&quot;1 按下&quot;) #遥控器按下1:
+   elif data == 'echo &quot;KEY_2&quot;':
+      print(&quot;2 按下&quot;) #遥控器按下2:
+   elif data == 'echo &quot;KEY_3&quot;':
+      print(&quot;3 按下&quot;) #遥控器按下3:
+
+with lirc.LircdConnection(&quot;test.py&quot;,) as conn:
+   while True:
+      string = conn.readline()
+      pasreset(string)
+      print(&quot;收到:&quot;,end = '')
+      print(type(string))
+</code></pre>
 <ol>
 <li><strong>运行Python程序</strong>:
     在终端输入<code>python3 test.py</code>命令，按下遥控器上的按键，观察终端上的输出。</li>

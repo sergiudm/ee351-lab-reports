@@ -301,11 +301,11 @@
         <li class="md-nav__item">
   <a href="#lab1raspberry-pi" class="md-nav__link">
     <span class="md-ellipsis">
-      Lab1实验报告：Raspberry Pi初体验与环境搭建实验
+      Lab1实验报告：Raspberry Pi开发环境搭建
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Lab1实验报告：Raspberry Pi初体验与环境搭建实验">
+    <nav class="md-nav" aria-label="Lab1实验报告：Raspberry Pi开发环境搭建">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -643,11 +643,11 @@
         <li class="md-nav__item">
   <a href="#lab1raspberry-pi" class="md-nav__link">
     <span class="md-ellipsis">
-      Lab1实验报告：Raspberry Pi初体验与环境搭建实验
+      Lab1实验报告：Raspberry Pi开发环境搭建
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Lab1实验报告：Raspberry Pi初体验与环境搭建实验">
+    <nav class="md-nav" aria-label="Lab1实验报告：Raspberry Pi开发环境搭建">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -753,17 +753,17 @@
 
   <h1>树莓派开发环境搭建</h1>
 
-<h3 id="lab1raspberry-pi">Lab1实验报告：Raspberry Pi初体验与环境搭建实验<a class="headerlink" href="#lab1raspberry-pi" title="Permanent link">&para;</a></h3>
-<h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<h3 id="lab1raspberry-pi">Lab1实验报告：Raspberry Pi开发环境搭建</h3>
+<h4 id="_1">一、实验介绍</h4>
 <p>本次实验将配置后续实验用到的软硬件环境，包括操作系统、网络、远程连接等。</p>
-<h4 id="_2">二、实验目标<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<h4 id="_2">二、实验目标</h4>
 <ol>
 <li>熟悉Raspberry Pi硬件组成及其引脚布局。</li>
 <li>完成Raspberry Pi OS镜像的下载与烧录。</li>
 <li>配置Wi-Fi，确保能够访问互联网。</li>
 </ol>
-<h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
-<h5 id="1">（1）硬件准备与检查<a class="headerlink" href="#1" title="Permanent link">&para;</a></h5>
+<h4 id="_3">三、实验步骤</h4>
+<h5 id="1">（1）硬件准备与检查</h5>
 <ol>
 <li><strong>确认所需材料</strong>：</li>
 <li>Raspberry Pi 4 Model B</li>
@@ -784,7 +784,7 @@
 <li>连接显示器、键盘和鼠标（如果打算使用GUI）。</li>
 <li>将电源线插入Raspberry Pi，并确保另一端连接到合适的电源插座上。</li>
 </ol>
-<h5 id="2">（2）操作系统安装<a class="headerlink" href="#2" title="Permanent link">&para;</a></h5>
+<h5 id="2">（2）操作系统安装</h5>
 <ol>
 <li><strong>下载Raspberry Pi Imager工具</strong>：</li>
 <li>
@@ -800,24 +800,16 @@
 <li><strong>配置屏幕参数</strong>：</li>
 <li>
 <p>在microSD卡的根目录下，找到<code>config.txt</code>文件，编辑并添加以下内容：
-     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
-<span class="normal"><a href="#__codelineno-0-2">2</a></span>
-<span class="normal"><a href="#__codelineno-0-3">3</a></span>
-<span class="normal"><a href="#__codelineno-0-4">4</a></span>
-<span class="normal"><a href="#__codelineno-0-5">5</a></span>
-<span class="normal"><a href="#__codelineno-0-6">6</a></span>
-<span class="normal"><a href="#__codelineno-0-7">7</a></span>
-<span class="normal"><a href="#__codelineno-0-8">8</a></span>
-<span class="normal"><a href="#__codelineno-0-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="w"> </span><span class="nv">max_usb_current</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w"> </span><span class="nv">hdmi_force_hotplug</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w"> </span><span class="nv">config_hdmi_boost</span><span class="o">=</span><span class="m">7</span><span class="w"> </span>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w"> </span><span class="nv">hdmi_group</span><span class="o">=</span><span class="m">2</span><span class="w"> </span>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w"> </span><span class="nv">hdmi_mode</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w"> </span><span class="nv">hdmi_mode</span><span class="o">=</span><span class="m">87</span><span class="w"> </span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w"> </span><span class="nv">hdmi_drive</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
-<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w"> </span><span class="nv">display_rotate</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w"> </span>hdmi_cvt<span class="w"> </span><span class="m">1024</span><span class="w"> </span><span class="m">600</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span>
-</code></pre></div></td></tr></table></div>
+     <code>bash
+      max_usb_current=1 
+      hdmi_force_hotplug=1 
+      config_hdmi_boost=7 
+      hdmi_group=2 
+      hdmi_mode=1 
+      hdmi_mode=87 
+      hdmi_drive=1 
+      display_rotate=0 
+      hdmi_cvt 1024 600 60 6 0 0 0</code>
      &gt;在 <code>hdmi_cvt 1024 600 60 6 0 0 0 0</code> 这里填入实际显示屏的分辨率，不同
      显示器分辨率不同。</p>
 </li>
@@ -830,20 +822,19 @@
 <li>将烧录好OS镜像的microSD卡重新插回Raspberry Pi后，给它通电。</li>
 <li>第一次启动时，根据屏幕上的指示进行语言、地区、时区等基本信息的配置。</li>
 </ol>
-<h5 id="3">（3）网络配置<a class="headerlink" href="#3" title="Permanent link">&para;</a></h5>
+<h5 id="3">（3）网络配置</h5>
 <ol>
 <li><strong>连接Wi-Fi</strong>：</li>
 <li>在命令行中输入<code>sudo raspi-config</code>打开配置菜单。</li>
-<li>选择“Network Options”，然后按照提示输入您的Wi-Fi SSID和密码。</li>
 <li>
-<p>或者直接编辑<code>/etc/wpa_supplicant/wpa_supplicant.conf</code>文件添加Wi-Fi信息。</p>
+<p>选择“Network Options”，然后按照提示输入您的Wi-Fi SSID和密码。</p>
 </li>
 <li>
 <p><strong>验证网络连接</strong>：</p>
 </li>
 <li>使用<code>ping www.bing.com</code>测试是否能成功访问外部网站。</li>
 </ol>
-<h5 id="4">（4）配置开发环境<a class="headerlink" href="#4" title="Permanent link">&para;</a></h5>
+<h5 id="4">（4）配置开发环境</h5>
 <ol>
 <li><strong>更新软件包列表</strong>：</li>
 <li>
@@ -858,24 +849,19 @@
 <li>
 <p><strong>安装额外的开发工具</strong>：</p>
 </li>
-<li>安装Python相关工具：
-     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
-<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-pip
-<a id="__codelineno-1-2" name="__codelineno-1-2"></a>pip3<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
-</code></pre></div></td></tr></table></div></li>
 <li>安装Git用于版本控制：
-     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git
-</code></pre></div></td></tr></table></div></li>
+     <code>bash
+     sudo apt-get install git</code></li>
 <li>安装Vim编辑器：
      <code>bash
      sudo apt-get install vim</code></li>
 <li><strong>安装远程连接工具</strong>：</li>
 <li>启动SSH服务：
-     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>ssh
-</code></pre></div></td></tr></table></div></li>
+     <code>bash
+     sudo systemctl start ssh</code></li>
 <li>验证SSH服务是否正常运行：
-     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>ssh
-</code></pre></div></td></tr></table></div></li>
+     <code>bash
+     sudo systemctl status ssh</code></li>
 <li>设置SSH服务开机自启动：
      <code>bash
       sudo systemctl enable ssh</code></li>
@@ -893,7 +879,7 @@
 Raspberry Pi ip 地址，回车。</li>
 <li>输入用户名和密码，即可远程连接到 Raspberry Pi 的桌面环境。</li>
 </ol>
-<h4 id="_4">四、总结<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<h4 id="_4">四、总结</h4>
 <p>本实验完成了Raspberry Pi的初步设置，包括操作系统的安装、网络的配置以及开发环境的搭建。</p>
 
 

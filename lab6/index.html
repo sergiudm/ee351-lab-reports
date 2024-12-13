@@ -625,8 +625,8 @@
   
 
 
-<h1 id="lab6">Lab6实验报告：超声波传感器测距实验<a class="headerlink" href="#lab6" title="Permanent link">&para;</a></h1>
-<h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<h1 id="lab6">Lab6实验报告：超声波传感器测距实验</h1>
+<h4 id="_1">一、实验介绍</h4>
 <p>超声波测距模块主要是由两个通用的压电陶瓷超声传感器，并加外围信号处
 理电路构成的。超声传感器中的一个用作发射器，将电信号转换为 40KHz 超声
 波脉冲信号；另一个一个用作接收器，监听发射的脉冲。
@@ -640,7 +640,7 @@
 - <strong>GND</strong>：接地。</p>
 <p>该模块的原理图如下：
 <img alt="alt text" src="../image-9.png" /></p>
-<h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<h4 id="_2">二、实验原理</h4>
 <ol>
 <li><strong>超声波传感器工作流程</strong>：</li>
 <li>超声波传感器包括一个发射器和一个接收器。当触发引脚（Trig）接收到至少10微秒的高电平脉冲时，它会发送8个周期的40kHz超声波脉冲。</li>
@@ -656,7 +656,7 @@
    故应使用分压器测量。但由于本次实验 Echo 引脚高电平时间非常短，故可不使
    用分压。</li>
 </ol>
-<h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<h4 id="_3">三、实验步骤</h4>
 <ol>
 <li><strong>硬件连接</strong>：</li>
 <li>连接Raspberry Pi、T型转接板和超声波传感器之间的VCC、Trig、Echo和GND引脚。<img alt="alt text" src="../image-10.png" /></li>
@@ -669,108 +669,55 @@
 <li>导入<code>RPi.GPIO</code>库，设置Trig和Echo引脚的BCM编号。</li>
 <li>编写函数<code>get_distance()</code>，该函数负责设置Trig引脚输出10微秒的高电平脉冲，然后等待Echo引脚变为高电平，记录开始时间；接着再次等待Echo引脚变为低电平，记录结束时间。最后利用这两个时间点计算出超声波往返一次所花费的时间，并据此换算成实际距离。</li>
 </ol>
-<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span>
-<span class="normal"><a href="#__codelineno-0-51">51</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">time</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># Define GPIO pins for the ultrasonic sensor</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="n">TRIG</span> <span class="o">=</span> <span class="mi">17</span>  <span class="c1"># BCM numbering</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="n">ECHO</span> <span class="o">=</span> <span class="mi">18</span>  <span class="c1"># BCM numbering</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="c1"># Setup GPIO mode and pin directions</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">ECHO</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">def</span> <span class="nf">get_distance</span><span class="p">():</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="c1"># Ensure TRIG is low initially</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a>    <span class="c1"># Send a 10us pulse to TRIG</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.00001</span><span class="p">)</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="c1"># Wait for ECHO to go high</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="k">while</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">ECHO</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>        <span class="n">pulse_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="c1"># Wait for ECHO to go low again</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="k">while</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">ECHO</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>        <span class="n">pulse_end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="c1"># Calculate the duration of the pulse</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="n">pulse_duration</span> <span class="o">=</span> <span class="n">pulse_end</span> <span class="o">-</span> <span class="n">pulse_start</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="c1"># Convert pulse duration to distance in centimeters</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="n">distance</span> <span class="o">=</span> <span class="n">pulse_duration</span> <span class="o">*</span> <span class="mi">17150</span>  <span class="c1"># Speed of sound in cm/s divided by 2 (round trip)</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="n">distance</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="k">return</span> <span class="n">distance</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Measuring distance...&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a>        <span class="n">dist</span> <span class="o">=</span> <span class="n">get_distance</span><span class="p">()</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distance: </span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Measurement stopped by user&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="k">finally</span><span class="p">:</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>  <span class="c1"># Clean up GPIO settings before exiting</span>
-</code></pre></div></td></tr></table></div>
+<pre><code class="language-python">import RPi.GPIO as GPIO
+import time
+
+# Define GPIO pins for the ultrasonic sensor
+TRIG = 17  # BCM numbering
+ECHO = 18  # BCM numbering
+
+# Setup GPIO mode and pin directions
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(TRIG, GPIO.OUT)
+GPIO.setup(ECHO, GPIO.IN)
+
+def get_distance():
+    # Ensure TRIG is low initially
+    GPIO.output(TRIG, False)
+    time.sleep(0.2)
+
+    # Send a 10us pulse to TRIG
+    GPIO.output(TRIG, True)
+    time.sleep(0.00001)
+    GPIO.output(TRIG, False)
+
+    while GPIO.input(ECHO) == 0:
+        pulse_start = time.time()
+
+    while GPIO.input(ECHO) == 1:
+        pulse_end = time.time()
+
+    pulse_duration = pulse_end - pulse_start
+
+    # Convert pulse duration to distance in centimeters
+    distance = pulse_duration * 17150 
+    distance = round(distance, 2)
+
+    return distance
+
+try:
+    print(&quot;Measuring distance...&quot;)
+    while True:
+        dist = get_distance()
+        print(f&quot;Distance: {dist} cm&quot;)
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    print(&quot;Measurement stopped by user&quot;)
+
+finally:
+    GPIO.cleanup()
+</code></pre>
 
 
 

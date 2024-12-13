@@ -687,15 +687,15 @@
 
   <h1>蜂鸣器实验</h1>
 
-<h3 id="lab7">Lab7实验报告：蜂鸣器实验<a class="headerlink" href="#lab7" title="Permanent link">&para;</a></h3>
-<h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<h3 id="lab7">Lab7实验报告：蜂鸣器实验</h3>
+<h4 id="_1">一、实验介绍</h4>
 <p>蜂鸣器属于声音模块，一般可以分为有源蜂鸣器和无源蜂鸣器。有源和无源
 是指内部是否有震荡源。有源蜂鸣器内置振荡器，没有频率变化，直接接上合适
 的直流电源即可发声，常用于发出单一的提示性报警声音；无源蜂鸣器由于内部
 没有震荡源，所以其驱动方式为脉冲频率调制（Pulse-Frequency Modulation，PFM），
 可以通过调控脉冲频率发出不同频率的声音信号。本次实验任务为利用蜂鸣器播
 放一段音乐（音乐自选），并通过编程控制蜂鸣器发出相应的音符。</p>
-<h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<h4 id="_2">二、实验原理</h4>
 <ol>
 <li><strong>有源蜂鸣器</strong>：</li>
 <li>内部含有振荡电路，可以将恒定的直流电转化为一定频率的脉冲信号，因此只需给它施加合适的直流电压即可让它发出声音。</li>
@@ -716,14 +716,14 @@
 <li>对于有源蜂鸣器，只需要简单地配置对应的GPIO引脚状态为高或低就可以控制其开关。</li>
 <li>对于无源蜂鸣器，则需要创建一个包含多个音符频率值的列表，并依次遍历这个列表，每次根据当前音符设定适当的PWM频率，使蜂鸣器按照指定旋律发声。</li>
 </ol>
-<h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
-<h4 id="1">（1）有源蜂鸣器实验<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<h4 id="_3">三、实验步骤</h4>
+<h4 id="1">（1）有源蜂鸣器实验</h4>
 <ol>
 <li><strong>硬件连接</strong>：</li>
 <li>连接Raspberry Pi、T型转接板和有源蜂鸣器模块之间的I/O、VCC<strong>3.3V</strong>和GND引脚。<img alt="alt text" src="../image-12.png" /></li>
 <li>通电后，蜂鸣器会发出持续的“滴滴”声音。</li>
 </ol>
-<h4 id="2">（2）无源蜂鸣器实验<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<h4 id="2">（2）无源蜂鸣器实验</h4>
 <ol>
 <li><strong>硬件连接</strong>：</li>
 <li>连接Raspberry Pi、T型转接板和无源蜂鸣器模块之间的I/O、VCC和GND引脚。<img alt="alt text" src="../image-11.png" /></li>
@@ -736,88 +736,48 @@
 <li>导入<code>RPi.GPIO</code>和<code>pigpio</code>库，设置蜂鸣器的GPIO引脚和频率参数。</li>
 <li>编写函数<code>play_music()</code>，该函数定义了一系列音符及其对应的频率，并通过循环调用这些频率来驱动蜂鸣器发出音乐。</li>
 </ol>
-<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">pigpio</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="kn">import</span> <span class="nn">time</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="c1"># Define GPIO pin for the passive buzzer (BCM numbering)</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="n">BUZZER_PIN</span> <span class="o">=</span> <span class="mi">18</span>  <span class="c1"># BCM 18, physical pin 12</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="c1"># Initialize pigpio library</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">pi</span> <span class="o">=</span> <span class="n">pigpio</span><span class="o">.</span><span class="n">pi</span><span class="p">()</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="c1"># Notes and their frequencies in Hz</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="n">NOTES</span> <span class="o">=</span> <span class="p">{</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a>    <span class="s1">&#39;C4&#39;</span><span class="p">:</span> <span class="mi">262</span><span class="p">,</span> <span class="s1">&#39;D4&#39;</span><span class="p">:</span> <span class="mi">294</span><span class="p">,</span> <span class="s1">&#39;E4&#39;</span><span class="p">:</span> <span class="mi">330</span><span class="p">,</span> <span class="s1">&#39;F4&#39;</span><span class="p">:</span> <span class="mi">349</span><span class="p">,</span> <span class="s1">&#39;G4&#39;</span><span class="p">:</span> <span class="mi">392</span><span class="p">,</span> <span class="s1">&#39;A4&#39;</span><span class="p">:</span> <span class="mi">440</span><span class="p">,</span> <span class="s1">&#39;B4&#39;</span><span class="p">:</span> <span class="mi">494</span><span class="p">,</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="s1">&#39;C5&#39;</span><span class="p">:</span> <span class="mi">523</span><span class="p">,</span> <span class="s1">&#39;D5&#39;</span><span class="p">:</span> <span class="mi">587</span><span class="p">,</span> <span class="s1">&#39;E5&#39;</span><span class="p">:</span> <span class="mi">659</span><span class="p">,</span> <span class="s1">&#39;F5&#39;</span><span class="p">:</span> <span class="mi">698</span><span class="p">,</span> <span class="s1">&#39;G5&#39;</span><span class="p">:</span> <span class="mi">784</span><span class="p">,</span> <span class="s1">&#39;A5&#39;</span><span class="p">:</span> <span class="mi">880</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">:</span> <span class="mi">988</span><span class="p">,</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="p">}</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="n">MELODY</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="s1">&#39;D4&#39;</span><span class="p">,</span> <span class="s1">&#39;E4&#39;</span><span class="p">,</span> <span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="s1">&#39;E4&#39;</span><span class="p">,</span> <span class="s1">&#39;D4&#39;</span><span class="p">,</span> <span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="s1">&#39;D4&#39;</span><span class="p">,</span> <span class="s1">&#39;D4&#39;</span><span class="p">,</span> <span class="s1">&#39;E4&#39;</span><span class="p">,</span> <span class="s1">&#39;E4&#39;</span><span class="p">,</span> <span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="s1">&#39;D4&#39;</span><span class="p">,</span> <span class="s1">&#39;E4&#39;</span><span class="p">]</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="c1"># Function to set frequency of the passive buzzer</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="k">def</span> <span class="nf">set_frequency</span><span class="p">(</span><span class="n">freq</span><span class="p">):</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="n">pi</span><span class="o">.</span><span class="n">hardware_PWM</span><span class="p">(</span><span class="n">BUZZER_PIN</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="mi">500000</span><span class="p">)</span>  <span class="c1"># Frequency, Duty cycle (50%)</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="k">def</span> <span class="nf">play_music</span><span class="p">(</span><span class="n">melody</span><span class="p">):</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>        <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">melody</span><span class="p">:</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>            <span class="k">if</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">NOTES</span><span class="p">:</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>                <span class="n">set_frequency</span><span class="p">(</span><span class="n">NOTES</span><span class="p">[</span><span class="n">note</span><span class="p">])</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a>                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># Duration of each note</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>                <span class="n">set_frequency</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Stop sound between notes</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a>                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># Short pause between notes</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Music stopped by user&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="k">finally</span><span class="p">:</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="n">pi</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>  <span class="c1"># Clean up pigpio resources</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>  <span class="c1"># Clean up GPIO settings before exiting</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Playing music...&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="n">play_music</span><span class="p">(</span><span class="n">MELODY</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+<pre><code class="language-python">import RPi.GPIO as GPIO
+import pigpio
+import time
+
+# Define GPIO pin for the passive buzzer (BCM numbering)
+BUZZER_PIN = 18  # BCM 18, physical pin 12
+
+# Initialize pigpio library
+pi = pigpio.pi()
+
+# Notes and their frequencies in Hz
+NOTES = {
+    'C4': 262, 'D4': 294, 'E4': 330, 'F4': 349, 'G4': 392, 'A4': 440, 'B4': 494,
+    'C5': 523, 'D5': 587, 'E5': 659, 'F5': 698, 'G5': 784, 'A5': 880, 'B5': 988,
+}
+
+MELODY = ['C4', 'D4', 'E4', 'C4', 'E4', 'D4', 'C4', 'C4', 'D4', 'D4', 'E4', 'E4', 'C4', 'D4', 'E4']
+
+# Function to set frequency of the passive buzzer
+def set_frequency(freq):
+    pi.hardware_PWM(BUZZER_PIN, freq, 500000)  # Frequency, Duty cycle (50%)
+
+def play_music(melody):
+    try:
+        for note in melody:
+            if note in NOTES:
+                set_frequency(NOTES[note])
+                time.sleep(0.5)  # Duration of each note
+                set_frequency(0)  # Stop sound between notes
+                time.sleep(0.1)  # Short pause between notes
+
+    except KeyboardInterrupt:
+        print(&quot;Music stopped by user&quot;)
+
+finally:
+    pi.stop()  # Clean up pigpio resources
+    GPIO.cleanup()  # Clean up GPIO settings before exiting
+
+if __name__ == &quot;__main__&quot;:
+    print(&quot;Playing music...&quot;)
+    play_music(MELODY)
+</code></pre>
 
 
 
