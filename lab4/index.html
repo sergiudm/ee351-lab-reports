@@ -743,21 +743,21 @@
 <li>导入必要的库后，创建一个SMBus实例并与PCF8591建立连接，读取AIN0上的模拟值并根据该值调整AOUT输出，进而控制LED亮度。</li>
 </ol>
 <p>程序框图：
-<pre class="mermaid"><code>      graph TD
-         A[开始] --&gt; B(初始化I2C总线);
-         B --&gt; C{设置PCF8591地址和控制位};
-         C --&gt; D[进入循环];
-         D --&gt; E(向PCF8591写入控制字节);
-         E --&gt; F(启动A/D转换);
-         F --&gt; G(读取模拟值);
-         G --&gt; H{打印模拟值};
-         H --&gt; I(将模拟值映射到LED亮度范围);
-         I --&gt; J{打印LED亮度百分比};
-         J --&gt; K(延时);
-         K --&gt; D;
-         D --&gt; L{检测到键盘中断?};
-         L -- 是 --&gt; M[结束];
-         L -- 否 --&gt; D;</code></pre>
+<pre class="mermaid"><code>graph TD
+   A[开始] --&gt; B(初始化I2C总线);
+   B --&gt; C{设置PCF8591地址和控制位};
+   C --&gt; D[进入循环];
+   D --&gt; E(向PCF8591写入控制字节);
+   E --&gt; F(启动A/D转换);
+   F --&gt; G(读取模拟值);
+   G --&gt; H{打印模拟值};
+   H --&gt; I(将模拟值映射到LED亮度范围);
+   I --&gt; J{打印LED亮度百分比};
+   J --&gt; K(延时);
+   K --&gt; D;
+   D --&gt; L{检测到键盘中断?};
+   L -- 是 --&gt; M[结束];
+   L -- 否 --&gt; D;</code></pre>
 Python代码
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
