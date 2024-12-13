@@ -43,6 +43,8 @@
       
     
     
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -652,7 +654,12 @@
 
 <h3 id="lab7">Lab7实验报告：蜂鸣器实验<a class="headerlink" href="#lab7" title="Permanent link">&para;</a></h3>
 <h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
-<p>本实验旨在通过使用蜂鸣器，学习如何在Raspberry Pi上产生声音信号。蜂鸣器分为有源和无源两种类型，前者内置振荡电路可以直接发出固定频率的声音，而后者则需要外部提供调制后的脉冲信号才能发声。本次实验的任务是利用这两种类型的蜂鸣器分别播放提示音和一段音乐（例如简单的旋律），从而掌握不同类型蜂鸣器的工作原理及其编程控制方法。</p>
+<p>蜂鸣器属于声音模块，一般可以分为有源蜂鸣器和无源蜂鸣器。有源和无源
+是指内部是否有震荡源。有源蜂鸣器内置振荡器，没有频率变化，直接接上合适
+的直流电源即可发声，常用于发出单一的提示性报警声音；无源蜂鸣器由于内部
+没有震荡源，所以其驱动方式为脉冲频率调制（Pulse-Frequency Modulation，PFM），
+可以通过调控脉冲频率发出不同频率的声音信号。本次实验任务为利用蜂鸣器播
+放一段音乐（音乐自选）</p>
 <h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>有源蜂鸣器</strong>：</li>
@@ -689,38 +696,38 @@
 <li>编写函数<code>play_tone()</code>，该函数负责周期性地切换GPIO引脚的状态，使得蜂鸣器每隔一段时间响一次，模拟出连续的提示音效果。</li>
 <li>下面是一个简单的代码示例：</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<pre><code class="language-python">import RPi.GPIO as GPIO
+import time
 
-<span class="c1"># Define GPIO pin for the buzzer (BCM numbering)</span>
-<span class="n">BUZZER_PIN</span> <span class="o">=</span> <span class="mi">17</span>  <span class="c1"># BCM 17, physical pin 11</span>
+# Define GPIO pin for the buzzer (BCM numbering)
+BUZZER_PIN = 17  # BCM 17, physical pin 11
 
-<span class="c1"># Setup GPIO mode and pin direction</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">BUZZER_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+# Setup GPIO mode and pin direction
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(BUZZER_PIN, GPIO.OUT)
 
-<span class="k">def</span> <span class="nf">play_tone</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Play a tone using the active buzzer.&quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Turn on the buzzer (low level trigger)</span>
-        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">BUZZER_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+def play_tone(duration=0.5):
+    &quot;&quot;&quot;Play a tone using the active buzzer.&quot;&quot;&quot;
+    try:
+        # Turn on the buzzer (low level trigger)
+        GPIO.output(BUZZER_PIN, GPIO.LOW)
+        time.sleep(duration)
 
-        <span class="c1"># Turn off the buzzer</span>
-        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">BUZZER_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># Short pause between tones</span>
+        # Turn off the buzzer
+        GPIO.output(BUZZER_PIN, GPIO.HIGH)
+        time.sleep(0.1)  # Short pause between tones
 
-    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stopped by user&quot;</span><span class="p">)</span>
+    except KeyboardInterrupt:
+        print(&quot;Stopped by user&quot;)
 
-<span class="k">finally</span><span class="p">:</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>  <span class="c1"># Clean up GPIO settings before exiting</span>
+finally:
+    GPIO.cleanup()  # Clean up GPIO settings before exiting
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Playing tone...&quot;</span><span class="p">)</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">play_tone</span><span class="p">()</span>
-</code></pre></div>
+if __name__ == &quot;__main__&quot;:
+    print(&quot;Playing tone...&quot;)
+    while True:
+        play_tone()
+</code></pre>
 <h5 id="2">（2）无源蜂鸣器<a class="headerlink" href="#2" title="Permanent link">&para;</a></h5>
 <ol>
 <li><strong>硬件连接</strong>：</li>
@@ -735,49 +742,49 @@
 <li>编写函数<code>play_music()</code>，该函数定义了一系列音符及其对应的频率，并通过循环调用这些频率来驱动蜂鸣器发出音乐。</li>
 <li>下面是一个简单的代码示例：</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
-<span class="kn">import</span> <span class="nn">pigpio</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<pre><code class="language-python">import RPi.GPIO as GPIO
+import pigpio
+import time
 
-<span class="c1"># Define GPIO pin for the passive buzzer (BCM numbering)</span>
-<span class="n">BUZZER_PIN</span> <span class="o">=</span> <span class="mi">18</span>  <span class="c1"># BCM 18, physical pin 12</span>
+# Define GPIO pin for the passive buzzer (BCM numbering)
+BUZZER_PIN = 18  # BCM 18, physical pin 12
 
-<span class="c1"># Initialize pigpio library</span>
-<span class="n">pi</span> <span class="o">=</span> <span class="n">pigpio</span><span class="o">.</span><span class="n">pi</span><span class="p">()</span>
+# Initialize pigpio library
+pi = pigpio.pi()
 
-<span class="c1"># Notes and their frequencies in Hz</span>
-<span class="n">NOTES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;C4&#39;</span><span class="p">:</span> <span class="mi">262</span><span class="p">,</span> <span class="s1">&#39;D4&#39;</span><span class="p">:</span> <span class="mi">294</span><span class="p">,</span> <span class="s1">&#39;E4&#39;</span><span class="p">:</span> <span class="mi">330</span><span class="p">,</span> <span class="s1">&#39;F4&#39;</span><span class="p">:</span> <span class="mi">349</span><span class="p">,</span> <span class="s1">&#39;G4&#39;</span><span class="p">:</span> <span class="mi">392</span><span class="p">,</span> <span class="s1">&#39;A4&#39;</span><span class="p">:</span> <span class="mi">440</span><span class="p">,</span> <span class="s1">&#39;B4&#39;</span><span class="p">:</span> <span class="mi">494</span><span class="p">,</span>
-    <span class="s1">&#39;C5&#39;</span><span class="p">:</span> <span class="mi">523</span><span class="p">,</span> <span class="s1">&#39;D5&#39;</span><span class="p">:</span> <span class="mi">587</span><span class="p">,</span> <span class="s1">&#39;E5&#39;</span><span class="p">:</span> <span class="mi">659</span><span class="p">,</span> <span class="s1">&#39;F5&#39;</span><span class="p">:</span> <span class="mi">698</span><span class="p">,</span> <span class="s1">&#39;G5&#39;</span><span class="p">:</span> <span class="mi">784</span><span class="p">,</span> <span class="s1">&#39;A5&#39;</span><span class="p">:</span> <span class="mi">880</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">:</span> <span class="mi">988</span><span class="p">,</span>
-<span class="p">}</span>
+# Notes and their frequencies in Hz
+NOTES = {
+    'C4': 262, 'D4': 294, 'E4': 330, 'F4': 349, 'G4': 392, 'A4': 440, 'B4': 494,
+    'C5': 523, 'D5': 587, 'E5': 659, 'F5': 698, 'G5': 784, 'A5': 880, 'B5': 988,
+}
 
-<span class="c1"># A simple melody to play</span>
-<span class="n">MELODY</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="s1">&#39;D4&#39;</span><span class="p">,</span> <span class="s1">&#39;E4&#39;</span><span class="p">,</span> <span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="s1">&#39;E4&#39;</span><span class="p">,</span> <span class="s1">&#39;D4&#39;</span><span class="p">,</span> <span class="s1">&#39;C4&#39;</span><span class="p">]</span>
+# A simple melody to play
+MELODY = ['C4', 'D4', 'E4', 'C4', 'E4', 'D4', 'C4']
 
-<span class="c1"># Function to set frequency of the passive buzzer</span>
-<span class="k">def</span> <span class="nf">set_frequency</span><span class="p">(</span><span class="n">freq</span><span class="p">):</span>
-    <span class="n">pi</span><span class="o">.</span><span class="n">hardware_PWM</span><span class="p">(</span><span class="n">BUZZER_PIN</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="mi">500000</span><span class="p">)</span>  <span class="c1"># Frequency, Duty cycle (50%)</span>
+# Function to set frequency of the passive buzzer
+def set_frequency(freq):
+    pi.hardware_PWM(BUZZER_PIN, freq, 500000)  # Frequency, Duty cycle (50%)
 
-<span class="k">def</span> <span class="nf">play_music</span><span class="p">(</span><span class="n">melody</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">melody</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">NOTES</span><span class="p">:</span>
-                <span class="n">set_frequency</span><span class="p">(</span><span class="n">NOTES</span><span class="p">[</span><span class="n">note</span><span class="p">])</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># Duration of each note</span>
-                <span class="n">set_frequency</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Stop sound between notes</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># Short pause between notes</span>
+def play_music(melody):
+    try:
+        for note in melody:
+            if note in NOTES:
+                set_frequency(NOTES[note])
+                time.sleep(0.5)  # Duration of each note
+                set_frequency(0)  # Stop sound between notes
+                time.sleep(0.1)  # Short pause between notes
 
-    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Music stopped by user&quot;</span><span class="p">)</span>
+    except KeyboardInterrupt:
+        print(&quot;Music stopped by user&quot;)
 
-<span class="k">finally</span><span class="p">:</span>
-    <span class="n">pi</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>  <span class="c1"># Clean up pigpio resources</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>  <span class="c1"># Clean up GPIO settings before exiting</span>
+finally:
+    pi.stop()  # Clean up pigpio resources
+    GPIO.cleanup()  # Clean up GPIO settings before exiting
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Playing music...&quot;</span><span class="p">)</span>
-    <span class="n">play_music</span><span class="p">(</span><span class="n">MELODY</span><span class="p">)</span>
-</code></pre></div>
+if __name__ == &quot;__main__&quot;:
+    print(&quot;Playing music...&quot;)
+    play_music(MELODY)
+</code></pre>
 <ol>
 <li><strong>测试与验证</strong>：</li>
 <li>分别运行上述编写的Python脚本，观察有源蜂鸣器是否能持续发出提示音，以及无源蜂鸣器是否能够按照预定旋律播放音乐。</li>
@@ -839,6 +846,12 @@
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="../javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
       
     
   </body>

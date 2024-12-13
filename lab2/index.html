@@ -43,6 +43,8 @@
       
     
     
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -685,39 +687,39 @@
 <hr />
 <h4 id="python">四、Python代码<a class="headerlink" href="#python" title="Permanent link">&para;</a></h4>
 <p>下面提供了本实验用到的Python代码，用于实现双色LED的红绿交替闪烁：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<pre><code class="language-python">import RPi.GPIO as GPIO
+import time
 
-<span class="c1"># Define GPIO pins for the LED (BCM numbering)</span>
-<span class="n">RED_PIN</span> <span class="o">=</span> <span class="mi">19</span>  <span class="c1"># Red part of the dual-color LED</span>
-<span class="n">GREEN_PIN</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Green part of the dual-color LED</span>
+# Define GPIO pins for the LED (BCM numbering)
+RED_PIN = 19  # Red part of the dual-color LED
+GREEN_PIN = 20  # Green part of the dual-color LED
 
-<span class="c1"># Setup GPIO mode and pin directions</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+# Setup GPIO mode and pin directions
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(RED_PIN, GPIO.OUT)
+GPIO.setup(GREEN_PIN, GPIO.OUT)
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="c1"># Turn on red LED</span>
-        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
-        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Red LED is ON&quot;</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Wait for 1 second</span>
+try:
+    while True:
+        # Turn on red LED
+        GPIO.output(RED_PIN, GPIO.HIGH)
+        GPIO.output(GREEN_PIN, GPIO.LOW)
+        print(&quot;Red LED is ON&quot;)
+        time.sleep(1)  # Wait for 1 second
 
-        <span class="c1"># Turn on green LED</span>
-        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
-        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Green LED is ON&quot;</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Wait for 1 second</span>
+        # Turn on green LED
+        GPIO.output(RED_PIN, GPIO.LOW)
+        GPIO.output(GREEN_PIN, GPIO.HIGH)
+        print(&quot;Green LED is ON&quot;)
+        time.sleep(1)  # Wait for 1 second
 
-<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Program stopped by user&quot;</span><span class="p">)</span>
+except KeyboardInterrupt:
+    print(&quot;Program stopped by user&quot;)
 
-<span class="k">finally</span><span class="p">:</span>
-    <span class="c1"># Clean up GPIO settings before exiting</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
-</code></pre></div>
+finally:
+    # Clean up GPIO settings before exiting
+    GPIO.cleanup()
+</code></pre>
 <p>这段代码将使双色LED按照红-绿-红-绿的顺序交替闪烁，每次持续1秒钟。</p>
 
 
@@ -769,6 +771,12 @@
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="../javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
       
     
   </body>

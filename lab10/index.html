@@ -41,6 +41,8 @@
       
     
     
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -642,54 +644,54 @@
 <li>定义回调函数<code>button_pressed_callback()</code>，该函数将在每次按键按下时被调用，并负责切换LED的颜色。</li>
 <li>下面是一个简单的代码示例：</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<pre><code class="language-python">import RPi.GPIO as GPIO
+import time
 
-<span class="c1"># Define GPIO pins for the LED and button (BCM numbering)</span>
-<span class="n">RED_LED_PIN</span> <span class="o">=</span> <span class="mi">17</span>  <span class="c1"># BCM 17, physical pin 11</span>
-<span class="n">GREEN_LED_PIN</span> <span class="o">=</span> <span class="mi">27</span>  <span class="c1"># BCM 27, physical pin 13</span>
-<span class="n">BUTTON_PIN</span> <span class="o">=</span> <span class="mi">23</span>  <span class="c1"># BCM 23, physical pin 16</span>
+# Define GPIO pins for the LED and button (BCM numbering)
+RED_LED_PIN = 17  # BCM 17, physical pin 11
+GREEN_LED_PIN = 27  # BCM 27, physical pin 13
+BUTTON_PIN = 23  # BCM 23, physical pin 16
 
-<span class="k">def</span> <span class="nf">setup_gpio</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Setup GPIO mode and pin directions.&quot;&quot;&quot;</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
+def setup_gpio():
+    &quot;&quot;&quot;Setup GPIO mode and pin directions.&quot;&quot;&quot;
+    GPIO.setmode(GPIO.BCM)
 
-    <span class="c1"># Setup LEDs as output</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+    # Setup LEDs as output
+    GPIO.setup(RED_LED_PIN, GPIO.OUT)
+    GPIO.setup(GREEN_LED_PIN, GPIO.OUT)
 
-    <span class="c1"># Setup button as input with pull-up resistor</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+    # Setup button as input with pull-up resistor
+    GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-<span class="k">def</span> <span class="nf">button_pressed_callback</span><span class="p">(</span><span class="n">channel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Callback function called when the button is pressed.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="n">BUTTON_PIN</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Button pressed!&quot;</span><span class="p">)</span>
+def button_pressed_callback(channel):
+    &quot;&quot;&quot;Callback function called when the button is pressed.&quot;&quot;&quot;
+    if channel == BUTTON_PIN:
+        print(&quot;Button pressed!&quot;)
 
-        <span class="c1"># Toggle between red and green LED</span>
-        <span class="k">if</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">):</span>
-            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
-            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
-            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+        # Toggle between red and green LED
+        if GPIO.input(RED_LED_PIN):
+            GPIO.output(RED_LED_PIN, GPIO.LOW)
+            GPIO.output(GREEN_LED_PIN, GPIO.HIGH)
+        else:
+            GPIO.output(RED_LED_PIN, GPIO.HIGH)
+            GPIO.output(GREEN_LED_PIN, GPIO.LOW)
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">setup_gpio</span><span class="p">()</span>
+try:
+    setup_gpio()
 
-    <span class="c1"># Add event detection on the button pin with debouncing</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">add_event_detect</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">FALLING</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">button_pressed_callback</span><span class="p">,</span> <span class="n">bouncetime</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    # Add event detection on the button pin with debouncing
+    GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_pressed_callback, bouncetime=200)
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Waiting for button press...&quot;</span><span class="p">)</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Keep script running to allow callbacks to work</span>
+    print(&quot;Waiting for button press...&quot;)
+    while True:
+        time.sleep(1)  # Keep script running to allow callbacks to work
 
-<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Program stopped by user&quot;</span><span class="p">)</span>
+except KeyboardInterrupt:
+    print(&quot;\nProgram stopped by user&quot;)
 
-<span class="k">finally</span><span class="p">:</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>  <span class="c1"># Clean up GPIO settings before exiting</span>
-</code></pre></div>
+finally:
+    GPIO.cleanup()  # Clean up GPIO settings before exiting
+</code></pre>
 <ol>
 <li><strong>测试与验证</strong>：</li>
 <li>执行上述编写的Python脚本，尝试按下轻触按键，观察LED是否能够在红绿之间交替亮起。</li>
@@ -758,6 +760,12 @@
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="../javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
       
     
   </body>

@@ -43,6 +43,8 @@
       
     
     
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -617,7 +619,7 @@ NTC 热敏电阻电路相对简单，价格低廉，组件精确，可以轻松�
 <li>在本实验中，我们将使用Steinhart-Hart方程来计算热敏电阻的精确温度，这是一个用于描述热敏电阻电阻-温度特性的经验公式，即Steinhart-Hart方程。</li>
 <li>
 <ul>
-<li>Steinhart-Hart方程表达式为 <span class="arithmatex"><span class="MathJax_Preview"> \frac{1}{T} = A + B\ln(R) + C(\ln(R))^3 </span><script type="math/tex"> \frac{1}{T} = A + B\ln(R) + C(\ln(R))^3 </script></span>，其中<span class="arithmatex"><span class="MathJax_Preview"> T </span><script type="math/tex"> T </script></span>是以开尔文为单位的绝对温度，<span class="arithmatex"><span class="MathJax_Preview"> R </span><script type="math/tex"> R </script></span>是热敏电阻在给定温度下的电阻值，而<span class="arithmatex"><span class="MathJax_Preview"> A </span><script type="math/tex"> A </script></span>, <span class="arithmatex"><span class="MathJax_Preview"> B </span><script type="math/tex"> B </script></span>, <span class="arithmatex"><span class="MathJax_Preview"> C </span><script type="math/tex"> C </script></span>则是取决于具体型号的常数参数。对于本次实验，假设<span class="arithmatex"><span class="MathJax_Preview"> R_0 </span><script type="math/tex"> R_0 </script></span>为10kΩ，B值为3950K。</li>
+<li>Steinhart-Hart方程表达式为 <span class="arithmatex">\( \frac{1}{T} = A + B\ln(R) + C(\ln(R))^3 \)</span>，其中<span class="arithmatex">\( T \)</span>是以开尔文为单位的绝对温度，<span class="arithmatex">\( R \)</span>是热敏电阻在给定温度下的电阻值，而<span class="arithmatex">\( A \)</span>, <span class="arithmatex">\( B \)</span>, <span class="arithmatex">\( C \)</span>则是取决于具体型号的常数参数。对于本次实验，假设<span class="arithmatex">\( R_0 \)</span>为10kΩ，B值为3950K。</li>
 </ul>
 </li>
 <li>
@@ -631,7 +633,7 @@ NTC 热敏电阻电路相对简单，价格低廉，组件精确，可以轻松�
 <li>
 <p><strong>数据处理</strong>：</p>
 </li>
-<li>首先从PCF8591读取经过A/D转换后的数值，然后根据已知条件（如供电电压5V，ADC分辨率为8位即0<sub>255对应0</sub>5V）计算出对应的模拟电压。</li>
+<li>首先从PCF8591读取经过A/D转换后的数值，然后根据已知条件（如供电电压5V，ADC分辨率为8位即0~255对应0~5V）计算出对应的模拟电压。</li>
 <li>接着利用分压比公式计算得到热敏电阻的实际阻值，再代入Steinhart-Hart方程求解温度T。</li>
 </ol>
 <h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
@@ -651,60 +653,60 @@ NTC 热敏电阻电路相对简单，价格低廉，组件精确，可以轻松�
 <li>导入必要的库。</li>
 <li>创建一个SMBus实例并与PCF8591建立连接，读取AIN0上的模拟值并根据该值计算温度。</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">smbus</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<pre><code class="language-python">import smbus
+import math
+import time
 
-<span class="c1"># Define the I2C address of the PCF8591 and control bits</span>
-<span class="n">address</span> <span class="o">=</span> <span class="mh">0x48</span>  <span class="c1"># Default address for PCF8591</span>
-<span class="n">control_bit</span> <span class="o">=</span> <span class="mh">0x40</span>  <span class="c1"># Command to start conversion on channel 0 (AIN0)</span>
+# Define the I2C address of the PCF8591 and control bits
+address = 0x48  # Default address for PCF8591
+control_bit = 0x40  # Command to start conversion on channel 0 (AIN0)
 
-<span class="c1"># Constants for the thermistor calculation</span>
-<span class="n">R0</span> <span class="o">=</span> <span class="mi">10000</span>  <span class="c1"># Resistance at 25°C in ohms</span>
-<span class="n">B</span> <span class="o">=</span> <span class="mi">3950</span>  <span class="c1"># Thermistor constant in Kelvin</span>
-<span class="n">T0</span> <span class="o">=</span> <span class="mf">298.15</span>  <span class="c1"># Standard temperature in Kelvin (25°C)</span>
-<span class="n">Vcc</span> <span class="o">=</span> <span class="mf">5.0</span>  <span class="c1"># Supply voltage in volts</span>
+# Constants for the thermistor calculation
+R0 = 10000  # Resistance at 25°C in ohms
+B = 3950  # Thermistor constant in Kelvin
+T0 = 298.15  # Standard temperature in Kelvin (25°C)
+Vcc = 5.0  # Supply voltage in volts
 
-<span class="c1"># Initialize the SMBus library</span>
-<span class="n">bus</span> <span class="o">=</span> <span class="n">smbus</span><span class="o">.</span><span class="n">SMBus</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Use I2C bus 1</span>
+# Initialize the SMBus library
+bus = smbus.SMBus(1)  # Use I2C bus 1
 
-<span class="k">def</span> <span class="nf">read_temperature</span><span class="p">():</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># Write the control byte to initiate an A/D conversion on channel 0</span>
-        <span class="n">bus</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">control_bit</span><span class="p">)</span>
+def read_temperature():
+    try:
+        # Write the control byte to initiate an A/D conversion on channel 0
+        bus.write_byte(address, control_bit)
 
-        <span class="c1"># Read back the converted value from the PCF8591</span>
-        <span class="n">analog_value</span> <span class="o">=</span> <span class="n">bus</span><span class="o">.</span><span class="n">read_byte</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+        # Read back the converted value from the PCF8591
+        analog_value = bus.read_byte(address)
 
-        <span class="c1"># Calculate the analog voltage</span>
-        <span class="n">Vr</span> <span class="o">=</span> <span class="p">(</span><span class="n">analog_value</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Vcc</span>
+        # Calculate the analog voltage
+        Vr = (analog_value / 255.0) * Vcc
 
-        <span class="c1"># Calculate the resistance of the thermistor</span>
-        <span class="n">Rt</span> <span class="o">=</span> <span class="n">R0</span> <span class="o">*</span> <span class="n">Vr</span> <span class="o">/</span> <span class="p">(</span><span class="n">Vcc</span> <span class="o">-</span> <span class="n">Vr</span><span class="p">)</span>
+        # Calculate the resistance of the thermistor
+        Rt = R0 * Vr / (Vcc - Vr)
 
-        <span class="c1"># Apply the Steinhart-Hart equation to calculate temperature</span>
-        <span class="n">temp_kelvin</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Rt</span> <span class="o">/</span> <span class="n">R0</span><span class="p">)</span> <span class="o">/</span> <span class="n">B</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">T0</span><span class="p">)</span>
-        <span class="n">temp_celsius</span> <span class="o">=</span> <span class="n">temp_kelvin</span> <span class="o">-</span> <span class="mf">273.15</span>
+        # Apply the Steinhart-Hart equation to calculate temperature
+        temp_kelvin = 1 / (math.log(Rt / R0) / B + 1 / T0)
+        temp_celsius = temp_kelvin - 273.15
 
-        <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">temp_celsius</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        return round(temp_celsius, 2)
 
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error reading temperature:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
-        <span class="k">return</span> <span class="kc">None</span>
+    except Exception as e:
+        print(&quot;Error reading temperature:&quot;, str(e))
+        return None
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">temperature</span> <span class="o">=</span> <span class="n">read_temperature</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">temperature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Temperature: </span><span class="si">{</span><span class="n">temperature</span><span class="si">}</span><span class="s2">°C&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to read temperature.&quot;</span><span class="p">)</span>
+try:
+    while True:
+        temperature = read_temperature()
+        if temperature is not None:
+            print(f&quot;Temperature: {temperature}°C&quot;)
+        else:
+            print(&quot;Failed to read temperature.&quot;)
 
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Small delay between readings</span>
+        time.sleep(1)  # Small delay between readings
 
-<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-    <span class="k">pass</span>  <span class="c1"># Allow the program to exit cleanly with Ctrl+C</span>
-</code></pre></div>
+except KeyboardInterrupt:
+    pass  # Allow the program to exit cleanly with Ctrl+C
+</code></pre>
 
 
 
@@ -755,6 +757,12 @@ NTC 热敏电阻电路相对简单，价格低廉，组件精确，可以轻松�
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="../javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
       
     
   </body>
