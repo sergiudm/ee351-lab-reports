@@ -15,6 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: change language
+        run: |
+          sudo apt-get install -y language-pack-zh-hans
+          export LANG=zh_CN.UTF-8
+          export LANGUAGE=zh_CN:zh
+          export LC_ALL=zh_CN.UTF-8
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
