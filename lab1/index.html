@@ -753,16 +753,24 @@
 <li><strong>配置屏幕参数</strong>：</li>
 <li>
 <p>在microSD卡的根目录下，找到<code>config.txt</code>文件，编辑并添加以下内容：
-     <code>bash
-      max_usb_current=1 
-      hdmi_force_hotplug=1 
-      config_hdmi_boost=7 
-      hdmi_group=2 
-      hdmi_mode=1 
-      hdmi_mode=87 
-      hdmi_drive=1 
-      display_rotate=0 
-      hdmi_cvt 1024 600 60 6 0 0 0</code>
+     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span>
+<span class="normal"><a href="#__codelineno-0-7">7</a></span>
+<span class="normal"><a href="#__codelineno-0-8">8</a></span>
+<span class="normal"><a href="#__codelineno-0-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="w"> </span><span class="nv">max_usb_current</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w"> </span><span class="nv">hdmi_force_hotplug</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w"> </span><span class="nv">config_hdmi_boost</span><span class="o">=</span><span class="m">7</span><span class="w"> </span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w"> </span><span class="nv">hdmi_group</span><span class="o">=</span><span class="m">2</span><span class="w"> </span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w"> </span><span class="nv">hdmi_mode</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w"> </span><span class="nv">hdmi_mode</span><span class="o">=</span><span class="m">87</span><span class="w"> </span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w"> </span><span class="nv">hdmi_drive</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w"> </span><span class="nv">display_rotate</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w"> </span>hdmi_cvt<span class="w"> </span><span class="m">1024</span><span class="w"> </span><span class="m">600</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span>
+</code></pre></div></td></tr></table></div>
      &gt;在 <code>hdmi_cvt 1024 600 60 6 0 0 0 0</code> 这里填入实际显示屏的分辨率，不同
      显示器分辨率不同。</p>
 </li>
@@ -804,22 +812,23 @@
 <p><strong>安装额外的开发工具</strong>：</p>
 </li>
 <li>安装Python相关工具：
-     <code>bash
-     sudo apt-get install python3-pip
-     pip3 install --upgrade pip</code></li>
+     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-pip
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a>pip3<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+</code></pre></div></td></tr></table></div></li>
 <li>安装Git用于版本控制：
-     <code>bash
-     sudo apt-get install git</code></li>
+     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git
+</code></pre></div></td></tr></table></div></li>
 <li>安装Vim编辑器：
      <code>bash
      sudo apt-get install vim</code></li>
 <li><strong>安装远程连接工具</strong>：</li>
 <li>启动SSH服务：
-     <code>bash
-     sudo systemctl start ssh</code></li>
+     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>ssh
+</code></pre></div></td></tr></table></div></li>
 <li>验证SSH服务是否正常运行：
-     <code>bash
-     sudo systemctl status ssh</code></li>
+     <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>ssh
+</code></pre></div></td></tr></table></div></li>
 <li>设置SSH服务开机自启动：
      <code>bash
       sudo systemctl enable ssh</code></li>
