@@ -1,4 +1,4 @@
-site_name: EE351 Lab Reports
+site_name: EE351 Lab Reports (24Fall)
 nav:
   - Home: index.md
   - 实验报告列表:
@@ -6,7 +6,7 @@ nav:
     - 双色灯实验: lab2.md
     - 轻触开关实验: lab3.md
     - PCF8691模数转换器实验: lab4.md
-    - 模拟温湿度传感器实验: lab5.md
+    - 模拟温度传感器实验: lab5.md
     - 超声波传感器实验: lab6.md
     - 蜂鸣器实验: lab7.md
     - PS2操纵杆实验: lab8.md
@@ -17,10 +17,10 @@ theme:
   name: material
 plugins:
   - with-pdf:
-      author: '韩骐骏'
-      copyright: '12212635'
+      author: '12212635'
+      copyright: '韩骐骏'
       #
-      #cover: false
+      cover: true
       #back_cover: true
       cover_title: EE351实验报告
       cover_subtitle: 微机原理与嵌入式系统
@@ -54,11 +54,12 @@ plugins:
       #show_anchors: true
       #verbose: true
 markdown_extensions:
+  - admonition
   - toc:
       permalink: true
   - pymdownx.arithmatex:
       generic: true
-  - pymdownx.betterem:
+  - pymdownx.betterem
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.tilde
