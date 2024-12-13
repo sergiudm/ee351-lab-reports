@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="zh" class="no-js">
   <head>
     
       <meta charset="utf-8">
@@ -20,7 +20,7 @@
     
     
       
-        <title>PS2操纵杆实验 - EE351 Lab Reports</title>
+        <title>PS2操纵杆实验 - EE351 Lab Reports (24Fall)</title>
       
     
     
@@ -65,7 +65,7 @@
       
         
         <a href="#lab8ps2" class="md-skip">
-          Skip to content
+          跳转至
         </a>
       
     </div>
@@ -79,8 +79,8 @@
   
 
 <header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="EE351 Lab Reports" class="md-header__button md-logo" aria-label="EE351 Lab Reports" data-md-component="logo">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="EE351 Lab Reports (24Fall)" class="md-header__button md-logo" aria-label="EE351 Lab Reports (24Fall)" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -94,7 +94,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            EE351 Lab Reports
+            EE351 Lab Reports (24Fall)
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -136,15 +136,15 @@
 
 
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="EE351 Lab Reports" class="md-nav__button md-logo" aria-label="EE351 Lab Reports" data-md-component="logo">
+    <a href=".." title="EE351 Lab Reports (24Fall)" class="md-nav__button md-logo" aria-label="EE351 Lab Reports (24Fall)" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    EE351 Lab Reports
+    EE351 Lab Reports (24Fall)
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -301,7 +301,7 @@
         
   
   <span class="md-ellipsis">
-    模拟温湿度传感器实验
+    模拟温度传感器实验
   </span>
   
 
@@ -390,14 +390,14 @@
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+<nav class="md-nav md-nav--secondary" aria-label="目录">
   
   
   
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      Table of contents
+      目录
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -534,14 +534,14 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+<nav class="md-nav md-nav--secondary" aria-label="目录">
   
   
   
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      Table of contents
+      目录
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -606,16 +606,25 @@
 
 <h3 id="lab8ps2">Lab8实验报告：PS2操纵杆实验<a class="headerlink" href="#lab8ps2" title="Permanent link">&para;</a></h3>
 <h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
-<p>本实验旨在通过使用PS2模拟操纵杆，学习如何在Raspberry Pi上实现对不同LED灯的控制及其亮度变化。PS2操纵杆是一种常见的输入设备，它可以通过两个方向上的电位计来提供X和Y轴的位置信息，并且有一个数字输出用于检测是否按下按钮（Z轴）。本次实验的任务是编写程序读取操纵杆的状态，并根据其位置调整连接到PCF8591模数转换器的LED亮度。</p>
+<p>PS2 操纵杆模块类似于手柄中的模拟游戏杆，是一种输入设备，其在许多项
+目中得到应用。它是通过以 90 度角安装两个电位计来制成的。电位计连接到以
+弹簧为中心的短杆上。本次实验任务为用 PS2 操纵杆控制不同的 LED 以及其亮
+度变化。</p>
 <h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <ol>
-<li><strong>PS2操纵杆工作原理</strong>：</li>
-<li>PS2操纵杆内部有两个垂直安装的电位计，分别对应X轴和Y轴。当用户移动操纵杆时，这两个电位计会产生从0V到5V之间的电压变化，静止状态下通常为2.5V左右。</li>
 <li>
-<p>按下按钮时，SW引脚会输出低电平信号（0V），可用于触发特定事件或功能。</p>
+<p><strong>PS2操纵杆工作原理</strong>：
+   PS2 操纵杆有两个模拟输出(对应 X 和 Y 坐标)和一个数字输出，表示是否在
+Z 轴上按下。处于静止位置时，其在 X 和 Y 方向产生约 2.5V 的输出，移动操纵
+杆将导致输出在 0v 到 5V 之间变化，具体取决于其方向。按下按钮时，其 SW 引
+脚输出为低电平。
+其内部结构实际上就是两个 X, Y 方向上的滑动变阻器。当 VCC 连接 5V 电
+压时，X，Y 方向电压常态时为 2.5V，最大值 5V，最小值 0V，用 PCF8591 模数
+转换模块的两个通道分别检测电压值的变化就可以知道摇杆指向的位置了。
+<img alt="alt text" src="../image-13.png" /></p>
 </li>
 <li>
-<p><strong>电路设计</strong>：</p>
+<p><strong>电路连接</strong>：</p>
 </li>
 <li>在本实验中，我们将PS2操纵杆的X轴（VRX）和Y轴（VRY）连接到PCF8591的模拟输入端口AIN0和AIN1，而按钮（SW）则可以连接到另一个GPIO引脚或者留空。</li>
 <li>
@@ -625,28 +634,24 @@
 <p><strong>数据处理与控制逻辑</strong>：</p>
 </li>
 <li>通过读取PCF8591提供的数字化后的X轴和Y轴数据，我们可以得知当前操纵杆指向的位置。</li>
-<li>根据操纵杆的位置，我们可以改变连接到PCF8591模拟输出端口AOUT的LED亮度。例如，当操纵杆位于中心位置时，LED保持一定亮度；随着操纵杆向任意方向偏移，相应地增加或减少LED的亮度。</li>
+<li>根据操纵杆的位置，我们可以改变连接到PCF8591模拟输出端口AOUT的LED亮度（0-255）。例如，当操纵杆位于中心位置时，LED保持一定亮度；随着操纵杆向任意方向偏移，相应地增加或减少LED的亮度。</li>
 </ol>
 <h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>硬件连接</strong>：</li>
-<li>根据提供的表格，确保正确连接Raspberry Pi、T型转接板、PCF8591模块以及PS2操纵杆之间的SDA、SCL、VCC、GND、VRX、VRY和SW引脚。</li>
+<li>连接Raspberry Pi、T型转接板、PCF8591模块以及PS2操纵杆之间的SDA、SCL、VCC、GND、VRX、VRY和SW引脚。</li>
 <li>
-<p>将PS2操纵杆的VRX引脚连接到PCF8591模块的AIN0，VRY引脚连接到AIN1，SW引脚可以根据需要选择性连接到额外的GPIO引脚，VCC引脚接5V电源，GND引脚接地。</p>
+<p>将PS2操纵杆的VRX引脚连接到PCF8591模块的AIN0，VRY引脚连接到AIN1，SW引脚可以根据需要选择性连接到额外的GPIO引脚，VCC引脚接5V电源，GND引脚接地。<img alt="alt text" src="../image-14.png" /></p>
 </li>
 <li>
-<p><strong>配置I2C总线</strong>：</p>
-</li>
-<li>点击Raspberry Pi桌面环境中的开始菜单，选择Preferences -&gt; Raspberry Pi Configuration。</li>
-<li>
-<p>进入Interfaces标签页，开启I2C选项，点击OK保存更改并重启系统。</p>
+<p><strong>配置I2C总线</strong>：
+见<a href="../lab4/">Lab4实验报告</a>中的第2步。</p>
 </li>
 <li>
 <p><strong>编写代码</strong>：</p>
 </li>
-<li>使用Python语言编写程序，首先需要安装<code>smbus</code>库，它可以方便地操作I2C设备。</li>
-<li>导入必要的库后，创建一个SMBus实例并与PCF8591建立连接，读取AIN0和AIN1上的模拟值，并根据这些值计算出对应的LED亮度。</li>
-<li>下面是一个简单的代码示例：</li>
+<li>导入必要的库。</li>
+<li>创建一个SMBus实例并与PCF8591建立连接，读取AIN0和AIN1上的模拟值，并根据这些值计算出对应的LED亮度。</li>
 </ol>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
@@ -762,17 +767,6 @@
 <a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
 <a id="__codelineno-0-57" name="__codelineno-0-57"></a>    <span class="k">pass</span>  <span class="c1"># Allow the program to exit cleanly with Ctrl+C</span>
 </code></pre></div></td></tr></table></div>
-<ol>
-<li><strong>测试与验证</strong>：</li>
-<li>执行上述编写的Python脚本，观察LED亮度是否随操纵杆位置的变化而相应改变。</li>
-<li>
-<p>检查输出结果是否符合预期，并根据实际情况微调代码逻辑。</p>
-</li>
-<li>
-<p><strong>清理工作</strong>：</p>
-</li>
-<li>实验结束后，请记得关闭所有运行中的进程，并断开电源以保护设备安全。</li>
-</ol>
 
 
 
@@ -819,7 +813,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>

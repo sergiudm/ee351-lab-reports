@@ -15,6 +15,8 @@ nav:
   - 关于: about.md
 theme:
   name: material
+  language: zh
+  logo: assets/logo.jpeg
 plugins:
   - with-pdf:
       author: '12212635'
