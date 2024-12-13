@@ -1,6 +1,6 @@
 site_name: EE351 Lab Reports (24Fall)
 nav:
-  - Home: index.md
+  - 主页: index.md
   - 实验报告列表:
     - 树莓派开发环境搭建: lab1.md
     - 双色灯实验: lab2.md
@@ -12,7 +12,6 @@ nav:
     - PS2操纵杆实验: lab8.md
     - 红外遥控实验: lab9.md
     - 中断实验: lab10.md
-  - 关于: about.md
 theme:
   name: material
   language: zh
