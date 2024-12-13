@@ -600,10 +600,10 @@
 
   <h1>中断实验</h1>
 
-<h3 id="lab10">Lab10实验报告：中断实验</h3>
-<h4 id="_1">一、实验介绍</h4>
+<h3 id="lab10">Lab10实验报告：中断实验<a class="headerlink" href="#lab10" title="Permanent link">&para;</a></h3>
+<h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
 <p>本实验旨在通过使用外部中断机制，学习如何在Raspberry Pi上实现对不同外接设备（如按键开关）的及时响应。外部中断允许系统暂停当前任务以优先处理紧急事件，例如硬件设备输入或定时器到期等。本次实验的任务是设置树莓派能够监听特定GPIO引脚上的状态变化，并在检测到有效边沿时触发预定义的动作，如点亮LED灯。</p>
-<h4 id="_2">二、实验原理</h4>
+<h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>树莓派中断函数</strong>：</li>
 <li>
@@ -626,7 +626,7 @@
 </li>
 <li>由于物理按键按下时可能会产生短暂的电压波动（即“抖动”），因此在实际应用中通常会加入软件延时或者硬件滤波来确保每个按键动作只被记录一次。</li>
 </ol>
-<h4 id="_3">三、实验步骤</h4>
+<h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>建立电路</strong>：</li>
 <li>根据提供的表格，确保正确连接Raspberry Pi、T型转接板和轻触按键模块之间的SIG(S)、VCC和GND引脚。</li>
@@ -642,54 +642,54 @@
 <li>定义回调函数<code>button_pressed_callback()</code>，该函数将在每次按键按下时被调用，并负责切换LED的颜色。</li>
 <li>下面是一个简单的代码示例：</li>
 </ol>
-<pre><code class="language-python">import RPi.GPIO as GPIO
-import time
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
-# Define GPIO pins for the LED and button (BCM numbering)
-RED_LED_PIN = 17  # BCM 17, physical pin 11
-GREEN_LED_PIN = 27  # BCM 27, physical pin 13
-BUTTON_PIN = 23  # BCM 23, physical pin 16
+<span class="c1"># Define GPIO pins for the LED and button (BCM numbering)</span>
+<span class="n">RED_LED_PIN</span> <span class="o">=</span> <span class="mi">17</span>  <span class="c1"># BCM 17, physical pin 11</span>
+<span class="n">GREEN_LED_PIN</span> <span class="o">=</span> <span class="mi">27</span>  <span class="c1"># BCM 27, physical pin 13</span>
+<span class="n">BUTTON_PIN</span> <span class="o">=</span> <span class="mi">23</span>  <span class="c1"># BCM 23, physical pin 16</span>
 
-def setup_gpio():
-    &quot;&quot;&quot;Setup GPIO mode and pin directions.&quot;&quot;&quot;
-    GPIO.setmode(GPIO.BCM)
+<span class="k">def</span> <span class="nf">setup_gpio</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Setup GPIO mode and pin directions.&quot;&quot;&quot;</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
 
-    # Setup LEDs as output
-    GPIO.setup(RED_LED_PIN, GPIO.OUT)
-    GPIO.setup(GREEN_LED_PIN, GPIO.OUT)
+    <span class="c1"># Setup LEDs as output</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
 
-    # Setup button as input with pull-up resistor
-    GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    <span class="c1"># Setup button as input with pull-up resistor</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
 
-def button_pressed_callback(channel):
-    &quot;&quot;&quot;Callback function called when the button is pressed.&quot;&quot;&quot;
-    if channel == BUTTON_PIN:
-        print(&quot;Button pressed!&quot;)
+<span class="k">def</span> <span class="nf">button_pressed_callback</span><span class="p">(</span><span class="n">channel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Callback function called when the button is pressed.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">channel</span> <span class="o">==</span> <span class="n">BUTTON_PIN</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Button pressed!&quot;</span><span class="p">)</span>
 
-        # Toggle between red and green LED
-        if GPIO.input(RED_LED_PIN):
-            GPIO.output(RED_LED_PIN, GPIO.LOW)
-            GPIO.output(GREEN_LED_PIN, GPIO.HIGH)
-        else:
-            GPIO.output(RED_LED_PIN, GPIO.HIGH)
-            GPIO.output(GREEN_LED_PIN, GPIO.LOW)
+        <span class="c1"># Toggle between red and green LED</span>
+        <span class="k">if</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">):</span>
+            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
+            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
 
-try:
-    setup_gpio()
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">setup_gpio</span><span class="p">()</span>
 
-    # Add event detection on the button pin with debouncing
-    GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_pressed_callback, bouncetime=200)
+    <span class="c1"># Add event detection on the button pin with debouncing</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">add_event_detect</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">FALLING</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">button_pressed_callback</span><span class="p">,</span> <span class="n">bouncetime</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
 
-    print(&quot;Waiting for button press...&quot;)
-    while True:
-        time.sleep(1)  # Keep script running to allow callbacks to work
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Waiting for button press...&quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Keep script running to allow callbacks to work</span>
 
-except KeyboardInterrupt:
-    print(&quot;\nProgram stopped by user&quot;)
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Program stopped by user&quot;</span><span class="p">)</span>
 
-finally:
-    GPIO.cleanup()  # Clean up GPIO settings before exiting
-</code></pre>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>  <span class="c1"># Clean up GPIO settings before exiting</span>
+</code></pre></div>
 <ol>
 <li><strong>测试与验证</strong>：</li>
 <li>执行上述编写的Python脚本，尝试按下轻触按键，观察LED是否能够在红绿之间交替亮起。</li>

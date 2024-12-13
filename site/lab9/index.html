@@ -602,10 +602,10 @@
 
   <h1>红外遥控实验</h1>
 
-<h3 id="lab9">Lab9实验报告：红外遥控实验</h3>
-<h4 id="_1">一、实验介绍</h4>
+<h3 id="lab9">Lab9实验报告：红外遥控实验<a class="headerlink" href="#lab9" title="Permanent link">&para;</a></h3>
+<h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
 <p>本实验旨在通过使用红外接收头和LIRC库，在Raspberry Pi上实现对红外遥控器信号的接收与解码。红外通信是一种利用不可见光波段（通常为近红外）进行短距离无线数据传输的技术，广泛应用于电视、空调等家用电器的遥控操作中。本次实验的任务是设置Raspberry Pi以识别来自普通红外遥控器的按键命令，并能够根据接收到的不同脉冲模式执行相应的动作。</p>
-<h4 id="_2">二、实验原理</h4>
+<h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>红外通信基础</strong>：</li>
 <li>
@@ -623,45 +623,45 @@
 </li>
 <li>LIRC（Linux Infrared Remote Control）是一个开源项目，提供了多种接口用于管理和配置红外遥控设备。在本实验中，我们将使用LIRC库读取并解释从红外接收头获取的数据流，从而实现对各种遥控指令的支持。</li>
 </ol>
-<h4 id="_3">三、实验步骤</h4>
+<h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>安装LIRC及相关配置</strong>：</li>
 <li>使用以下命令安装LIRC软件包及其依赖项：
-     <code>bash
-     sudo apt-get update
-     sudo apt-get install lirc</code></li>
+     <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>lirc
+</code></pre></div></li>
 <li>
 <p>修改<code>/boot/config.txt</code>文件中的红外模块部分，确保启用了红外接收功能，并指定了正确的GPIO引脚编号（例如接收引脚为22，发射引脚为23）。添加或修改如下行：
-     <code>text
-     dtoverlay=gpio-ir,gpio_pin=22
-     dtoverlay=gpio-ir-tx,gpio_pin=23</code></p>
+     <div class="highlight"><pre><span></span><code>dtoverlay=gpio-ir,gpio_pin=22
+dtoverlay=gpio-ir-tx,gpio_pin=23
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>调整驱动设置</strong>：</p>
 </li>
 <li>
 <p>编辑位于<code>/etc/lirc/lirc_options.conf</code>的LIRC配置文件，更改默认驱动程序和设备路径：
-     <code>bash
-     sudo nano /etc/lirc/lirc_options.conf</code>
+     <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/lirc/lirc_options.conf
+</code></pre></div>
      将内容更改为：
-     <code>text
-     driver = default
-     device = /dev/lirc0</code></p>
+     <div class="highlight"><pre><span></span><code>driver = default
+device = /dev/lirc0
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>重启系统</strong>：</p>
 </li>
 <li>
 <p>执行完上述配置更改后，请重启Raspberry Pi以使新的设置生效：
-     <code>bash
-     sudo reboot</code></p>
+     <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>reboot
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>测试IR接收器</strong>：</p>
 </li>
 <li>重启完成后，可以使用<code>irw</code>命令查看当前接收到的红外信号。打开终端窗口并输入：
-     <code>bash
-     irw</code></li>
+     <div class="highlight"><pre><span></span><code>irw
+</code></pre></div></li>
 <li>
 <p>此时按下遥控器上的任意按键，你应该能在屏幕上看到对应的十六进制代码输出。</p>
 </li>
@@ -671,26 +671,26 @@
 <li>根据实际需求开发Python或其他语言的应用程序，监听来自LIRC的服务端口，解析收到的红外命令，并据此触发预设的操作（比如播放音乐、切换频道等）。</li>
 <li>下面是一个简单的Python示例，展示了如何读取并打印出所有接收到的红外事件：</li>
 </ol>
-<pre><code class="language-python">import subprocess
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">subprocess</span>
 
-def listen_to_remote():
-    try:
-        process = subprocess.Popen(['irw'], stdout=subprocess.PIPE)
+<span class="k">def</span> <span class="nf">listen_to_remote</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;irw&#39;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
 
-        while True:
-            line = process.stdout.readline().decode('utf-8').strip()
-            if not line:
-                break
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>
+                <span class="k">break</span>
 
-            print(&quot;Received IR command:&quot;, line)
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Received IR command:&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
-    except KeyboardInterrupt:
-        print(&quot;\nListening stopped.&quot;)
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Listening stopped.&quot;</span><span class="p">)</span>
 
-if __name__ == &quot;__main__&quot;:
-    print(&quot;Listening for IR commands...&quot;)
-    listen_to_remote()
-</code></pre>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Listening for IR commands...&quot;</span><span class="p">)</span>
+    <span class="n">listen_to_remote</span><span class="p">()</span>
+</code></pre></div>
 <ol>
 <li><strong>验证结果</strong>：</li>
 <li>运行编写的Python脚本，尝试用遥控器发送不同的按键信号，观察是否能正确接收到相应的编码。</li>

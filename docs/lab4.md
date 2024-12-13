@@ -1,7 +1,19 @@
 ### Lab5实验报告：PCF8591模数转换器实验
 
 #### 一、实验介绍
-本实验旨在通过使用PCF8591模数转换器（Analog-to-Digital Converter, ADC），学习如何将模拟信号转换为数字信号，并利用Raspberry Pi对这些数据进行处理。PCF8591是一款具有四个模拟输入通道的8位ADC，支持I2C通信协议，可以轻松地与树莓派相连，用于采集如温度、光强等模拟量的数据。本次实验的任务是通过控制PCF8591来实现LED灯的亮度调节。
+PCF8591 是一款单芯片，单电源，低功耗 8 位 CMOS 数据采集设备，具有
+四个模拟输入，一个模拟输出和一个串行 $I^
+2C$ 总线接口。三个地址引脚 $A_0，A_1
+和 A_2$ 用于对硬件地址进行编程，从而允许使用多达 8 个连接到 $I
+^2C$ 总线的设备，
+而无需额外的硬件。通过两行双向 $I^
+2C$ 总线串行传输与设备之间的地址，控制和
+数据。
+该设备的功能包括模拟输入多路复用，片上跟踪和保持功能，8 位模数转换
+和 8 位数模转换。最大转换率由 $I^
+2C$ 总线的最大速度决定。
+本次实验目标为：通过控制 PCF8591，将 LED 灯点亮。
+
 
 #### 二、实验原理
 1. **PCF8591特性**：
@@ -23,11 +35,14 @@
 2. **配置I2C总线**：
    - 点击Raspberry Pi桌面环境中的开始菜单，选择Preferences -> Raspberry Pi Configuration。
    - 进入Interfaces标签页，开启I2C选项，点击OK保存更改并重启系统。
+  
+3. **查看设备地址**：
+   - 在终端中输入`sudo i2cdetect -y 0`命令，查看I2C总线上所有设备的地址。
+   - 如果一切正常，应该能看到PCF8591的地址（默认为0x48）显示在对应的位置上。 
 
-3. **编写代码**：
+4. **编写代码**：
    - 使用Python语言编写程序，首先需要安装`smbus`库，它可以方便地操作I2C设备。
    - 导入必要的库后，创建一个SMBus实例并与PCF8591建立连接，读取AIN0上的模拟值并根据该值调整AOUT输出，进而控制LED亮度。
-   - 下面是一个简单的代码示例：
 
 ```python
 import smbus
@@ -54,14 +69,12 @@ try:
         # Map the analog value to a range suitable for controlling LED brightness
         led_brightness = int((analog_value / 255.0) * 100)
         
-        # Here you would add code to set the LED brightness using PWM or similar method.
-        # For demonstration purposes, we'll just print the calculated brightness.
         print("LED Brightness (%):", led_brightness)
         
         time.sleep(0.1)  # Small delay between readings
 
 except KeyboardInterrupt:
-    pass  # Allow the program to exit cleanly with Ctrl+C
+   print("Exiting...")
 ```
 
 4. **测试与验证**：

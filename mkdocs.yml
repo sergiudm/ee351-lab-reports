@@ -1,7 +1,7 @@
 site_name: EE351 Lab Reports
 nav:
   - Home: index.md
-  - 实验报告:
+  - 实验报告列表:
     - 树莓派开发环境搭建: lab1.md
     - 双色灯实验: lab2.md
     - 轻触开关实验: lab3.md
@@ -17,16 +17,16 @@ theme:
   name: material
 plugins:
   - with-pdf:
-      author: 'Qijun Han'
-      #copyright: ANY TEXT
+      author: '韩骐骏'
+      copyright: '12212635'
       #
       #cover: false
       #back_cover: true
       cover_title: EE351实验报告
-      #cover_subtitle: SUBTITLE TEXT
+      cover_subtitle: 微机原理与嵌入式系统
       #custom_template_path: TEMPLATES PATH
       #
-      #toc_title: TOC TITLE TEXT
+      toc_title: 目录
       #heading_shift: false
       #toc_level: 3
       #ordered_chapter_level: 2
@@ -53,3 +53,28 @@ plugins:
       #debug_html: true
       #show_anchors: true
       #verbose: true
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.emoji
+  - pymdownx.tasklist
+  - pymdownx.tilde
+  - pymdownx.magiclink
+  - pymdownx.caret
+  - pymdownx.highlight
+  - pymdownx.snippets
+  - pymdownx.tabbed
+  - pymdownx.smartsymbols
+  - pymdownx.inlinehilite
+  - pymdownx.critic
+  - pymdownx.keys
+  - pymdownx.arithmatex
+  - pymdownx.escapeall
+  - pymdownx.mark
+
+
+

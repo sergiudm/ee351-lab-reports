@@ -602,10 +602,26 @@
 
   <h1>PCF8691模数转换器实验</h1>
 
-<h3 id="lab5pcf8591">Lab5实验报告：PCF8591模数转换器实验</h3>
-<h4 id="_1">一、实验介绍</h4>
-<p>本实验旨在通过使用PCF8591模数转换器（Analog-to-Digital Converter, ADC），学习如何将模拟信号转换为数字信号，并利用Raspberry Pi对这些数据进行处理。PCF8591是一款具有四个模拟输入通道的8位ADC，支持I2C通信协议，可以轻松地与树莓派相连，用于采集如温度、光强等模拟量的数据。本次实验的任务是通过控制PCF8591来实现LED灯的亮度调节。</p>
-<h4 id="_2">二、实验原理</h4>
+<h3 id="lab5pcf8591">Lab5实验报告：PCF8591模数转换器实验<a class="headerlink" href="#lab5pcf8591" title="Permanent link">&para;</a></h3>
+<h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<p>PCF8591 是一款单芯片，单电源，低功耗 8 位 CMOS 数据采集设备，具有
+四个模拟输入，一个模拟输出和一个串行 <span class="arithmatex"><span class="MathJax_Preview">I^
+2C</span><script type="math/tex">I^
+2C</script></span> 总线接口。三个地址引脚 <span class="arithmatex"><span class="MathJax_Preview">A_0，A_1
+和 A_2</span><script type="math/tex">A_0，A_1
+和 A_2</script></span> 用于对硬件地址进行编程，从而允许使用多达 8 个连接到 <span class="arithmatex"><span class="MathJax_Preview">I
+^2C</span><script type="math/tex">I
+^2C</script></span> 总线的设备，
+而无需额外的硬件。通过两行双向 <span class="arithmatex"><span class="MathJax_Preview">I^
+2C</span><script type="math/tex">I^
+2C</script></span> 总线串行传输与设备之间的地址，控制和
+数据。
+该设备的功能包括模拟输入多路复用，片上跟踪和保持功能，8 位模数转换
+和 8 位数模转换。最大转换率由 <span class="arithmatex"><span class="MathJax_Preview">I^
+2C</span><script type="math/tex">I^
+2C</script></span> 总线的最大速度决定。
+本次实验目标为：通过控制 PCF8591，将 LED 灯点亮。</p>
+<h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>PCF8591特性</strong>：</li>
 <li>PCF8591是一款单芯片、低功耗的CMOS数据采集设备，它包含模拟输入多路复用、片上跟踪保持功能、8位A/D转换和8位D/A转换。</li>
@@ -624,7 +640,7 @@
 <li>在这个实验里，AIN0端口被用来接收来自电位计模块的模拟信号，而AOUT端口则输出模拟电压以驱动双色LED模块，从而改变LED的亮度。</li>
 <li>当外部条件发生变化时（例如光照强度或温度变化），相应的传感器（如光电二极管或NTC热敏电阻）的阻值也会随之变化，通过测量这些元件两端的电压，我们可以得知环境的变化情况。</li>
 </ol>
-<h4 id="_3">三、实验步骤</h4>
+<h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>硬件连接</strong>：</li>
 <li>根据提供的表格，确保正确连接Raspberry Pi、T型转接板和PCF8591模块之间的SDA、SCL、VCC和GND引脚。</li>
@@ -639,45 +655,49 @@
 <p>进入Interfaces标签页，开启I2C选项，点击OK保存更改并重启系统。</p>
 </li>
 <li>
+<p><strong>查看设备地址</strong>：</p>
+</li>
+<li>在终端中输入<code>sudo i2cdetect -y 0</code>命令，查看I2C总线上所有设备的地址。</li>
+<li>
+<p>如果一切正常，应该能看到PCF8591的地址（默认为0x48）显示在对应的位置上。 </p>
+</li>
+<li>
 <p><strong>编写代码</strong>：</p>
 </li>
 <li>使用Python语言编写程序，首先需要安装<code>smbus</code>库，它可以方便地操作I2C设备。</li>
 <li>导入必要的库后，创建一个SMBus实例并与PCF8591建立连接，读取AIN0上的模拟值并根据该值调整AOUT输出，进而控制LED亮度。</li>
-<li>下面是一个简单的代码示例：</li>
 </ol>
-<pre><code class="language-python">import smbus
-import time
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">smbus</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
-# Define the I2C address of the PCF8591 and control bits
-address = 0x48  # Default address for PCF8591
-control_bit = 0x40  # Command to start conversion on channel 0 (AIN0)
+<span class="c1"># Define the I2C address of the PCF8591 and control bits</span>
+<span class="n">address</span> <span class="o">=</span> <span class="mh">0x48</span>  <span class="c1"># Default address for PCF8591</span>
+<span class="n">control_bit</span> <span class="o">=</span> <span class="mh">0x40</span>  <span class="c1"># Command to start conversion on channel 0 (AIN0)</span>
 
-# Initialize the SMBus library
-bus = smbus.SMBus(1)  # Use I2C bus 1
+<span class="c1"># Initialize the SMBus library</span>
+<span class="n">bus</span> <span class="o">=</span> <span class="n">smbus</span><span class="o">.</span><span class="n">SMBus</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Use I2C bus 1</span>
 
-try:
-    while True:
-        # Write the control byte to initiate an A/D conversion on channel 0
-        bus.write_byte(address, control_bit)
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># Write the control byte to initiate an A/D conversion on channel 0</span>
+        <span class="n">bus</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">control_bit</span><span class="p">)</span>
 
-        # Read back the converted value from the PCF8591
-        analog_value = bus.read_byte(address)
+        <span class="c1"># Read back the converted value from the PCF8591</span>
+        <span class="n">analog_value</span> <span class="o">=</span> <span class="n">bus</span><span class="o">.</span><span class="n">read_byte</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
 
-        # Print out the raw analog value
-        print(&quot;Analog Value:&quot;, analog_value)
+        <span class="c1"># Print out the raw analog value</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Analog Value:&quot;</span><span class="p">,</span> <span class="n">analog_value</span><span class="p">)</span>
 
-        # Map the analog value to a range suitable for controlling LED brightness
-        led_brightness = int((analog_value / 255.0) * 100)
+        <span class="c1"># Map the analog value to a range suitable for controlling LED brightness</span>
+        <span class="n">led_brightness</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">analog_value</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
 
-        # Here you would add code to set the LED brightness using PWM or similar method.
-        # For demonstration purposes, we'll just print the calculated brightness.
-        print(&quot;LED Brightness (%):&quot;, led_brightness)
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LED Brightness (%):&quot;</span><span class="p">,</span> <span class="n">led_brightness</span><span class="p">)</span>
 
-        time.sleep(0.1)  # Small delay between readings
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># Small delay between readings</span>
 
-except KeyboardInterrupt:
-    pass  # Allow the program to exit cleanly with Ctrl+C
-</code></pre>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exiting...&quot;</span><span class="p">)</span>
+</code></pre></div>
 <ol>
 <li><strong>测试与验证</strong>：</li>
 <li>执行上述编写的Python脚本，观察LED亮度是否随电位计位置的变化而相应改变。</li>
