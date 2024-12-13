@@ -17,6 +17,8 @@ theme:
   name: material
   language: zh
   logo: assets/logo.jpeg
+  icon:
+    repo: fontawesome/brands/github
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
@@ -37,6 +39,8 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
+repo_name: sergiudm/ee351-lab-reports
+edit_uri: edit/main/docs/
 plugins:
   - with-pdf:
       author: '12212635'
