@@ -101,7 +101,7 @@
 6. **远程可视化开发**:
    - 在本地安装[VNC Viewer](https://www.realvnc.com/en/connect/download/viewer/)。
    - 在树莓派上启用VNC Server：
-  ![alt text](image.png)
+  ![alt text](images/image.png)
    - 确保电脑和 Raspberry 在同一局域网。打开软件，在框内输入获取到的
 Raspberry Pi ip 地址，回车。
    - 输入用户名和密码，即可远程连接到 Raspberry Pi 的桌面环境。

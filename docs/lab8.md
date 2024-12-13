@@ -16,7 +16,7 @@ Z 轴上按下。处于静止位置时，其在 X 和 Y 方向产生约 2.5V 的
 其内部结构实际上就是两个 X, Y 方向上的滑动变阻器。当 VCC 连接 5V 电
 压时，X，Y 方向电压常态时为 2.5V，最大值 5V，最小值 0V，用 PCF8591 模数
 转换模块的两个通道分别检测电压值的变化就可以知道摇杆指向的位置了。
-![alt text](image-13.png)
+![alt text](images/image-13.png)
 
 2. **电路连接**：
    - 在本实验中，我们将PS2操纵杆的X轴（VRX）和Y轴（VRY）连接到PCF8591的模拟输入端口AIN0和AIN1，而按钮（SW）则可以连接到另一个GPIO引脚或者留空。
@@ -29,7 +29,7 @@ Z 轴上按下。处于静止位置时，其在 X 和 Y 方向产生约 2.5V 的
 #### 三、实验步骤
 1. **硬件连接**：
    - 连接Raspberry Pi、T型转接板、PCF8591模块以及PS2操纵杆之间的SDA、SCL、VCC、GND、VRX、VRY和SW引脚。
-   - 将PS2操纵杆的VRX引脚连接到PCF8591模块的AIN0，VRY引脚连接到AIN1，SW引脚可以根据需要选择性连接到额外的GPIO引脚，VCC引脚接5V电源，GND引脚接地。![alt text](image-14.png)
+   - 将PS2操纵杆的VRX引脚连接到PCF8591模块的AIN0，VRY引脚连接到AIN1，SW引脚可以根据需要选择性连接到额外的GPIO引脚，VCC引脚接5V电源，GND引脚接地。![alt text](images/image-14.png)
 
 2. **配置I2C总线**：
 见[Lab4实验报告](lab4.md)中的第2步。

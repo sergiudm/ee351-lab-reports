@@ -1,4 +1,4 @@
-### Lab5实验报告：PCF8591模数转换器实验
+### Lab4实验报告：PCF8591模数转换器实验
 
 #### 一、实验介绍
 PCF8591 是一款单芯片，单电源，低功耗 8 位 CMOS 数据采集设备，具有
@@ -22,7 +22,7 @@ PCF8591 是一款单芯片，单电源，低功耗 8 位 CMOS 数据采集设备
    - 在本实验中，AINO(模拟输入 0)端口用于接收来自电位计模块的模拟信号，
    AOUT(模拟输出)用于将模拟信号输出到双色 LED 模块，以便改变 LED 的亮度。
    该模块的原理图如下所示：
-      ![alt text](image-6.png)
+      ![alt text](images/image-6.png)
    需要注意的是，除了电位器，PCF8591 模块还带有光电二极管和负温度系数（NTC）
    热敏电阻，原理图如下所示。当外部光强或温度变化时，光敏或热敏电阻的阻值
    也会发生变化，通过采集 INPUT1 和 INPUT2 的电压值，可以实现光强和温度感
@@ -40,12 +40,12 @@ PCF8591 是一款单芯片，单电源，低功耗 8 位 CMOS 数据采集设备
 1. **硬件连接**：
    - 连接Raspberry Pi、T型转接板和PCF8591模块之间的SDA、SCL、VCC和GND引脚。
    - 将双色LED的中间引脚（红色）连接到PCF8591的AOUT引脚，GND引脚接地。
-   ![alt text](image-5.png)
+   ![alt text](images/image-5.png)
 
 2. **配置I2C总线**：
    - 点击Raspberry Pi桌面环境中的开始菜单，选择Preferences -> Raspberry Pi Configuration。
    - 进入Interfaces标签页，开启I2C选项，点击OK保存更改并重启系统。
-     ![alt text](image-4.png)
+     ![alt text](images/image-4.png)
   
 3. **查看设备地址**：
    - 在终端中输入`sudo i2cdetect -y 0`命令，查看I2C总线上所有设备的地址。

@@ -14,7 +14,7 @@
 - **GND**：接地。
 
 该模块的原理图如下：
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 
 #### 二、实验原理
 1. **超声波传感器工作流程**：
@@ -30,7 +30,7 @@
 
 #### 三、实验步骤
 1. **硬件连接**：
-   - 连接Raspberry Pi、T型转接板和超声波传感器之间的VCC、Trig、Echo和GND引脚。![alt text](image-10.png)
+   - 连接Raspberry Pi、T型转接板和超声波传感器之间的VCC、Trig、Echo和GND引脚。![alt text](images/image-10.png)
    - 将超声波传感器的Trig引脚连接到Raspberry Pi的GPIO17（BCM编号），Echo引脚连接到GPIO18（BCM编号），同时确保VCC接到5V电源，GND接地。
 
 2. **编写代码**：

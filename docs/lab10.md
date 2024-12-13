@@ -7,12 +7,11 @@
 可实现类似的功能。本次实验任务为通过中断机制在树莓派上实现对不同外接
 设备的及时响应。任务一为通过中断实现对按键的响应，改变LED灯的状态；任二为通过中断实现按键每按下一次，超声波传感器测距一次。
 
-
 #### 二、实验原理
 1. **树莓派中断函数**：
    - 使用`GPIO.add_event_detect()`方法来监控指定GPIO引脚的状态改变。此方法接受四个参数：
      - `channel`：需要监测的GPIO引脚编号。
-     - `edge`：指定要监测的边沿类型，可以是上升沿（`GPIO.RISING`）、下降沿（`GPIO.FALLING`）或者两者皆可（`GPIO.BOTH`）。![alt text](image-18.png)
+     - `edge`：指定要监测的边沿类型，可以是上升沿（`GPIO.RISING`）、下降沿（`GPIO.FALLING`）或者两者皆可（`GPIO.BOTH`）。![alt text](images/image-18.png)
      - `callback`：当检测到状态变化时调用的回调函数（可选）。
      - `bouncetime`：用于消除机械按键抖动的时间间隔（ms），即两次有效状态变化之间所需的最小时间差（可选）。
   
@@ -29,7 +28,7 @@
 1. **建立电路**：
    - 连接Raspberry Pi、T型转接板和轻触按键模块之间的SIG(S)、VCC和GND引脚。
    - 将轻触按键模块的SIG(S)引脚连接到Raspberry Pi的GPIO23（BCM编号），VCC引脚接5V电源，GND引脚接地。
-   - 把LED灯和超声波传感器的电路连接到树莓派上，具体连接方式见[lab6](lab6.md)和[lab8](lab8.md)。
+   - 把LED灯和超声波传感器的电路连接到树莓派上，具体连接方式见[lab6](lab6.md)。
   
 2. **编写Python程序**:
    - 导入`RPi.GPIO`库，设置轻触按键的GPIO引脚编号。

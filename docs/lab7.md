@@ -25,12 +25,12 @@
 #### 三、实验步骤
 #### （1）有源蜂鸣器实验
 1. **硬件连接**：
-   - 连接Raspberry Pi、T型转接板和有源蜂鸣器模块之间的I/O、VCC**3.3V**和GND引脚。![alt text](image-12.png)
+   - 连接Raspberry Pi、T型转接板和有源蜂鸣器模块之间的I/O、VCC**3.3V**和GND引脚。![alt text](images/image-12.png)
    - 通电后，蜂鸣器会发出持续的“滴滴”声音。
 
 #### （2）无源蜂鸣器实验
 1. **硬件连接**：
-   - 连接Raspberry Pi、T型转接板和无源蜂鸣器模块之间的I/O、VCC和GND引脚。![alt text](image-11.png)
+   - 连接Raspberry Pi、T型转接板和无源蜂鸣器模块之间的I/O、VCC和GND引脚。![alt text](images/image-11.png)
    - 确保选择支持PWM输出的GPIO引脚（本次使用GPIO11，BCM编号）。
 
 2. **编写代码**：

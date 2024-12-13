@@ -3,9 +3,9 @@
 #### 一、实验介绍
 轻触开关模块是最常见的开关模块，内部有一个轻触开关（按键开关）。-引
 脚接地，中间引脚接 VCC。按下按键时，S 脚输出为低电平；松开按键时，S 脚
-输出为高电平。![](image-1.png)
+输出为高电平。![](images/image-1.png)
 该模块的原理图为：
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 
 #### 二、实验原理
@@ -21,7 +21,7 @@
 #### 三、实验步骤
 1. **硬件连接**：
    连接示意图如下：
-   ![alt text](image-3.png)
+   ![alt text](images/image-3.png)
 
 2. **编写代码**：
    使用Mu编辑器或VSCode等工具，编写Python代码来控制双色LED和轻触开关。
