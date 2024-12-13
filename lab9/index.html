@@ -685,14 +685,14 @@
 它一般由红外发射和接收系统两部分组成。发射系统对一个红外辐射源进行
 调制后发射红外信号，而接收系统用光学装置和红外探测器进行接收，就构成红
 外通信系统。
-<img alt="alt text" src="../image-15.png" /></p>
+<img alt="alt text" src="../images/image-15.png" /></p>
 <h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <p>在本实验中，我们使用 lirc 库读取遥控器按钮返回的红外信号，并将它们转
 换为按钮值。</p>
 <h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>连接电路</strong>
-   连接遥控器接收头到 Raspberry Pi 的 GPIO 引脚上，如下图所示：<img alt="alt text" src="../image-16.png" /></li>
+   连接遥控器接收头到 Raspberry Pi 的 GPIO 引脚上，如下图所示：<img alt="alt text" src="../images/image-16.png" /></li>
 <li><strong>安装LIRC及相关配置</strong>：</li>
 <li>使用以下命令安装LIRC软件包及其依赖项：
      <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
@@ -733,7 +733,7 @@
 <li>重启完成后，可以使用<code>irw</code>命令查看当前接收到的红外信号。打开终端窗口并输入：
      <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a>irw
 </code></pre></div></td></tr></table></div></li>
-<li>此时按下遥控器上的任意按键，观察屏幕上的十六进制代码输出。<img alt="alt text" src="../image-17.png" /></li>
+<li>此时按下遥控器上的任意按键，观察屏幕上的十六进制代码输出。<img alt="alt text" src="../images/image-17.png" /></li>
 <li>
 <p><strong>记录红外代码</strong>:
    在终端输入<code>irrecord -l</code>命令，按照提示操作，记录红外遥控器的按键代码。
