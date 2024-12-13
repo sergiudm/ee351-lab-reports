@@ -94,7 +94,16 @@
     
     
     
-  </head>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -684,7 +693,7 @@
 <p>使用<code>GPIO.add_event_detect()</code>方法来监控指定GPIO引脚的状态改变。此方法接受四个参数：</p>
 <ul>
 <li><code>channel</code>：需要监测的GPIO引脚编号。</li>
-<li><code>edge</code>：指定要监测的边沿类型，可以是上升沿（<code>GPIO.RISING</code>）、下降沿（<code>GPIO.FALLING</code>）或者两者皆可（<code>GPIO.BOTH</code>）。<img alt="alt text" src="../images/image-18.png" /></li>
+<li><code>edge</code>：指定要监测的边沿类型，可以是上升沿（<code>GPIO.RISING</code>）、下降沿（<code>GPIO.FALLING</code>）或者两者皆可（<code>GPIO.BOTH</code>）。<a class="glightbox" href="../images/image-18.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../images/image-18.png" /></a></li>
 <li><code>callback</code>：当检测到状态变化时调用的回调函数（可选）。</li>
 <li><code>bouncetime</code>：用于消除机械按键抖动的时间间隔（ms），即两次有效状态变化之间所需的最小时间差（可选）。</li>
 </ul>
@@ -720,7 +729,7 @@
 <li>使用<code>GPIO.wait_for_edge()</code>方法等待轻触按键按下，然后调用<code>ultrasonic_callback()</code>函数。</li>
 </ol>
 <p>程序框图：
-<img alt="alt text" src="../image-11.png" />
+<a class="glightbox" href="../image-11.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../image-11.png" /></a>
 Python代码：</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
@@ -900,5 +909,7 @@ Python代码：</p>
         <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
       
     
-  </body>
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
 </html>

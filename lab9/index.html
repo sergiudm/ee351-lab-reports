@@ -96,7 +96,16 @@
     
     
     
-  </head>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -685,14 +694,14 @@
 它一般由红外发射和接收系统两部分组成。发射系统对一个红外辐射源进行
 调制后发射红外信号，而接收系统用光学装置和红外探测器进行接收，就构成红
 外通信系统。
-<img alt="alt text" src="../images/image-15.png" /></p>
+<a class="glightbox" href="../images/image-15.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../images/image-15.png" /></a></p>
 <h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <p>在本实验中，我们使用 lirc 库读取遥控器按钮返回的红外信号，并将它们转
 换为按钮值。</p>
 <h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>连接电路</strong>
-   连接遥控器接收头到 Raspberry Pi 的 GPIO 引脚上，如下图所示：<img alt="alt text" src="../images/image-16.png" /></li>
+   连接遥控器接收头到 Raspberry Pi 的 GPIO 引脚上，如下图所示：<a class="glightbox" href="../images/image-16.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../images/image-16.png" /></a></li>
 <li><strong>安装LIRC及相关配置</strong>：</li>
 <li>使用以下命令安装LIRC软件包及其依赖项：
      <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
@@ -733,7 +742,7 @@
 <li>重启完成后，可以使用<code>irw</code>命令查看当前接收到的红外信号。打开终端窗口并输入：
      <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a>irw
 </code></pre></div></td></tr></table></div></li>
-<li>此时按下遥控器上的任意按键，观察屏幕上的十六进制代码输出。<img alt="alt text" src="../images/image-17.png" /></li>
+<li>此时按下遥控器上的任意按键，观察屏幕上的十六进制代码输出。<a class="glightbox" href="../images/image-17.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../images/image-17.png" /></a></li>
 <li>
 <p><strong>记录红外代码</strong>:
    在终端输入<code>irrecord -l</code>命令，按照提示操作，记录红外遥控器的按键代码。
@@ -861,7 +870,7 @@
 <li>
 <p><strong>编写Python程序</strong>:
 程序框图
-<img alt="alt text" src="../image-10.png" />
+<a class="glightbox" href="../image-10.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../image-10.png" /></a>
 Python代码
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
@@ -959,5 +968,7 @@ Python代码
         <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
       
     
-  </body>
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
 </html>

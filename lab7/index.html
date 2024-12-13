@@ -96,7 +96,16 @@
     
     
     
-  </head>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -741,13 +750,13 @@
 <h4 id="1">（1）有源蜂鸣器实验<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>硬件连接</strong>：</li>
-<li>连接Raspberry Pi、T型转接板和有源蜂鸣器模块之间的I/O、VCC<strong>3.3V</strong>和GND引脚。<img alt="alt text" src="../images/image-12.png" /></li>
+<li>连接Raspberry Pi、T型转接板和有源蜂鸣器模块之间的I/O、VCC<strong>3.3V</strong>和GND引脚。<a class="glightbox" href="../images/image-12.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../images/image-12.png" /></a></li>
 <li>通电后，蜂鸣器会发出持续的“滴滴”声音。</li>
 </ol>
 <h4 id="2">（2）无源蜂鸣器实验<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>硬件连接</strong>：</li>
-<li>连接Raspberry Pi、T型转接板和无源蜂鸣器模块之间的I/O、VCC和GND引脚。<img alt="alt text" src="../images/image-11.png" /></li>
+<li>连接Raspberry Pi、T型转接板和无源蜂鸣器模块之间的I/O、VCC和GND引脚。<a class="glightbox" href="../images/image-11.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../images/image-11.png" /></a></li>
 <li>
 <p>确保选择支持PWM输出的GPIO引脚（本次使用GPIO11，BCM编号）。</p>
 </li>
@@ -758,7 +767,7 @@
 <li>编写函数<code>play_music()</code>，该函数定义了一系列音符及其对应的频率，并通过循环调用这些频率来驱动蜂鸣器发出音乐。</li>
 </ol>
 <p>程序框图：
-<img alt="alt text" src="../image-8.png" /></p>
+<a class="glightbox" href="../image-8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../image-8.png" /></a></p>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
@@ -899,5 +908,7 @@
         <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
       
     
-  </body>
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
 </html>

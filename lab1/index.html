@@ -96,7 +96,16 @@
     
     
     
-  </head>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -799,7 +808,7 @@
 </li>
 <li>插入microSD卡到Raspberry Pi的卡槽中。<ul>
 <li>如果是使用过的卡，先用<a href="https://www.sdcard.org/downloads/formatter/sd-memory-card-formatter-for-windows-download/">SDFormatter</a>工具格式化。
-  <img alt="alt text" src="../images/image2.png" /></li>
+  <a class="glightbox" href="../images/image2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../images/image2.png" /></a></li>
 </ul>
 </li>
 <li>连接显示器、键盘和鼠标（如果打算使用GUI）。</li>
@@ -810,7 +819,7 @@
 <li><strong>下载Raspberry Pi Imager工具</strong>：</li>
 <li>
 <p>访问<a href="https://www.raspberrypi.com/software/">Raspberry Pi官方网站</a>下载Imager工具。
-<img alt="alt text" src="../images/image1.png" /></p>
+<a class="glightbox" href="../images/image1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../images/image1.png" /></a></p>
 </li>
 <li>
 <p><strong>选择并写入OS镜像</strong>：</p>
@@ -906,7 +915,7 @@
 <li><strong>远程可视化开发</strong>:</li>
 <li>在本地安装<a href="https://www.realvnc.com/en/connect/download/viewer/">VNC Viewer</a>。</li>
 <li>在树莓派上启用VNC Server：
-  <img alt="alt text" src="../images/image.png" /></li>
+  <a class="glightbox" href="../images/image.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../images/image.png" /></a></li>
 <li>确保电脑和 Raspberry 在同一局域网。打开软件，在框内输入获取到的
 Raspberry Pi ip 地址，回车。</li>
 <li>输入用户名和密码，即可远程连接到 Raspberry Pi 的桌面环境。</li>
@@ -971,5 +980,7 @@ Raspberry Pi ip 地址，回车。</li>
         <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
       
     
-  </body>
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
 </html>
