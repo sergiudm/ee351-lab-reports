@@ -33,11 +33,27 @@
    - 打开Raspberry Pi Imager，点击“CHOOSE OS”按钮，选择推荐的Raspberry Pi OS (32-bit)版本。
    - 点击“CHOOSE STORAGE”，挑选之前准备好的microSD卡作为存储介质。
    - 确认无误后，点击“WRITE”开始烧录过程。请耐心等待，直到提示写入完成。
+3. **配置屏幕参数**：
+   - 在microSD卡的根目录下，找到`config.txt`文件，编辑并添加以下内容：
+     ```bash
+      max_usb_current=1 
+      hdmi_force_hotplug=1 
+      config_hdmi_boost=7 
+      hdmi_group=2 
+      hdmi_mode=1 
+      hdmi_mode=87 
+      hdmi_drive=1 
+      display_rotate=0 
+      hdmi_cvt 1024 600 60 6 0 0 0
+     ```
+     >在 `hdmi_cvt 1024 600 60 6 0 0 0 0` 这里填入实际显示屏的分辨率，不同
+     显示器分辨率不同。
 
-3. **初次启动与初始化设置**：
-   - 将烧录好OS镜像的microSD卡重新插回Raspberry Pi，然后给它通电。
+   - 保存文件后，将microSD卡插回Raspberry Pi中。
+
+4. **初次启动与初始化设置**：
+   - 将烧录好OS镜像的microSD卡重新插回Raspberry Pi后，给它通电。
    - 第一次启动时，根据屏幕上的指示进行语言、地区、时区等基本信息的配置。
-   - 如果选择了图形化界面，则会自动进入桌面环境；否则，默认进入命令行模式。
 
 ##### （3）网络配置
 1. **连接Wi-Fi**：

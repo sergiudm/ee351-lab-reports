@@ -190,7 +190,7 @@
             
   
   <span class="md-ellipsis">
-    实验报告
+    实验报告列表
   </span>
   
 
@@ -200,7 +200,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
-            实验报告
+            实验报告列表
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -747,15 +747,31 @@
 </li>
 <li>打开Raspberry Pi Imager，点击“CHOOSE OS”按钮，选择推荐的Raspberry Pi OS (32-bit)版本。</li>
 <li>点击“CHOOSE STORAGE”，挑选之前准备好的microSD卡作为存储介质。</li>
+<li>确认无误后，点击“WRITE”开始烧录过程。请耐心等待，直到提示写入完成。</li>
+<li><strong>配置屏幕参数</strong>：</li>
 <li>
-<p>确认无误后，点击“WRITE”开始烧录过程。请耐心等待，直到提示写入完成。</p>
+<p>在microSD卡的根目录下，找到<code>config.txt</code>文件，编辑并添加以下内容：
+     <div class="highlight"><pre><span></span><code><span class="w"> </span><span class="nv">max_usb_current</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
+<span class="w"> </span><span class="nv">hdmi_force_hotplug</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
+<span class="w"> </span><span class="nv">config_hdmi_boost</span><span class="o">=</span><span class="m">7</span><span class="w"> </span>
+<span class="w"> </span><span class="nv">hdmi_group</span><span class="o">=</span><span class="m">2</span><span class="w"> </span>
+<span class="w"> </span><span class="nv">hdmi_mode</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
+<span class="w"> </span><span class="nv">hdmi_mode</span><span class="o">=</span><span class="m">87</span><span class="w"> </span>
+<span class="w"> </span><span class="nv">hdmi_drive</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
+<span class="w"> </span><span class="nv">display_rotate</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>
+<span class="w"> </span>hdmi_cvt<span class="w"> </span><span class="m">1024</span><span class="w"> </span><span class="m">600</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span>
+</code></pre></div>
+     &gt;在 <code>hdmi_cvt 1024 600 60 6 0 0 0 0</code> 这里填入实际显示屏的分辨率，不同
+     显示器分辨率不同。</p>
+</li>
+<li>
+<p>保存文件后，将microSD卡插回Raspberry Pi中。</p>
 </li>
 <li>
 <p><strong>初次启动与初始化设置</strong>：</p>
 </li>
-<li>将烧录好OS镜像的microSD卡重新插回Raspberry Pi，然后给它通电。</li>
+<li>将烧录好OS镜像的microSD卡重新插回Raspberry Pi后，给它通电。</li>
 <li>第一次启动时，根据屏幕上的指示进行语言、地区、时区等基本信息的配置。</li>
-<li>如果选择了图形化界面，则会自动进入桌面环境；否则，默认进入命令行模式。</li>
 </ol>
 <h5 id="3">（3）网络配置<a class="headerlink" href="#3" title="Permanent link">&para;</a></h5>
 <ol>
