@@ -43,6 +43,8 @@
       
     
     
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -634,39 +636,39 @@
 <li>不断检测轻触开关的状态，根据按键的状态控制LED的亮灭。</li>
 <li>为了防止按键抖动，可以在检测到按键状态变化后加入一个小的延时。</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<pre><code class="language-python">import RPi.GPIO as GPIO
+import time
 
-<span class="c1"># Define GPIO pins for the LED (BCM numbering)</span>
-<span class="n">RED_PIN</span> <span class="o">=</span> <span class="mi">19</span>  <span class="c1"># Red part of the dual-color LED</span>
-<span class="n">GREEN_PIN</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Green part of the dual-color LED</span>
-<span class="n">SWITCH_PIN</span> <span class="o">=</span> <span class="mi">21</span>  <span class="c1"># GPIO pin for the tactile switch</span>
+# Define GPIO pins for the LED (BCM numbering)
+RED_PIN = 19  # Red part of the dual-color LED
+GREEN_PIN = 20  # Green part of the dual-color LED
+SWITCH_PIN = 21  # GPIO pin for the tactile switch
 
-<span class="c1"># Setup GPIO mode and pin directions</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">SWITCH_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+# Setup GPIO mode and pin directions
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(RED_PIN, GPIO.OUT)
+GPIO.setup(GREEN_PIN, GPIO.OUT)
+GPIO.setup(SWITCH_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-<span class="k">def</span> <span class="nf">switch_with_delay</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
-    <span class="n">state</span> <span class="o">=</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span>
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">state</span> <span class="o">==</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span>
+def switch_with_delay(pin, delay=0.1):
+    state = GPIO.input(pin)
+    time.sleep(delay)
+    return state == GPIO.input(pin)
 
-<span class="k">try</span><span class="p">:</span>
-   <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-      <span class="k">if</span> <span class="n">switch_with_delay</span><span class="p">(</span><span class="n">SWITCH_PIN</span><span class="p">):</span>
-            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
-            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
-      <span class="k">else</span><span class="p">:</span>
-            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
-            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
+try:
+   while True:
+      if switch_with_delay(SWITCH_PIN):
+            GPIO.output(RED_PIN, GPIO.HIGH)
+            GPIO.output(GREEN_PIN, GPIO.LOW)
+      else:
+            GPIO.output(RED_PIN, GPIO.LOW)
+            GPIO.output(GREEN_PIN, GPIO.HIGH)
 
-   <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exiting...&quot;</span><span class="p">)</span>
-   <span class="k">finally</span><span class="p">:</span>
-      <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
-</code></pre></div>
+   except KeyboardInterrupt:
+      print(&quot;Exiting...&quot;)
+   finally:
+      GPIO.cleanup()
+</code></pre>
 <ol>
 <li><strong>实验拓展</strong></li>
 </ol>
@@ -677,44 +679,44 @@
    4. 再次按一下按键，LED 绿灯闪烁；
 再次按下按键红灯亮起……如此循环。</p>
 <p>需要注意消除好按键抖动。</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<pre><code class="language-python">import RPi.GPIO as GPIO
+import time
 
-<span class="c1"># Define GPIO pins for the LED (BCM numbering)</span>
-<span class="n">RED_PIN</span> <span class="o">=</span> <span class="mi">19</span>  <span class="c1"># Red part of the dual-color LED</span>
-<span class="n">GREEN_PIN</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Green part of the dual-color LED</span>
-<span class="n">SWITCH_PIN</span> <span class="o">=</span> <span class="mi">21</span>  <span class="c1"># GPIO pin for the tactile switch</span>
+# Define GPIO pins for the LED (BCM numbering)
+RED_PIN = 19  # Red part of the dual-color LED
+GREEN_PIN = 20  # Green part of the dual-color LED
+SWITCH_PIN = 21  # GPIO pin for the tactile switch
 
-<span class="c1"># Setup GPIO mode and pin directions</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">SWITCH_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+# Setup GPIO mode and pin directions
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(RED_PIN, GPIO.OUT)
+GPIO.setup(GREEN_PIN, GPIO.OUT)
+GPIO.setup(SWITCH_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-<span class="k">def</span> <span class="nf">switch_with_delay</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
-    <span class="n">state</span> <span class="o">=</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span>
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">state</span> <span class="o">==</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span>
+def switch_with_delay(pin, delay=0.1):
+    state = GPIO.input(pin)
+    time.sleep(delay)
+    return state == GPIO.input(pin)
 
-<span class="k">def</span> <span class="nf">toggle_led</span><span class="p">(</span><span class="n">pin</span><span class="p">):</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="ow">not</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">pin</span><span class="p">))</span>
+def toggle_led(pin):
+    GPIO.output(pin, not GPIO.input(pin))
 
-<span class="k">try</span><span class="p">:</span>
-   <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-      <span class="k">if</span> <span class="n">switch_with_delay</span><span class="p">(</span><span class="n">SWITCH_PIN</span><span class="p">):</span>
-            <span class="n">toggle_led</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">)</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-            <span class="n">toggle_led</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">)</span>
-      <span class="k">else</span><span class="p">:</span>
-            <span class="n">toggle_led</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">)</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-            <span class="n">toggle_led</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">)</span>
+try:
+   while True:
+      if switch_with_delay(SWITCH_PIN):
+            toggle_led(RED_PIN)
+            time.sleep(0.5)
+            toggle_led(RED_PIN)
+      else:
+            toggle_led(GREEN_PIN)
+            time.sleep(0.5)
+            toggle_led(GREEN_PIN)
 
-   <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exiting...&quot;</span><span class="p">)</span>
-   <span class="k">finally</span><span class="p">:</span>
-      <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
-</code></pre></div>
+   except KeyboardInterrupt:
+      print(&quot;Exiting...&quot;)
+   finally:
+      GPIO.cleanup()
+</code></pre>
 
 
 
@@ -765,6 +767,12 @@
     
     
       <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="../javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
       
     
   </body>

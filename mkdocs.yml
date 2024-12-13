@@ -54,27 +54,17 @@ plugins:
       #show_anchors: true
       #verbose: true
 markdown_extensions:
-  - admonition
-  - codehilite
   - toc:
       permalink: true
-  - pymdownx.superfences
-  - pymdownx.details
-  - pymdownx.emoji
-  - pymdownx.tasklist
-  - pymdownx.tilde
-  - pymdownx.magiclink
-  - pymdownx.caret
-  - pymdownx.highlight
-  - pymdownx.snippets
-  - pymdownx.tabbed
-  - pymdownx.smartsymbols
-  - pymdownx.inlinehilite
-  - pymdownx.critic
-  - pymdownx.keys
-  - pymdownx.arithmatex
-  - pymdownx.escapeall
-  - pymdownx.mark
+  - pymdownx.arithmatex:
+      generic: true
+extra_javascript:
+  - javascripts/katex.js
+  - https://unpkg.com/katex@0/dist/katex.min.js
+  - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+
+extra_css:
+  - https://unpkg.com/katex@0/dist/katex.min.css
 
 
 
