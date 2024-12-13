@@ -38,6 +38,20 @@ Z 轴上按下。处于静止位置时，其在 X 和 Y 方向产生约 2.5V 的
    - 导入必要的库。
    - 创建一个SMBus实例并与PCF8591建立连接，读取AIN0和AIN1上的模拟值，并根据这些值计算出对应的LED亮度。
 
+程序框图：
+```mermaid
+    graph LR
+        A[开始] --> B{初始化I2C总线}
+        B --> C{设置PCF8591地址和控制位}
+        C --> D{循环开始}
+        D --> E{读取X轴和Y轴模拟值}
+        E --> F{计算LED亮度}
+        F --> G{设置LED亮度}
+        G --> H{延时}
+        H --> D
+        D -- 中断 --> I[退出]
+```
+Python代码
 ```python
 import smbus
 import time

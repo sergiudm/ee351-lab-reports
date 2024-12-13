@@ -42,8 +42,20 @@
 
 ---
 
-#### 四、Python代码
-下面提供了本实验用到的Python代码，用于实现双色LED的红绿交替闪烁：
+#### 四、编写代码
+程序框图：
+   
+   ``` mermaid
+   graph LR
+       A[开始] --> B[设置GPIO模式]
+       B --> C[循环]
+       C --> D[点亮红灯]
+       D --> E[等待1秒]
+       E --> F[点亮绿灯]
+       F --> G[等待1秒]
+       G --> C
+   ```
+Python代码，用于实现双色LED的红绿交替闪烁：
 
 ```python
 import RPi.GPIO as GPIO
@@ -81,3 +93,32 @@ finally:
 ```
 
 这段代码将使双色LED按照红-绿-红-绿的顺序交替闪烁，每次持续1秒钟。
+
+C++代码
+   ```cpp
+   #include <wiringPi.h>
+   #include <iostream>
+
+   #define RED_PIN 19
+   #define GREEN_PIN 20
+
+   int main() {
+       wiringPiSetupGpio();
+       pinMode(RED_PIN, OUTPUT);
+       pinMode(GREEN_PIN, OUTPUT);
+
+       while (true) {
+           digitalWrite(RED_PIN, HIGH);
+           digitalWrite(GREEN_PIN, LOW);
+           std::cout << "Red LED is ON" << std::endl;
+           delay(1000);
+
+           digitalWrite(RED_PIN, LOW);
+           digitalWrite(GREEN_PIN, HIGH);
+           std::cout << "Green LED is ON" << std::endl;
+           delay(1000);
+       }
+
+       return 0;
+   }
+   ```

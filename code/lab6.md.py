@@ -20,19 +20,16 @@ def get_distance():
     time.sleep(0.00001)
     GPIO.output(TRIG, False)
 
-    # Wait for ECHO to go high
     while GPIO.input(ECHO) == 0:
         pulse_start = time.time()
 
-    # Wait for ECHO to go low again
     while GPIO.input(ECHO) == 1:
         pulse_end = time.time()
 
-    # Calculate the duration of the pulse
     pulse_duration = pulse_end - pulse_start
 
     # Convert pulse duration to distance in centimeters
-    distance = pulse_duration * 17150  # Speed of sound in cm/s divided by 2 (round trip)
+    distance = pulse_duration * 17150 
     distance = round(distance, 2)
 
     return distance
@@ -48,4 +45,4 @@ except KeyboardInterrupt:
     print("Measurement stopped by user")
 
 finally:
-    GPIO.cleanup()  # Clean up GPIO settings before exiting
+    GPIO.cleanup()

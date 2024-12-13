@@ -37,6 +37,20 @@
    - 导入`RPi.GPIO`库，设置Trig和Echo引脚的BCM编号。
    - 编写函数`get_distance()`，该函数负责设置Trig引脚输出10微秒的高电平脉冲，然后等待Echo引脚变为高电平，记录开始时间；接着再次等待Echo引脚变为低电平，记录结束时间。最后利用这两个时间点计算出超声波往返一次所花费的时间，并据此换算成实际距离。
 
+程序框图：
+```mermaid
+graph LR
+    A[开始] --> B{设置GPIO引脚}
+    B --> C{循环}
+    C --> D{发射超声波}
+    D --> E{等待Echo引脚高电平}
+    E --> F{等待Echo引脚低电平}
+    F --> G{计算距离}
+    G --> H{打印距离}
+    H --> I{延时}
+    I --> C
+```
+
 ```python
 import RPi.GPIO as GPIO
 import time

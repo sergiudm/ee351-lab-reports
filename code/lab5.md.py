@@ -20,10 +20,8 @@ def read_temperature():
         # Write the control byte to initiate an A/D conversion on channel 0
         bus.write_byte(address, control_bit)
         
-        # Read back the converted value from the PCF8591
         analog_value = bus.read_byte(address)
         
-        # Calculate the analog voltage
         Vr = (analog_value / 255.0) * Vcc
         
         # Calculate the resistance of the thermistor
@@ -50,4 +48,4 @@ try:
         time.sleep(1)  # Small delay between readings
 
 except KeyboardInterrupt:
-    pass  # Allow the program to exit cleanly with Ctrl+C
+   print("\nExiting program.")

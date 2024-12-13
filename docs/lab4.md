@@ -55,6 +55,22 @@ PCF8591 是一款单芯片，单电源，低功耗 8 位 CMOS 数据采集设备
    - 使用Python语言编写程序，首先需要安装`smbus`库，它可以方便地操作I2C设备。
    - 导入必要的库后，创建一个SMBus实例并与PCF8591建立连接，读取AIN0上的模拟值并根据该值调整AOUT输出，进而控制LED亮度。
 
+程序框图：
+```mermaid
+graph LR
+    A[开始] --> B{初始化I2C总线}
+    B --> C{设置PCF8591地址和控制位}
+    C --> D{循环开始}
+    D --> E{写入控制字节(启动A/D转换)}
+    E --> F{读取模拟值}
+    F --> G{打印模拟值}
+    G --> H{映射模拟值到LED亮度}
+    H --> I{打印LED亮度}
+    I --> J{延时}
+    J --> D
+    D -- 中断 --> K[退出]
+```
+Python代码
 ```python
 import smbus
 import time

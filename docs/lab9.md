@@ -133,8 +133,20 @@
          prog = test.py
    ```
 12. **编写Python程序**:
-
-
+程序框图
+```mermaid
+graph LR
+    A[开始] --> B{导入lirc库}
+    B --> C{定义解析函数}
+    C --> D{建立连接}
+    D --> E{读取数据}
+    E --> F{解析按键}
+    F --> G{打印按键}
+    G --> H{循环}
+    H --> E
+    H -- 中断 --> I[退出]
+```
+Python代码
 ```python
 import lirc
 

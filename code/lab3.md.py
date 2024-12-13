@@ -26,21 +26,21 @@ try:
             GPIO.output(RED_PIN, GPIO.LOW)
             GPIO.output(GREEN_PIN, GPIO.HIGH)
    
-except KeyboardInterrupt:
-   print("Exiting...")
-finally:
-   GPIO.cleanup()
+   except KeyboardInterrupt:
+      print("Exiting...")
+   finally:
+      GPIO.cleanup()
 
-# 3. **实验拓展**
+3. **实验拓展**
    
-#    通过开关和 LED 及相应的编程，实现以下功能：
-#    1. 按一下按键，LED 红灯亮起；
-#    2. 再次按一下按键，LED 红灯闪烁；
-#    3. 再次按一下按键，LED 绿灯亮；
-#    4. 再次按一下按键，LED 绿灯闪烁；
-# 再次按下按键红灯亮起……如此循环。
+   通过开关和 LED 及相应的编程，实现以下功能：
+   1. 按一下按键，LED 红灯亮起；
+   2. 再次按一下按键，LED 红灯闪烁；
+   3. 再次按一下按键，LED 绿灯亮；
+   4. 再次按一下按键，LED 绿灯闪烁；
+再次按下按键红灯亮起……如此循环。
 
-#    需要注意消除好按键抖动。
+   需要注意消除好按键抖动。
 
 import RPi.GPIO as GPIO
 import time
@@ -75,7 +75,7 @@ try:
             time.sleep(0.5)
             toggle_led(GREEN_PIN)
    
-except KeyboardInterrupt:
-   print("Exiting...")
-finally:
-   GPIO.cleanup()
+   except KeyboardInterrupt:
+      print("Exiting...")
+   finally:
+      GPIO.cleanup()
