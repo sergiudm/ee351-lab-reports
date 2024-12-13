@@ -190,7 +190,7 @@
             
   
   <span class="md-ellipsis">
-    实验报告
+    实验报告列表
   </span>
   
 
@@ -200,7 +200,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
-            实验报告
+            实验报告列表
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -320,16 +320,7 @@
           <li class="md-nav__item">
   <a href="#4" class="md-nav__link">
     <span class="md-ellipsis">
-      （4）学习基本命令行操作
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5" class="md-nav__link">
-    <span class="md-ellipsis">
-      （5）更新系统与安装开发工具
+      （4）配置开发环境
     </span>
   </a>
   
@@ -671,16 +662,7 @@
           <li class="md-nav__item">
   <a href="#4" class="md-nav__link">
     <span class="md-ellipsis">
-      （4）学习基本命令行操作
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5" class="md-nav__link">
-    <span class="md-ellipsis">
-      （5）更新系统与安装开发工具
+      （4）配置开发环境
     </span>
   </a>
   
@@ -722,24 +704,22 @@
 
   <h1>树莓派开发环境搭建</h1>
 
-<h3 id="lab1raspberry-pi">Lab1实验报告：Raspberry Pi初体验与环境搭建实验</h3>
-<h4 id="_1">一、实验介绍</h4>
-<p>本实验旨熟悉Raspberry Pi的基本操作，包括硬件识别、操作系统安装和基础命令行使用。本次实验，将搭建后续开发用到的软硬件环境，包括操作系统、网络、远程连接等。</p>
-<h4 id="_2">二、实验目标</h4>
+<h3 id="lab1raspberry-pi">Lab1实验报告：Raspberry Pi初体验与环境搭建实验<a class="headerlink" href="#lab1raspberry-pi" title="Permanent link">&para;</a></h3>
+<h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<p>本次实验将配置后续实验用到的软硬件环境，包括操作系统、网络、远程连接等。</p>
+<h4 id="_2">二、实验目标<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <ol>
 <li>熟悉Raspberry Pi硬件组成及其引脚布局。</li>
 <li>完成Raspberry Pi OS镜像的下载与烧录。</li>
 <li>配置Wi-Fi，确保能够访问互联网。</li>
-<li>学习基本的Linux命令行操作，如文件管理、文本编辑等。</li>
-<li>安装后续实验要用到的开发工具，例如Python、Git等。</li>
 </ol>
-<h4 id="_3">三、实验步骤</h4>
-<h5 id="1">（1）硬件准备与检查</h5>
+<h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<h5 id="1">（1）硬件准备与检查<a class="headerlink" href="#1" title="Permanent link">&para;</a></h5>
 <ol>
 <li><strong>确认所需材料</strong>：</li>
 <li>Raspberry Pi 4 Model B</li>
 <li>microSD卡</li>
-<li>电源适配器（建议使用官方提供的USB-C电源）</li>
+<li>电源适配器（最好使用官方提供的USB-C电源,否则可能出问题）</li>
 <li>HDMI显示器及HDMI线缆</li>
 <li>
 <p>键盘和鼠标</p>
@@ -747,15 +727,20 @@
 <li>
 <p><strong>检查硬件状态</strong>：</p>
 </li>
-<li>插入microSD卡到Raspberry Pi的卡槽中。</li>
+<li>插入microSD卡到Raspberry Pi的卡槽中。<ul>
+<li>如果是使用过的卡，先用<a href="https://www.sdcard.org/downloads/formatter/sd-memory-card-formatter-for-windows-download/">SDFormatter</a>工具格式化。
+  <img alt="alt text" src="../images/image2.png" /></li>
+</ul>
+</li>
 <li>连接显示器、键盘和鼠标（如果打算使用GUI）。</li>
 <li>将电源线插入Raspberry Pi，并确保另一端连接到合适的电源插座上。</li>
 </ol>
-<h5 id="2">（2）操作系统安装</h5>
+<h5 id="2">（2）操作系统安装<a class="headerlink" href="#2" title="Permanent link">&para;</a></h5>
 <ol>
 <li><strong>下载Raspberry Pi Imager工具</strong>：</li>
 <li>
-<p>访问<a href="https://www.raspberrypi.com/software/">Raspberry Pi官方网站</a>下载适用于您计算机操作系统的Imager工具。</p>
+<p>访问<a href="https://www.raspberrypi.com/software/">Raspberry Pi官方网站</a>下载Imager工具。
+<img alt="alt text" src="../images/image1.png" /></p>
 </li>
 <li>
 <p><strong>选择并写入OS镜像</strong>：</p>
@@ -772,7 +757,7 @@
 <li>第一次启动时，根据屏幕上的指示进行语言、地区、时区等基本信息的配置。</li>
 <li>如果选择了图形化界面，则会自动进入桌面环境；否则，默认进入命令行模式。</li>
 </ol>
-<h5 id="3">（3）网络配置</h5>
+<h5 id="3">（3）网络配置<a class="headerlink" href="#3" title="Permanent link">&para;</a></h5>
 <ol>
 <li><strong>连接Wi-Fi</strong>：</li>
 <li>在命令行中输入<code>sudo raspi-config</code>打开配置菜单。</li>
@@ -783,33 +768,9 @@
 <li>
 <p><strong>验证网络连接</strong>：</p>
 </li>
-<li>使用<code>ping google.com</code>测试是否能成功访问外部网站。</li>
-<li>若无法上网，请检查路由器设置或尝试更换其他网络环境。</li>
+<li>使用<code>ping www.bing.com</code>测试是否能成功访问外部网站。</li>
 </ol>
-<h5 id="4">（4）学习基本命令行操作</h5>
-<ol>
-<li><strong>文件管理</strong>：</li>
-<li><code>ls</code>列出当前目录下的文件和文件夹。</li>
-<li><code>cd</code>改变当前工作目录。</li>
-<li><code>mkdir</code>创建新的文件夹。</li>
-<li><code>rm</code>删除文件或空文件夹。</li>
-<li><code>cp</code>复制文件或文件夹。</li>
-<li>
-<p><code>mv</code>移动文件或重命名文件。</p>
-</li>
-<li>
-<p><strong>文本编辑</strong>：</p>
-</li>
-<li>使用<code>nano</code>编辑器打开文件，例如<code>nano example.txt</code>。</li>
-<li>
-<p>编辑完成后按Ctrl+O保存，Ctrl+X退出。</p>
-</li>
-<li>
-<p><strong>查看帮助文档</strong>：</p>
-</li>
-<li>输入命令后加上<code>--help</code>参数，如<code>ls --help</code>，可以查看该命令的帮助信息。</li>
-</ol>
-<h5 id="5">（5）更新系统与安装开发工具</h5>
+<h5 id="4">（4）配置开发环境<a class="headerlink" href="#4" title="Permanent link">&para;</a></h5>
 <ol>
 <li><strong>更新软件包列表</strong>：</li>
 <li>
@@ -824,18 +785,42 @@
 <li>
 <p><strong>安装额外的开发工具</strong>：</p>
 </li>
-<li>例如安装Python相关工具可以通过以下命令实现：
-     <code>bash
-     sudo apt-get install python3-pip
-     pip3 install --upgrade pip setuptools wheel</code></li>
+<li>安装Python相关工具：
+     <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-pip
+pip3<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+</code></pre></div></li>
 <li>安装Git用于版本控制：
+     <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git
+</code></pre></div></li>
+<li>安装Vim编辑器：
      <code>bash
-     sudo apt-get install git</code></li>
+     sudo apt-get install vim</code></li>
+<li><strong>安装远程连接工具</strong>：</li>
+<li>启动SSH服务：
+     <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>ssh
+</code></pre></div></li>
+<li>验证SSH服务是否正常运行：
+     <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>ssh
+</code></pre></div></li>
+<li>设置SSH服务开机自启动：
+     <code>bash
+      sudo systemctl enable ssh</code></li>
+<li><strong>在本地通过vscode连接远程Raspberry Pi</strong>：</li>
+<li>安装<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">Remote - SSH</a>插件。</li>
+<li>在树莓派终端运行<code>ifconfig</code>命令查看IP地址。</li>
+<li>使用<code>Ctrl+Shift+P</code>打开命令面板，输入<code>Remote-SSH: Connect to Host</code>，然后输入Raspberry Pi的IP地址和用户名。</li>
+<li>输入密码后，即可通过VSCode连接到远程的Raspberry Pi。</li>
+<li>把<code>ssh-rsa</code>公钥添加到<code>~/.ssh/authorized_keys</code>文件中，实现无密码登录。</li>
+<li><strong>远程可视化开发</strong>:</li>
+<li>在本地安装<a href="https://www.realvnc.com/en/connect/download/viewer/">VNC Viewer</a>。</li>
+<li>在树莓派上启用VNC Server：
+  <img alt="alt text" src="../image.png" /></li>
+<li>确保电脑和 Raspberry 在同一局域网。打开软件，在框内输入获取到的
+Raspberry Pi ip 地址，回车。</li>
+<li>输入用户名和密码，即可远程连接到 Raspberry Pi 的桌面环境。</li>
 </ol>
-<h4 id="_4">四、总结</h4>
-<p>通过上述步骤，我们完成了Raspberry Pi的初步设置，并掌握了如何在其上构建一个稳定可靠的开发环境。这对于接下来的学习和实践是非常重要的一步。希望这份指南可以帮助大家顺利完成实验任务。如果有任何疑问或者遇到困难，请随时提问！</p>
-<hr />
-<p>以上就是关于“Raspberry Pi初体验与环境搭建实验”的完整实验报告。希望这份报告能够帮助您顺利完成实验任务。如果有任何疑问或者需要进一步的帮助，请随时提问。</p>
+<h4 id="_4">四、总结<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<p>本实验完成了Raspberry Pi的初步设置，包括操作系统的安装、网络的配置以及开发环境的搭建。</p>
 
 
 

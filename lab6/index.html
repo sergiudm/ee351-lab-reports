@@ -190,7 +190,7 @@
             
   
   <span class="md-ellipsis">
-    实验报告
+    实验报告列表
   </span>
   
 
@@ -200,7 +200,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
-            实验报告
+            实验报告列表
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -672,14 +672,14 @@
                   
 
 
-<h1 id="lab-6">Lab 6</h1>
-<h2 id="_1">实验介绍</h2>
-<h2 id="_2">实验原理</h2>
-<h2 id="_3">实验步骤</h2>
-<h3 id="lab6">Lab6实验报告：超声波传感器测距实验</h3>
-<h4 id="_4">一、实验介绍</h4>
+<h1 id="lab-6">Lab 6<a class="headerlink" href="#lab-6" title="Permanent link">&para;</a></h1>
+<h2 id="_1">实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_2">实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_3">实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="lab6">Lab6实验报告：超声波传感器测距实验<a class="headerlink" href="#lab6" title="Permanent link">&para;</a></h3>
+<h4 id="_4">一、实验介绍<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
 <p>本实验旨在通过使用HC-SR04超声波传感器，学习如何在Raspberry Pi上实现非接触式距离测量。HC-SR04模块能够发射和接收超声波信号，并根据回波时间计算目标物体的距离。此实验不仅有助于理解超声波测距的工作原理，还为开发自动化控制系统提供了实际应用案例。最终目标是编写一段Python代码来读取并显示由超声波传感器测得的距离值。</p>
-<h4 id="_5">二、实验原理</h4>
+<h4 id="_5">二、实验原理<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>超声波传感器工作流程</strong>：</li>
 <li>超声波传感器包括一个发射器和一个接收器。当触发引脚（Trig）接收到至少10微秒的高电平脉冲时，它会发送8个周期的40kHz超声波脉冲。</li>
@@ -701,7 +701,7 @@
 </li>
 <li>因为树莓派GPIO引脚的最大输入电压为3.3V，而Echo引脚输出的是5V逻辑电平，所以在某些情况下建议使用分压电路来保护树莓派。不过，在这个实验中，考虑到Echo引脚高电平时间非常短，可以不使用分压电路。</li>
 </ol>
-<h4 id="_6">三、实验步骤</h4>
+<h4 id="_6">三、实验步骤<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>硬件连接</strong>：</li>
 <li>根据提供的表格，确保正确连接Raspberry Pi、T型转接板和超声波传感器之间的VCC、Trig、Echo和GND引脚。</li>
@@ -715,58 +715,58 @@
 <li>编写函数<code>get_distance()</code>，该函数负责设置Trig引脚输出10微秒的高电平脉冲，然后等待Echo引脚变为高电平，记录开始时间；接着再次等待Echo引脚变为低电平，记录结束时间。最后利用这两个时间点计算出超声波往返一次所花费的时间，并据此换算成实际距离。</li>
 <li>下面是一个简单的代码示例：</li>
 </ol>
-<pre><code class="language-python">import RPi.GPIO as GPIO
-import time
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
-# Define GPIO pins for the ultrasonic sensor
-TRIG = 17  # BCM numbering
-ECHO = 18  # BCM numbering
+<span class="c1"># Define GPIO pins for the ultrasonic sensor</span>
+<span class="n">TRIG</span> <span class="o">=</span> <span class="mi">17</span>  <span class="c1"># BCM numbering</span>
+<span class="n">ECHO</span> <span class="o">=</span> <span class="mi">18</span>  <span class="c1"># BCM numbering</span>
 
-# Setup GPIO mode and pin directions
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(TRIG, GPIO.OUT)
-GPIO.setup(ECHO, GPIO.IN)
+<span class="c1"># Setup GPIO mode and pin directions</span>
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">ECHO</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">)</span>
 
-def get_distance():
-    # Ensure TRIG is low initially
-    GPIO.output(TRIG, False)
-    time.sleep(0.2)
+<span class="k">def</span> <span class="nf">get_distance</span><span class="p">():</span>
+    <span class="c1"># Ensure TRIG is low initially</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
 
-    # Send a 10us pulse to TRIG
-    GPIO.output(TRIG, True)
-    time.sleep(0.00001)
-    GPIO.output(TRIG, False)
+    <span class="c1"># Send a 10us pulse to TRIG</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.00001</span><span class="p">)</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">TRIG</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-    # Wait for ECHO to go high
-    while GPIO.input(ECHO) == 0:
-        pulse_start = time.time()
+    <span class="c1"># Wait for ECHO to go high</span>
+    <span class="k">while</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">ECHO</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">pulse_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-    # Wait for ECHO to go low again
-    while GPIO.input(ECHO) == 1:
-        pulse_end = time.time()
+    <span class="c1"># Wait for ECHO to go low again</span>
+    <span class="k">while</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">ECHO</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">pulse_end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-    # Calculate the duration of the pulse
-    pulse_duration = pulse_end - pulse_start
+    <span class="c1"># Calculate the duration of the pulse</span>
+    <span class="n">pulse_duration</span> <span class="o">=</span> <span class="n">pulse_end</span> <span class="o">-</span> <span class="n">pulse_start</span>
 
-    # Convert pulse duration to distance in centimeters
-    distance = pulse_duration * 17150  # Speed of sound in cm/s divided by 2 (round trip)
-    distance = round(distance, 2)
+    <span class="c1"># Convert pulse duration to distance in centimeters</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">pulse_duration</span> <span class="o">*</span> <span class="mi">17150</span>  <span class="c1"># Speed of sound in cm/s divided by 2 (round trip)</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-    return distance
+    <span class="k">return</span> <span class="n">distance</span>
 
-try:
-    print(&quot;Measuring distance...&quot;)
-    while True:
-        dist = get_distance()
-        print(f&quot;Distance: {dist} cm&quot;)
-        time.sleep(1)
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Measuring distance...&quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">get_distance</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distance: </span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-except KeyboardInterrupt:
-    print(&quot;Measurement stopped by user&quot;)
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Measurement stopped by user&quot;</span><span class="p">)</span>
 
-finally:
-    GPIO.cleanup()  # Clean up GPIO settings before exiting
-</code></pre>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>  <span class="c1"># Clean up GPIO settings before exiting</span>
+</code></pre></div>
 <ol>
 <li><strong>测试与验证</strong>：</li>
 <li>运行上述编写的Python脚本，观察输出结果是否合理，确认测量的距离值是否稳定且符合实际情况。</li>

@@ -190,7 +190,7 @@
             
   
   <span class="md-ellipsis">
-    实验报告
+    实验报告列表
   </span>
   
 
@@ -200,7 +200,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
-            实验报告
+            实验报告列表
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -313,7 +313,7 @@
           <li class="md-nav__item">
   <a href="#python" class="md-nav__link">
     <span class="md-ellipsis">
-      四、Python示例代码
+      四、Python代码
     </span>
   </a>
   
@@ -592,7 +592,7 @@
           <li class="md-nav__item">
   <a href="#python" class="md-nav__link">
     <span class="md-ellipsis">
-      四、Python示例代码
+      四、Python代码
     </span>
   </a>
   
@@ -620,15 +620,15 @@
 
   <h1>双色灯实验</h1>
 
-<h3 id="lab2led">Lab2实验报告：学习知识准备与双色LED实验</h3>
-<h4 id="_1">一、实验介绍</h4>
-<p>本实验旨在帮助学生了解Raspberry Pi的IO接口及其引脚编号方式，并通过实际操作掌握使用wiringPi库和RPi.GPIO库控制硬件的方法。此外，实验还包括了如何使用Mu和Geany IDE进行Python和C/C++编程的基础教程。最终目标是实现一个简单的双色LED红绿交替闪烁效果。</p>
-<h4 id="_2">二、实验原理</h4>
+<h3 id="lab2led">Lab2实验报告：学习知识准备与双色LED实验<a class="headerlink" href="#lab2led" title="Permanent link">&para;</a></h3>
+<h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<p>本实验旨在了解Raspberry Pi的IO接口及其引脚编号方式，并通过实际操作掌握使用wiringPi库和RPi.GPIO库控制硬件的方法，最终目标是实现一个简单的双色LED红绿交替闪烁效果。</p>
+<h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>Raspberry Pi IO口</strong>：</li>
 <li>Raspberry Pi拥有40个GPIO管脚，这些管脚可以通过不同的编号系统来引用，包括物理位置编号、wiringPi指定的编号以及BCM2837 SOC指定的编号。</li>
 <li>
-<p>在本次实验中，我们主要使用BCM编码来连接和编程。</p>
+<p>在本次实验（以及后续实验）中，我们使用BCM编码来连接和编程。</p>
 </li>
 <li>
 <p><strong>wiringPi库</strong>：</p>
@@ -646,19 +646,22 @@
 <p><strong>Mu编辑器与Geany IDE</strong>：</p>
 </li>
 <li>Mu是一款适合初学者使用的Python编辑器，提供了基本的IDE功能如语法检查、运行和调试等。</li>
+<li>Geany则是一款轻量级的跨平台IDE，支持多种编程语言，对于C/C++项目来说非常适合。</li>
 <li>
-<p>Geany则是一款轻量级的跨平台IDE，支持多种编程语言，对于C/C++项目来说非常适合。</p>
+<blockquote>
+<p>后续经验表明，这两款IDE在树莓派下渲染效果不佳，推荐使用VSCode远程开发插件。</p>
+</blockquote>
 </li>
 <li>
 <p><strong>双色LED模块</strong>：</p>
 </li>
 <li>双色LED通常指的是包含两个独立发光单元（红色和绿色）在一个封装内的LED。通过改变输入电压或电流的方向，可以使不同的颜色发光或者两者同时亮起形成黄色。</li>
 </ol>
-<h4 id="_3">三、实验步骤</h4>
+<h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>硬件连线</strong>：</li>
 <li>
-<p>将双色LED的S引脚（绿色）、中间引脚（红色）分别连接到Raspberry Pi的GPIO接口上，GND引脚连接到Raspberry Pi的地线。确保正确识别所使用的GPIO引脚编号（例如BCM编号下的GPIO19, GPIO20, GND）。</p>
+<p>将双色LED的S引脚（绿色）、中间引脚（红色）分别连接到Raspberry Pi的GPIO接口上，GND引脚连接到Raspberry Pi的地线。记住使用的GPIO引脚编号（本次实验使用的是BCM编号下的GPIO19, GPIO20, GND）。</p>
 </li>
 <li>
 <p><strong>编写并上传代码</strong>：</p>
@@ -672,50 +675,50 @@
 </li>
 <li>执行编写的Python脚本或编译后的C/C++程序，观察双色LED是否能够按照预期的顺序红绿交替闪烁。</li>
 <li>
-<p>如果遇到问题，检查硬件连接是否正确无误，以及代码逻辑是否有误。必要时可以使用调试工具逐步排查错误。</p>
+<p>除了代码逻辑，<strong>一定要检查硬件连接是否正确无误</strong>！！！（比如是否插紧T型板、是否接错了引脚等）</p>
 </li>
 <li>
 <p><strong>清理工作</strong>：</p>
 </li>
-<li>实验结束后，记得关闭所有运行中的进程，并断开电源以保护设备安全。</li>
+<li>实验结束后，记得关闭所有运行中的进程，否则LED灯可能会一直亮着。</li>
 </ol>
 <hr />
-<h4 id="python">四、Python示例代码</h4>
-<p>下面提供了一个简单的Python代码示例，用于实现双色LED的红绿交替闪烁：</p>
-<pre><code class="language-python">import RPi.GPIO as GPIO
-import time
+<h4 id="python">四、Python代码<a class="headerlink" href="#python" title="Permanent link">&para;</a></h4>
+<p>下面提供了本实验用到的Python代码，用于实现双色LED的红绿交替闪烁：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
-# Define GPIO pins for the LED (BCM numbering)
-RED_PIN = 19  # Red part of the dual-color LED
-GREEN_PIN = 20  # Green part of the dual-color LED
+<span class="c1"># Define GPIO pins for the LED (BCM numbering)</span>
+<span class="n">RED_PIN</span> <span class="o">=</span> <span class="mi">19</span>  <span class="c1"># Red part of the dual-color LED</span>
+<span class="n">GREEN_PIN</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Green part of the dual-color LED</span>
 
-# Setup GPIO mode and pin directions
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(RED_PIN, GPIO.OUT)
-GPIO.setup(GREEN_PIN, GPIO.OUT)
+<span class="c1"># Setup GPIO mode and pin directions</span>
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
 
-try:
-    while True:
-        # Turn on red LED
-        GPIO.output(RED_PIN, GPIO.HIGH)
-        GPIO.output(GREEN_PIN, GPIO.LOW)
-        print(&quot;Red LED is ON&quot;)
-        time.sleep(1)  # Wait for 1 second
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># Turn on red LED</span>
+        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
+        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Red LED is ON&quot;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Wait for 1 second</span>
 
-        # Turn on green LED
-        GPIO.output(RED_PIN, GPIO.LOW)
-        GPIO.output(GREEN_PIN, GPIO.HIGH)
-        print(&quot;Green LED is ON&quot;)
-        time.sleep(1)  # Wait for 1 second
+        <span class="c1"># Turn on green LED</span>
+        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Green LED is ON&quot;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Wait for 1 second</span>
 
-except KeyboardInterrupt:
-    print(&quot;Program stopped by user&quot;)
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Program stopped by user&quot;</span><span class="p">)</span>
 
-finally:
-    # Clean up GPIO settings before exiting
-    GPIO.cleanup()
-</code></pre>
-<p>这段代码将使双色LED按照红-绿-红-绿的顺序交替闪烁，每次持续1秒钟。你可以根据需要调整时间间隔或其他参数。</p>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="c1"># Clean up GPIO settings before exiting</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</code></pre></div>
+<p>这段代码将使双色LED按照红-绿-红-绿的顺序交替闪烁，每次持续1秒钟。</p>
 
 
 
