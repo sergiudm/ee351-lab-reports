@@ -33,4 +33,5 @@
 
 作者: [12212635 韩骐骏](https://github.com/sergiudm)
 
->[!NOTE] 本文档使用[mkdocs](https://www.mkdocs.org/)生成静态网页，使用[mkdocs-with-pdf](https://github.com/orzih/mkdocs-with-pdf)生成PDF文档。访问[网页版](https://sergiudm.github.io/qijunblog/)，获得更好的阅读体验。
+>[!NOTE] 
+本文档使用[mkdocs](https://www.mkdocs.org/)生成静态网页，使用[mkdocs-with-pdf](https://github.com/orzih/mkdocs-with-pdf)生成PDF文档。访问[网页版](https://sergiudm.github.io/qijunblog/)，获得更好的阅读体验。

@@ -19,6 +19,19 @@ theme:
   logo: assets/logo.jpeg
   icon:
     repo: fontawesome/brands/github
+    admonition:
+      note: fontawesome/solid/note-sticky
+      abstract: fontawesome/solid/book
+      info: fontawesome/solid/circle-info
+      tip: fontawesome/solid/bullhorn
+      success: fontawesome/solid/check
+      question: fontawesome/solid/circle-question
+      warning: fontawesome/solid/triangle-exclamation
+      failure: fontawesome/solid/bomb
+      danger: fontawesome/solid/skull
+      bug: fontawesome/solid/robot
+      example: fontawesome/solid/flask
+      quote: fontawesome/solid/quote-left
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
@@ -42,6 +55,7 @@ theme:
   features:
     - content.code.copy
     - content.code.select
+
 repo_name: sergiudm/ee351-lab-reports
 edit_uri: edit/main/docs/
 plugins:
@@ -83,19 +97,7 @@ plugins:
       #show_anchors: true
       #verbose: true
 markdown_extensions:
-  - admonition:
-      note: fontawesome/solid/note-sticky
-      abstract: fontawesome/solid/book
-      info: fontawesome/solid/circle-info
-      tip: fontawesome/solid/bullhorn
-      success: fontawesome/solid/check
-      question: fontawesome/solid/circle-question
-      warning: fontawesome/solid/triangle-exclamation
-      failure: fontawesome/solid/bomb
-      danger: fontawesome/solid/skull
-      bug: fontawesome/solid/robot
-      example: fontawesome/solid/flask
-      quote: fontawesome/solid/quote-left
+  - admonition
   - toc:
       permalink: true
   - pymdownx.arithmatex:
