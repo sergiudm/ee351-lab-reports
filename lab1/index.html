@@ -819,8 +819,7 @@
 <li>点击“CHOOSE STORAGE”，挑选之前准备好的microSD卡作为存储介质。</li>
 <li>确认无误后，点击“WRITE”开始烧录过程。请耐心等待，直到提示写入完成。</li>
 <li><strong>配置屏幕参数</strong>：</li>
-<li>
-<p>在microSD卡的根目录下，找到<code>config.txt</code>文件，编辑并添加以下内容：
+<li>在microSD卡的根目录下，找到<code>config.txt</code>文件，编辑并添加以下内容：
      <div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
 <span class="normal"><a href="#__codelineno-0-2">2</a></span>
 <span class="normal"><a href="#__codelineno-0-3">3</a></span>
@@ -838,10 +837,14 @@
 <a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w"> </span><span class="nv">hdmi_drive</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w"> </span><span class="nv">display_rotate</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>
 <a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w"> </span>hdmi_cvt<span class="w"> </span><span class="m">1024</span><span class="w"> </span><span class="m">600</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span>
-</code></pre></div></td></tr></table></div>
-     &gt;在 <code>hdmi_cvt 1024 600 60 6 0 0 0 0</code> 这里填入实际显示屏的分辨率，不同
-     显示器分辨率不同。</p>
-</li>
+</code></pre></div></td></tr></table></div></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>在 <code>hdmi_cvt 1024 600 60 6 0 0 0 0</code> 这里填入实际显示屏的分辨率，不同
+ 显示器分辨率不同。</p>
+</div>
+<ul>
 <li>
 <p>保存文件后，将microSD卡插回Raspberry Pi中。</p>
 </li>
@@ -850,7 +853,7 @@
 </li>
 <li>将烧录好OS镜像的microSD卡重新插回Raspberry Pi后，给它通电。</li>
 <li>第一次启动时，根据屏幕上的指示进行语言、地区、时区等基本信息的配置。</li>
-</ol>
+</ul>
 <h5 id="3">（3）网络配置<a class="headerlink" href="#3" title="Permanent link">&para;</a></h5>
 <ol>
 <li><strong>连接Wi-Fi</strong>：</li>
