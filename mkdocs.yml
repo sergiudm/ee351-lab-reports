@@ -5,7 +5,7 @@ nav:
     - 树莓派开发环境搭建: lab1.md
     - 双色灯实验: lab2.md
     - 轻触开关实验: lab3.md
-    - PCF8691模数转换器实验: lab4.md
+    - PCF8591模数转换器实验: lab4.md
     - 模拟温度传感器实验: lab5.md
     - 超声波传感器实验: lab6.md
     - 蜂鸣器实验: lab7.md
@@ -56,8 +56,9 @@ theme:
     - content.code.select
 
 repo_name: sergiudm/ee351-lab-reports
-edit_uri: edit/main/docs/
+edit_uri: https://github.com/sergiudm/ee351-lab-reports/main/docs/
 plugins:
+  - glightbox
   - with-pdf:
       author: '12212635'
       copyright: '韩骐骏'
@@ -125,6 +126,3 @@ extra_javascript:
 
 extra_css:
   - https://unpkg.com/katex@0/dist/katex.min.css
-
-
-
