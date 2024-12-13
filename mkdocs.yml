@@ -39,6 +39,9 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
+  features:
+    - content.code.copy
+    - content.code.select
 repo_name: sergiudm/ee351-lab-reports
 edit_uri: edit/main/docs/
 plugins:
@@ -80,7 +83,19 @@ plugins:
       #show_anchors: true
       #verbose: true
 markdown_extensions:
-  - admonition
+  - admonition:
+      note: fontawesome/solid/note-sticky
+      abstract: fontawesome/solid/book
+      info: fontawesome/solid/circle-info
+      tip: fontawesome/solid/bullhorn
+      success: fontawesome/solid/check
+      question: fontawesome/solid/circle-question
+      warning: fontawesome/solid/triangle-exclamation
+      failure: fontawesome/solid/bomb
+      danger: fontawesome/solid/skull
+      bug: fontawesome/solid/robot
+      example: fontawesome/solid/flask
+      quote: fontawesome/solid/quote-left
   - toc:
       permalink: true
   - pymdownx.arithmatex:
@@ -95,11 +110,12 @@ markdown_extensions:
       auto_title: true
       linenums: true
   - pymdownx.inlinehilite
-  - pymdownx.superfences 
+  - pymdownx.superfences:
+      custom_fences:
+          - name: mermaid
+            class: mermaid
+            format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.keys
-markdown_extensions:
-  - pymdownx.arithmatex:
-      generic: true
 
 extra_javascript:
   - javascripts/katex.js
