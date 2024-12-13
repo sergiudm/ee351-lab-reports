@@ -59,7 +59,6 @@ markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.betterem:
-      inline: true
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.tilde
