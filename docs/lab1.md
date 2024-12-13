@@ -46,7 +46,9 @@
       display_rotate=0 
       hdmi_cvt 1024 600 60 6 0 0 0
      ```
-     >在 `hdmi_cvt 1024 600 60 6 0 0 0 0` 这里填入实际显示屏的分辨率，不同
+!!! warning
+
+     在 `hdmi_cvt 1024 600 60 6 0 0 0 0` 这里填入实际显示屏的分辨率，不同
      显示器分辨率不同。
 
    - 保存文件后，将microSD卡插回Raspberry Pi中。
