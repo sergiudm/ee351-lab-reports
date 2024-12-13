@@ -604,18 +604,27 @@
 
 <h3 id="lab5">Lab5实验报告：模拟温度传感器实验<a class="headerlink" href="#lab5" title="Permanent link">&para;</a></h3>
 <h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
-<p>本实验旨在使用NTC（负温度系数）热敏电阻构建的温度感测模块，通过Raspberry Pi获取当前环境的温度值。该温度传感器能够将温度变化转化为电阻变化，并借助模数转换器PCF8591将这些模拟信号转换为数字信号供Raspberry Pi处理。最终目标是学习如何读取和解析来自温度传感器的数据，以实现对室内/环境温度的有效监测。</p>
+<p>温度感测模块提供易于使用的传感器，它带有模拟和数字输出。该温度模块
+使用 NTC（负温度系数）热敏电阻来检测温度变化，其对温度感应非常灵敏。
+NTC 热敏电阻电路相对简单，价格低廉，组件精确，可以轻松获取项目的温度数
+据，因此广泛应用于各种温度的感测与补偿中。 简而言之，<strong>NTC 热敏电阻将随
+温度变化传递为电阻变化</strong>，利用这种特性，我们可以通过测量电阻网络(例如分
+压器)的电压来检测室内/环境温度。
+本次实验的任务为：获取当前环境的温度值。</p>
 <h4 id="_2">二、实验原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>NTC热敏电阻特性</strong>：</li>
-<li>NTC热敏电阻是一种随温度升高而电阻减小的元件，其阻值与温度之间存在特定关系，这使得它非常适合用来测量温度。</li>
+<li>在本实验中，我们将使用Steinhart-Hart方程来计算热敏电阻的精确温度，这是一个用于描述热敏电阻电阻-温度特性的经验公式，即Steinhart-Hart方程。</li>
 <li>
-<p>在本实验中，我们将使用Steinhart-Hart方程来计算热敏电阻的精确温度，这是一个用于描述热敏电阻电阻-温度特性的经验公式。</p>
+<ul>
+<li>Steinhart-Hart方程表达式为 <span class="arithmatex"><span class="MathJax_Preview"> \frac{1}{T} = A + B\ln(R) + C(\ln(R))^3 </span><script type="math/tex"> \frac{1}{T} = A + B\ln(R) + C(\ln(R))^3 </script></span>，其中<span class="arithmatex"><span class="MathJax_Preview"> T </span><script type="math/tex"> T </script></span>是以开尔文为单位的绝对温度，<span class="arithmatex"><span class="MathJax_Preview"> R </span><script type="math/tex"> R </script></span>是热敏电阻在给定温度下的电阻值，而<span class="arithmatex"><span class="MathJax_Preview"> A </span><script type="math/tex"> A </script></span>, <span class="arithmatex"><span class="MathJax_Preview"> B </span><script type="math/tex"> B </script></span>, <span class="arithmatex"><span class="MathJax_Preview"> C </span><script type="math/tex"> C </script></span>则是取决于具体型号的常数参数。对于本次实验，假设<span class="arithmatex"><span class="MathJax_Preview"> R_0 </span><script type="math/tex"> R_0 </script></span>为10kΩ，B值为3950K。</li>
+</ul>
 </li>
 <li>
-<p><strong>电路设计</strong>：</p>
+<p><strong>电路</strong>：</p>
 </li>
-<li>温度传感器模块由一个NTC热敏电阻和一个固定电阻（例如10kΩ）组成分压电路。当环境温度发生变化时，热敏电阻的阻值也会随之改变，从而影响分压点处的电压输出。</li>
+<li>温度传感器模块由一个NTC热敏电阻和一个固定电阻组成分压电路。当环境温度发生变化时，热敏电阻的阻值也会随之改变，从而影响分压点处的电压输出。
+    <img alt="alt text" src="../image-7.png" /></li>
 <li>
 <p>通过连接到PCF8591的模拟输入端口AIN0，我们可以采集这个电压信号，并将其转换为数字形式以便后续分析。</p>
 </li>
@@ -623,34 +632,24 @@
 <p><strong>数据处理</strong>：</p>
 </li>
 <li>首先从PCF8591读取经过A/D转换后的数值，然后根据已知条件（如供电电压5V，ADC分辨率为8位即0<sub>255对应0</sub>5V）计算出对应的模拟电压。</li>
-<li>
-<p>接着利用分压比公式计算得到热敏电阻的实际阻值，再代入Steinhart-Hart方程求解温度T。</p>
-</li>
-<li>
-<p><strong>Steinhart-Hart方程</strong>：</p>
-</li>
-<li>Steinhart-Hart方程表达式为 <span class="arithmatex"><span class="MathJax_Preview"> \frac{1}{T} = A + B\ln(R) + C(\ln(R))^3 </span><script type="math/tex"> \frac{1}{T} = A + B\ln(R) + C(\ln(R))^3 </script></span>，其中<span class="arithmatex"><span class="MathJax_Preview"> T </span><script type="math/tex"> T </script></span>是以开尔文为单位的绝对温度，<span class="arithmatex"><span class="MathJax_Preview"> R </span><script type="math/tex"> R </script></span>是热敏电阻在给定温度下的电阻值，而<span class="arithmatex"><span class="MathJax_Preview"> A </span><script type="math/tex"> A </script></span>, <span class="arithmatex"><span class="MathJax_Preview"> B </span><script type="math/tex"> B </script></span>, <span class="arithmatex"><span class="MathJax_Preview"> C </span><script type="math/tex"> C </script></span>则是取决于具体型号的常数参数。对于本次实验，假设<span class="arithmatex"><span class="MathJax_Preview"> R_0 </span><script type="math/tex"> R_0 </script></span>为10kΩ，B值为3950K。</li>
+<li>接着利用分压比公式计算得到热敏电阻的实际阻值，再代入Steinhart-Hart方程求解温度T。</li>
 </ol>
 <h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>硬件连接</strong>：</li>
-<li>根据提供的表格，确保正确连接Raspberry Pi、T型转接板和PCF8591模块之间的SDA、SCL、VCC和GND引脚。</li>
+<li>连接Raspberry Pi、T型转接板和PCF8591模块之间的SDA、SCL、VCC和GND引脚。<img alt="alt text" src="../image-8.png" /></li>
 <li>
 <p>将模拟温度传感器的AO引脚连接到PCF8591模块的AIN0，DO引脚可以留空或接地，VCC引脚接5V电源，GND引脚接地。</p>
 </li>
 <li>
-<p><strong>配置I2C总线</strong>：</p>
-</li>
-<li>点击Raspberry Pi桌面环境中的开始菜单，选择Preferences -&gt; Raspberry Pi Configuration。</li>
-<li>
-<p>进入Interfaces标签页，开启I2C选项，点击OK保存更改并重启系统。</p>
+<p><strong>配置I2C总线</strong>：
+  见<a href="../lab4/">Lab4实验报告</a>中的第2步。</p>
 </li>
 <li>
-<p><strong>编写代码</strong>：</p>
+<p><strong>编写代码</strong></p>
 </li>
-<li>使用Python语言编写程序，首先需要安装<code>smbus</code>库，它可以方便地操作I2C设备。</li>
-<li>导入必要的库后，创建一个SMBus实例并与PCF8591建立连接，读取AIN0上的模拟值并根据该值计算温度。</li>
-<li>下面是一个简单的代码示例：</li>
+<li>导入必要的库。</li>
+<li>创建一个SMBus实例并与PCF8591建立连接，读取AIN0上的模拟值并根据该值计算温度。</li>
 </ol>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">smbus</span>
 <span class="kn">import</span> <span class="nn">math</span>
@@ -706,17 +705,6 @@
 <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
     <span class="k">pass</span>  <span class="c1"># Allow the program to exit cleanly with Ctrl+C</span>
 </code></pre></div>
-<ol>
-<li><strong>测试与验证</strong>：</li>
-<li>执行上述编写的Python脚本，观察输出结果是否合理，确认温度读数是否稳定且符合实际环境温度。</li>
-<li>
-<p>如果可能的话，尝试改变周围环境温度（比如靠近热源或冷源），检查传感器是否能准确反映温度变化。</p>
-</li>
-<li>
-<p><strong>清理工作</strong>：</p>
-</li>
-<li>实验结束后，请记得关闭所有运行中的进程，并断开电源以保护设备安全。</li>
-</ol>
 
 
 
