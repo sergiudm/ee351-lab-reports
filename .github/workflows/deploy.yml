@@ -17,7 +17,7 @@ jobs:
 
       - name: change language
         run: |
-          sudo apt-get install -y google-noto-cjk-fonts
+          sudo apt-get install -y fonts-noto-cjk
           export LANG=zh_CN.UTF-8
           export LANGUAGE=zh_CN:zh
           export LC_ALL=zh_CN.UTF-8
