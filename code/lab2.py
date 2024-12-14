@@ -16,7 +16,7 @@ try:
         GPIO.output(GREEN_PIN, GPIO.LOW)
         print("红色LED已打开")
         time.sleep(1)  # 等待1秒钟
-        
+
         # 打开绿色LED
         GPIO.output(RED_PIN, GPIO.LOW)
         GPIO.output(GREEN_PIN, GPIO.HIGH)
