@@ -25,7 +25,7 @@ jobs:
 
 
       - name: Build PDF
-        run: mkdocs build --config-file mkdocs-pdf.yml # 使用单独的配置文件，详见下文
+        run: mkdocs build --config-file mkdocs.yml
 
       - name: Create Release
         id: create_release
