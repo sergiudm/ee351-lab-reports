@@ -46,7 +46,7 @@
 程序框图：
    
 ``` mermaid
-graph LR
+graph TD
       A[开始] --> B[设置GPIO模式]
       B --> C[循环]
       C --> D[点亮红灯]

@@ -135,7 +135,7 @@
 12. **编写Python程序**:
 程序框图
 ```mermaid
-graph LR
+graph TD
     A[开始] --> B{导入lirc库}
     B --> C{定义解析函数}
     C --> D{建立连接}

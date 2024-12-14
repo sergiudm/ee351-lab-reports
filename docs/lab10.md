@@ -39,7 +39,7 @@
 
 程序框图：
 ```mermaid
-graph LR
+graph TD
     A[开始] --> B{设置GPIO引脚}
     B --> C{添加事件检测}
     C --> D{等待按键按下}

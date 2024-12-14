@@ -39,7 +39,7 @@
 
 程序框图：
 ```mermaid
-graph LR
+graph TD
     A[开始] --> B{设置GPIO引脚}
     B --> C{播放音乐}
     C --> D{设置频率}
