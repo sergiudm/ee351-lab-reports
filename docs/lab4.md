@@ -57,7 +57,7 @@ PCF8591 是一款单芯片，单电源，低功耗 8 位 CMOS 数据采集设备
 
 程序框图：
 ```mermaid
-graph TD
+flowchart TD
     A[开始] --> B(初始化I2C总线);
     B --> C{设置PCF8591地址和控制位};
     C --> D[进入循环];

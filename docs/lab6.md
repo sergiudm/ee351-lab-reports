@@ -39,7 +39,7 @@
 
 程序框图：
 ```mermaid
-graph TD
+flowchart TD
     A[开始] --> B{设置GPIO引脚}
     B --> C{循环}
     C --> D{发射超声波}

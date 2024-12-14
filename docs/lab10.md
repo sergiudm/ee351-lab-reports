@@ -39,7 +39,7 @@
 
 程序框图：
 ```mermaid
-graph TD
+flowchart TD
     A[程序开始] --> B{按键按下?};
     B -- 是 --> C[点亮 LED];
     C --> D[触发超声波];

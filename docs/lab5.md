@@ -39,7 +39,7 @@ NTC 热敏电阻电路相对简单，价格低廉，组件精确，可以轻松�
 
 程序框图：
 ```mermaid
-graph TD
+flowchart TD
     A[开始] --> B(初始化I2C总线);
     B --> C{设置PCF8591地址和控制位};
     C --> D{读取AIN0模拟值};
