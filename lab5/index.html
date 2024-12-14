@@ -745,7 +745,8 @@ NTC 热敏电阻电路相对简单，价格低廉，组件精确，可以轻松�
 <li>
 <p><strong>数据处理</strong>：</p>
 </li>
-<li>首先从PCF8591读取经过A/D转换后的数值<span class="arithmatex">\(analogVal =PCF8591.read(0)\)</span>，然后根据已知条件（如供电电压<span class="arithmatex">\(V_{cc}=5V\)</span>，ADC分辨率为8位即0<sub>255对应0</sub>5V）计算出对应的模拟电压$V_r = V_{cc} * float(analogVal) / 255.0 * $。</li>
+<li>首先从PCF8591读取经过A/D转换后的数值<span class="arithmatex">\(analogVal =PCF8591.read(0)\)</span>，然后根据已知条件（如供电电压<span class="arithmatex">\(V_{cc}=5V\)</span>，ADC分辨率为8位即0<sub>255对应0</sub>5V）计算出对应的模拟电压
+    <span class="arithmatex">\(V_r = V_{cc} * float(analogVal) / 255.0\)</span>。</li>
 <li>接着利用分压比公式计算得到热敏电阻的实际阻值<span class="arithmatex">\(R_t = R_0 * V_r / (V_{cc} - V_r)\)</span>。</li>
 <li>再代入Steinhart-Hart方程求解温度T。</li>
 </ol>
