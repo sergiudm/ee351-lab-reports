@@ -693,10 +693,17 @@
 置为输入模式，通过此 GPIO 口检测轻触开关的 S 引脚。当检测到 S 引脚为低电
 平时，表示按键被按下，检测到 S 引脚为高电平时，表示按键松开。
 通过两种不同颜色的 LED 指示按键的状态。即当按键按下时，一种颜色 LED
-亮；按键松开时，另一种 LED 亮。
-通过延时函数能有效地减少按键抖动带来的误触发问题。
-<strong>延时函数</strong>：
-   - 在Python中，<code>time.sleep()</code>函数可以让程序暂停执行一段时间（秒），这对于控制LED的闪烁频率或者按键的检测非常有用。</p>
+亮；按键松开时，另一种 LED 亮。</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>在编写代码时，需要注意消除好按键抖动。</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+</div>
+<ul>
+<li>在Python中，<code>time.sleep()</code>函数可以让程序暂停执行一段时间（秒），通过延时函数能有效地减少按键抖动带来的误触发问题。</li>
+</ul>
 <h4 id="_3">三、实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li>
@@ -801,10 +808,6 @@
    3. 再次按一下按键，LED 绿灯亮；
    4. 再次按一下按键，LED 绿灯闪烁；
 再次按下按键红灯亮起……如此循环。</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>在编写代码时，需要注意消除好按键抖动。</p>
-</div>
 <p>程序框图：
 <pre class="mermaid"><code>graph LR
     A[开始] --&gt; B{设置GPIO引脚}
