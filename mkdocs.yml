@@ -88,7 +88,7 @@ plugins:
       #    - src: ...
       #two_columns_level: 3
       #
-      render_js: true
+      #render_js: true
       #headless_chrome_path: headless-chromium
       #
       #output_path: any-place/document.pdf
