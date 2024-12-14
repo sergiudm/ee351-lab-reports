@@ -134,7 +134,9 @@
    ```
 12. **编写Python程序**:
 程序框图
+
 ![alt text](image-7.png)
+
 Python代码
 ```python
 import lirc

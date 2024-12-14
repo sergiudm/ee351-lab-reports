@@ -38,7 +38,9 @@
    - 使用`GPIO.wait_for_edge()`方法等待轻触按键按下，然后调用`ultrasonic_callback()`函数。
 
 程序框图：
+
 ![alt text](image-8.png)
+
 Python代码：
 
 ```python

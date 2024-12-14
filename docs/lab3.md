@@ -95,8 +95,10 @@ try:
 再次按下按键红灯亮起……如此循环。
 
 程序框图：
+
 ![alt text](image-1.png)
 
+Python代码：
 ```python
 import RPi.GPIO as GPIO
 import time

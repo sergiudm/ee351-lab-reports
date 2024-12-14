@@ -44,7 +44,9 @@
 
 #### 四、编写代码
 程序框图：
+
 ![alt text](image.png)
+
 Python代码，用于实现双色LED的红绿交替闪烁：
 
 ```python

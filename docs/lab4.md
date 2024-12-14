@@ -56,7 +56,9 @@ PCF8591 是一款单芯片，单电源，低功耗 8 位 CMOS 数据采集设备
    - 导入必要的库后，创建一个SMBus实例并与PCF8591建立连接，读取AIN0上的模拟值并根据该值调整AOUT输出，进而控制LED亮度。
 
 程序框图：
+
 ![alt text](image-2.png)
+
 Python代码
 ```python
 import smbus
