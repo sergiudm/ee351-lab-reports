@@ -31,9 +31,7 @@ finally:
     # Clean up GPIO settings before exiting
     GPIO.cleanup()
 
-这段代码将使双色LED按照红-绿-红-绿的顺序交替闪烁，每次持续1秒钟。
 
-C++代码
    #include <wiringPi.h>
    #include <iostream>
 
