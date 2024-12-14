@@ -537,33 +537,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#i2c" class="md-nav__link">
-    <span class="md-ellipsis">
-      I2C 地址
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gpio" class="md-nav__link">
-    <span class="md-ellipsis">
-      GPIO 引脚
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      初始化
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -688,33 +661,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#i2c" class="md-nav__link">
-    <span class="md-ellipsis">
-      I2C 地址
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gpio" class="md-nav__link">
-    <span class="md-ellipsis">
-      GPIO 引脚
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      初始化
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -732,6 +678,8 @@
   
   
 
+
+  <h1>PS2操纵杆实验</h1>
 
 <h3 id="lab8ps2">Lab8实验报告：PS2操纵杆实验<a class="headerlink" href="#lab8ps2" title="Permanent link">&para;</a></h3>
 <h4 id="_1">一、实验介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
@@ -806,72 +754,116 @@ Z 轴上按下。处于静止位置时，其在 X 和 Y 方向产生约 2.5V 的
     style K fill:#ccf,stroke:#888,stroke-width:2px
     style 树莓派 fill:#efe,stroke:#888,stroke-width:2px</code></pre>
 Python代码
-```python
-import smbus
-import RPi.GPIO as GPIO
-import time</p>
-<h1 id="i2c">I2C 地址<a class="headerlink" href="#i2c" title="Permanent link">&para;</a></h1>
-<p>PCF8591_ADDRESS = 0x48</p>
-<h1 id="gpio">GPIO 引脚<a class="headerlink" href="#gpio" title="Permanent link">&para;</a></h1>
-<p>RED_LED_PIN = 27
-GREEN_LED_PIN = 22
-BUTTON_PIN = 17</p>
-<h1 id="_4">初始化<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h1>
-<p>bus = smbus.SMBus(1) # 使用 I2C 总线 1
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(RED_LED_PIN, GPIO.OUT)
-GPIO.setup(GREEN_LED_PIN, GPIO.OUT)
-GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)</p>
-<p>def read_adc(channel):
-    bus.write_byte(PCF8591_ADDRESS, 0x40 | channel) # 选择通道
-    bus.read_byte(PCF8591_ADDRESS) # 丢弃第一次读取
-    return bus.read_byte(PCF8591_ADDRESS)</p>
-<p>try:
-    while True:
-        x_value = read_adc(0) # 读取 X 轴
-        y_value = read_adc(1) # 读取 Y 轴</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code>    # 将 ADC 值 (0-255) 映射到 PWM 值 (0-100)
-    red_brightness = int(x_value / 255 * 100)
-    green_brightness = int(y_value / 255 * 100)
-
-    # 使用 PWM 控制 LED 亮度（你需要设置 GPIO 为 PWM 输出）
-    red_pwm = GPIO.PWM(RED_LED_PIN, 100) # 100Hz 频率
-    green_pwm = GPIO.PWM(GREEN_LED_PIN, 100)
-    red_pwm.start(red_brightness)
-    green_pwm.start(green_brightness)
-
-    if GPIO.input(BUTTON_PIN) == GPIO.LOW: # 按键按下
-        red_pwm.stop()
-        green_pwm.stop()
-        GPIO.output(RED_LED_PIN, GPIO.LOW)
-        GPIO.output(GREEN_LED_PIN, GPIO.LOW)
-        time.sleep(0.5) # 延时防止抖动
-    else:
-      red_pwm.ChangeDutyCycle(red_brightness)
-      green_pwm.ChangeDutyCycle(green_brightness)
-</code></pre></div></td></tr></table></div>
-<p>except KeyboardInterrupt:
-    red_pwm.stop()
-    green_pwm.stop()
-    GPIO.cleanup()</p>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">smbus</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="kn">import</span> <span class="nn">time</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="c1"># I2C 地址</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="n">PCF8591_ADDRESS</span> <span class="o">=</span> <span class="mh">0x48</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="c1"># GPIO 引脚</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">RED_LED_PIN</span> <span class="o">=</span> <span class="mi">27</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">GREEN_LED_PIN</span> <span class="o">=</span> <span class="mi">22</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="n">BUTTON_PIN</span> <span class="o">=</span> <span class="mi">17</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="c1"># 初始化</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">smbus</span><span class="o">.</span><span class="n">SMBus</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 使用 I2C 总线 1</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="k">def</span> <span class="nf">read_adc</span><span class="p">(</span><span class="n">channel</span><span class="p">):</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="n">bus</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="n">PCF8591_ADDRESS</span><span class="p">,</span> <span class="mh">0x40</span> <span class="o">|</span> <span class="n">channel</span><span class="p">)</span>  <span class="c1"># 选择通道</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="n">bus</span><span class="o">.</span><span class="n">read_byte</span><span class="p">(</span><span class="n">PCF8591_ADDRESS</span><span class="p">)</span>  <span class="c1"># 丢弃第一次读取</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="k">return</span> <span class="n">bus</span><span class="o">.</span><span class="n">read_byte</span><span class="p">(</span><span class="n">PCF8591_ADDRESS</span><span class="p">)</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a>        <span class="n">x_value</span> <span class="o">=</span> <span class="n">read_adc</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># 读取 X 轴</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a>        <span class="n">y_value</span> <span class="o">=</span> <span class="n">read_adc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 读取 Y 轴</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a>        <span class="c1"># 将 ADC 值 (0-255) 映射到 PWM 值 (0-100)</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a>        <span class="n">red_brightness</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x_value</span> <span class="o">/</span> <span class="mi">255</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a>        <span class="n">green_brightness</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y_value</span> <span class="o">/</span> <span class="mi">255</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a>        <span class="c1"># 使用 PWM 控制 LED 亮度（你需要设置 GPIO 为 PWM 输出）</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a>        <span class="n">red_pwm</span> <span class="o">=</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">PWM</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># 100Hz 频率</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a>        <span class="n">green_pwm</span> <span class="o">=</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">PWM</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="n">red_pwm</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">red_brightness</span><span class="p">)</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="n">green_pwm</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">green_brightness</span><span class="p">)</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a>        <span class="k">if</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">BUTTON_PIN</span><span class="p">)</span> <span class="o">==</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">:</span>  <span class="c1"># 按键按下</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a>            <span class="n">red_pwm</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a>            <span class="n">green_pwm</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_LED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a>            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># 延时防止抖动</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a>            <span class="n">red_pwm</span><span class="o">.</span><span class="n">ChangeDutyCycle</span><span class="p">(</span><span class="n">red_brightness</span><span class="p">)</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>            <span class="n">green_pwm</span><span class="o">.</span><span class="n">ChangeDutyCycle</span><span class="p">(</span><span class="n">green_brightness</span><span class="p">)</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="n">red_pwm</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54"></a>    <span class="n">green_pwm</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div></p>
 
 
 
