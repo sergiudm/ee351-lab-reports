@@ -59,9 +59,6 @@ graph TD
     J --> K[延时];
     K --> G
     G -- 否 --> B;
-    style A fill:#ccf,stroke:#888,stroke-width:2px
-    style K fill:#ccf,stroke:#888,stroke-width:2px
-    style 树莓派 fill:#efe,stroke:#888,stroke-width:2px
 ```
 Python代码
 ```python
