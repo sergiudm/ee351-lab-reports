@@ -39,7 +39,7 @@
 
 程序框图：
 
-![alt text](image-5.png)
+![alt text](image-6.png)
 
 ```python
 import RPi.GPIO as GPIO

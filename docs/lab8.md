@@ -40,7 +40,7 @@ Z 轴上按下。处于静止位置时，其在 X 和 Y 方向产生约 2.5V 的
 
 程序框图：
 
-![alt text](image-6.png)
+![alt text](image-7.png)
 
 Python代码
 ```python

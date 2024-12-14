@@ -39,7 +39,7 @@ NTC 热敏电阻电路相对简单，价格低廉，组件精确，可以轻松�
 
 程序框图：
 
-![alt text](image-3.png)
+![alt text](image-4.png)
 
 Python代码：
 
