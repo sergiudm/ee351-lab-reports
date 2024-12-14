@@ -737,7 +737,7 @@
 <li>编写函数<code>get_distance()</code>，该函数负责设置Trig引脚输出10微秒的高电平脉冲，然后等待Echo引脚变为高电平，记录开始时间；接着再次等待Echo引脚变为低电平，记录结束时间。最后利用这两个时间点计算出超声波往返一次所花费的时间，并据此换算成实际距离。</li>
 </ol>
 <p>程序框图：
-<pre class="mermaid"><code>flowchart TD
+<pre class="mermaid"><code>flowchart LR
     A[开始] --&gt; B{设置GPIO引脚}
     B --&gt; C{循环}
     C --&gt; D{发射超声波}
