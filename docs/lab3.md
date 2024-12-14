@@ -35,7 +35,7 @@
 
 程序框图：
 ```mermaid
-flowchart TD
+flowchart LR
     A[开始] --> B[设置GPIO模式]
     B --> C[循环]
     C --> D[检测按键状态]
@@ -96,7 +96,7 @@ try:
 
 程序框图：
 ```mermaid
-flowchart TD
+flowchart LR
     A[开始] --> B{设置GPIO引脚}
     B --> C{循环}
     C --> D{检测按键状态}
