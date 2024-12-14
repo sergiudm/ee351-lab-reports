@@ -51,8 +51,6 @@ graph TD
     H --> I[延时];
     I --> G
     G -- 否 --> B;
-    style A fill:#ccf,stroke:#888,stroke-width:2px
-    style I fill:#ccf,stroke:#888,stroke-width:2px
 ```
 Python代码
 ```python
