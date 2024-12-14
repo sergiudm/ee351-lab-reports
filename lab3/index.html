@@ -721,7 +721,7 @@
 <li>为了防止按键抖动，可以在检测到按键状态变化后加入一个小的延时。</li>
 </ol>
 <p>程序框图：
-<pre class="mermaid"><code>graph LR
+<pre class="mermaid"><code>graph TD
     A[开始] --&gt; B[设置GPIO模式]
     B --&gt; C[循环]
     C --&gt; D[检测按键状态]
@@ -809,7 +809,7 @@
    4. 再次按一下按键，LED 绿灯闪烁；
 再次按下按键红灯亮起……如此循环。</p>
 <p>程序框图：
-<pre class="mermaid"><code>graph LR
+<pre class="mermaid"><code>graph TD
     A[开始] --&gt; B{设置GPIO引脚}
     B --&gt; C{循环}
     C --&gt; D{检测按键状态}

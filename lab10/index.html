@@ -729,7 +729,7 @@
 <li>使用<code>GPIO.wait_for_edge()</code>方法等待轻触按键按下，然后调用<code>ultrasonic_callback()</code>函数。</li>
 </ol>
 <p>程序框图：
-<pre class="mermaid"><code>graph LR
+<pre class="mermaid"><code>graph TD
     A[开始] --&gt; B{设置GPIO引脚}
     B --&gt; C{添加事件检测}
     C --&gt; D{等待按键按下}
