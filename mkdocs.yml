@@ -59,14 +59,15 @@ repo_name: sergiudm/ee351-lab-reports
 edit_uri: https://github.com/sergiudm/ee351-lab-reports/main/docs/
 plugins:
   - glightbox
+  - search
   - with-pdf:
-      author: '12212635'
-      copyright: '韩骐骏'
+      author: '12212635 韩骐骏'
+      copyright: 'EE351'
       #
       cover: true
-      #back_cover: true
+      back_cover: true
       cover_title: EE351实验报告
-      cover_subtitle: 微机原理与嵌入式系统
+      cover_subtitle: 微机原理与微系统
       #custom_template_path: TEMPLATES PATH
       #
       toc_title: 目录

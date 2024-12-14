@@ -1,0 +1,49 @@
+name: Release PDF
+
+on:
+  push:
+    branches:
+      - pdf
+      - main
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install mkdocs mkdocs-material mkdocs-with-pdf mkdocs-glightbox qrcode
+
+
+      - name: Build PDF
+        run: mkdocs build --config-file mkdocs-pdf.yml # 使用单独的配置文件，详见下文
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: pdf-${{ github.sha }} # 使用 commit SHA 作为 tag
+          release_name: PDF Release ${{ github.sha }}
+          draft: false
+          prerelease: false
+
+      - name: Upload PDF to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./site/output.pdf # PDF 文件路径，根据你的配置调整
+          asset_name: documentation.pdf
+          asset_content_type: application/pdf
