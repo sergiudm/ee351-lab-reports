@@ -763,7 +763,7 @@
 <hr />
 <h4 id="_4">四、编写代码<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
 <p>程序框图：</p>
-<p><pre class="mermaid"><code>graph LR
+<p><pre class="mermaid"><code>graph TD
       A[开始] --&gt; B[设置GPIO模式]
       B --&gt; C[循环]
       C --&gt; D[点亮红灯]
@@ -802,39 +802,37 @@ Python代码，用于实现双色LED的红绿交替闪烁：</p>
 <span class="normal"><a href="#__codelineno-0-28">28</a></span>
 <span class="normal"><a href="#__codelineno-0-29">29</a></span>
 <span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">time</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># Define GPIO pins for the LED (BCM numbering)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="n">RED_PIN</span> <span class="o">=</span> <span class="mi">19</span>  <span class="c1"># Red part of the dual-color LED</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="n">GREEN_PIN</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Green part of the dual-color LED</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="c1"># Setup GPIO mode and pin directions</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a>        <span class="c1"># Turn on red LED</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Red LED is ON&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Wait for 1 second</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>        <span class="c1"># Turn on green LED</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Green LED is ON&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Wait for 1 second</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Program stopped by user&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="k">finally</span><span class="p">:</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="c1"># Clean up GPIO settings before exiting</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="n">RED_PIN</span> <span class="o">=</span> <span class="mi">19</span>  <span class="c1"># 红色LED</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="n">GREEN_PIN</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># 绿色LED</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c1"># 设置GPIO模式</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a>        <span class="c1"># 打开红色LED</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;红色LED已打开&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 等待1秒钟</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a>        <span class="c1"># 打开绿色LED</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">RED_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">GREEN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">HIGH</span><span class="p">)</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;绿色LED已打开&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 等待1秒</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;程序被终止&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="k">finally</span><span class="p">:</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="c1"># 退出前清理GPIO设置</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
 <p>这段代码将使双色LED按照红-绿-红-绿的顺序交替闪烁，每次持续1秒钟。</p>
 <p>C++代码
