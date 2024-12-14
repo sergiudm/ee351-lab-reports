@@ -38,14 +38,7 @@
    - 编写函数`play_music()`，该函数定义了一系列音符及其对应的频率，并通过循环调用这些频率来驱动蜂鸣器发出音乐。
 
 程序框图：
-```mermaid
-graph TD
-    A[开始] --> B{设置GPIO引脚}
-    B --> C{播放音乐}
-    C --> D{设置频率}
-    D --> E{等待}
-    E --> C
-```
+![alt text](image-5.png)
 
 ```python
 import RPi.GPIO as GPIO

@@ -44,17 +44,7 @@
 
 #### 四、编写代码
 程序框图：
-   
-``` mermaid
-graph TD
-      A[开始] --> B[设置GPIO模式]
-      B --> C[循环]
-      C --> D[点亮红灯]
-      D --> E[等待1秒]
-      E --> F[点亮绿灯]
-      F --> G[等待1秒]
-      G --> C
-```
+![alt text](image.png)
 Python代码，用于实现双色LED的红绿交替闪烁：
 
 ```python

@@ -38,20 +38,7 @@
    - 使用`GPIO.wait_for_edge()`方法等待轻触按键按下，然后调用`ultrasonic_callback()`函数。
 
 程序框图：
-```mermaid
-graph TD
-    A[程序开始] --> B{按键按下?};
-    B -- 是 --> C[点亮 LED];
-    C --> D[触发超声波];
-    D --> E{接收到回波?};
-    E -- 是 --> F[计算距离并打印];
-    F --> G{按键松开?};
-    G -- 是 --> H[熄灭 LED];
-    H --> B;
-    E -- 否 --> G;
-    B -- 否 --> I[程序循环];
-    I --> B;
-```
+![alt text](image-8.png)
 Python代码：
 
 ```python

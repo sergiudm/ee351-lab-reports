@@ -95,18 +95,7 @@ try:
 再次按下按键红灯亮起……如此循环。
 
 程序框图：
-```mermaid
-graph TD
-    A[开始] --> B{设置GPIO引脚}
-    B --> C{循环}
-    C --> D{检测按键状态}
-    D --> E{按键按下}
-    E --> F{切换LED状态}
-    F --> G{等待0.5秒}
-    G --> H{切换LED状态}
-    H --> I{等待0.5秒}
-    I --> C
-```
+![alt text](image-1.png)
 
 ```python
 import RPi.GPIO as GPIO

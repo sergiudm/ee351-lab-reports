@@ -39,19 +39,7 @@ Z 轴上按下。处于静止位置时，其在 X 和 Y 方向产生约 2.5V 的
    - 创建一个SMBus实例并与PCF8591建立连接，读取AIN0和AIN1上的模拟值，并根据这些值计算出对应的LED亮度。
 
 程序框图：
-```mermaid
-graph TD
-    A[开始] --> B{读取 PS2 操纵杆 X 轴和 Y 轴};
-    B --> C[将 X 轴值映射到红色 LED 亮度];
-    C --> D[将 Y 轴值映射到绿色 LED 亮度];
-    D --> E[设置红色 LED 的 PWM 占空比];
-    E --> F[设置绿色 LED 的 PWM 占空比];
-    F --> G{检测按键是否按下?};
-    G -- 是 --> H[熄灭所有 LED];
-    H --> I[延时];
-    I --> G
-    G -- 否 --> B;
-```
+![alt text](image-6.png)
 Python代码
 ```python
 import smbus
