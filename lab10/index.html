@@ -765,9 +765,20 @@
 <li>编写函数<code>ultrasonic_callback()</code>，该函数用于处理超声波传感器测距的逻辑，每次按键按下时调用一次。</li>
 <li>使用<code>GPIO.wait_for_edge()</code>方法等待轻触按键按下，然后调用<code>ultrasonic_callback()</code>函数。</li>
 </ol>
-<p>程序框图：</p>
-<p><a class="glightbox" href="../image-8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../image-8.png" /></a></p>
-<p>Python代码：</p>
+<p>程序框图：
+<pre class="mermaid"><code>flowchart TD
+    A[程序开始] --&gt; B{按键按下?};
+    B -- 是 --&gt; C[点亮 LED];
+    C --&gt; D[触发超声波];
+    D --&gt; E{接收到回波?};
+    E -- 是 --&gt; F[计算距离并打印];
+    F --&gt; G{按键松开?};
+    G -- 是 --&gt; H[熄灭 LED];
+    H --&gt; B;
+    E -- 否 --&gt; G;
+    B -- 否 --&gt; I[程序循环];
+    I --&gt; B;</code></pre>
+Python代码：</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>

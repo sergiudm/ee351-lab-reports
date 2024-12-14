@@ -767,9 +767,19 @@ Z 轴上按下。处于静止位置时，其在 X 和 Y 方向产生约 2.5V 的
 <li>导入必要的库。</li>
 <li>创建一个SMBus实例并与PCF8591建立连接，读取AIN0和AIN1上的模拟值，并根据这些值计算出对应的LED亮度。</li>
 </ol>
-<p>程序框图：</p>
-<p><a class="glightbox" href="../image-6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="alt text" src="../image-6.png" /></a></p>
-<p>Python代码
+<p>程序框图：
+<pre class="mermaid"><code>flowchart TD
+    A[开始] --&gt; B{读取 PS2 操纵杆 X 轴和 Y 轴};
+    B --&gt; C[将 X 轴值映射到红色 LED 亮度];
+    C --&gt; D[将 Y 轴值映射到绿色 LED 亮度];
+    D --&gt; E[设置红色 LED 的 PWM 占空比];
+    E --&gt; F[设置绿色 LED 的 PWM 占空比];
+    F --&gt; G{检测按键是否按下?};
+    G -- 是 --&gt; H[熄灭所有 LED];
+    H --&gt; I[延时];
+    I --&gt; G
+    G -- 否 --&gt; B;</code></pre>
+Python代码
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
