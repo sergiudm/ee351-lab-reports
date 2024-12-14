@@ -61,34 +61,33 @@ Python代码，用于实现双色LED的红绿交替闪烁：
 import RPi.GPIO as GPIO
 import time
 
-# Define GPIO pins for the LED (BCM numbering)
-RED_PIN = 19  # Red part of the dual-color LED
-GREEN_PIN = 20  # Green part of the dual-color LED
+RED_PIN = 19  # 红色LED
+GREEN_PIN = 20  # 绿色LED
 
-# Setup GPIO mode and pin directions
+# 设置GPIO模式
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(RED_PIN, GPIO.OUT)
 GPIO.setup(GREEN_PIN, GPIO.OUT)
 
 try:
     while True:
-        # Turn on red LED
+        # 打开红色LED
         GPIO.output(RED_PIN, GPIO.HIGH)
         GPIO.output(GREEN_PIN, GPIO.LOW)
-        print("Red LED is ON")
-        time.sleep(1)  # Wait for 1 second
+        print("红色LED已打开")
+        time.sleep(1)  # 等待1秒钟
         
-        # Turn on green LED
+        # 打开绿色LED
         GPIO.output(RED_PIN, GPIO.LOW)
         GPIO.output(GREEN_PIN, GPIO.HIGH)
-        print("Green LED is ON")
-        time.sleep(1)  # Wait for 1 second
+        print("绿色LED已打开")
+        time.sleep(1)  # 等待1秒
 
 except KeyboardInterrupt:
-    print("Program stopped by user")
+    print("程序被终止")
 
 finally:
-    # Clean up GPIO settings before exiting
+    # 退出前清理GPIO设置
     GPIO.cleanup()
 ```
 

@@ -21,8 +21,9 @@ NTC 热敏电阻电路相对简单，价格低廉，组件精确，可以轻松�
    - 通过连接到PCF8591的模拟输入端口AIN0，我们可以采集这个电压信号，并将其转换为数字形式以便后续分析。
 
 3. **数据处理**：
-   - 首先从PCF8591读取经过A/D转换后的数值，然后根据已知条件（如供电电压5V，ADC分辨率为8位即0~255对应0~5V）计算出对应的模拟电压。
-   - 接着利用分压比公式计算得到热敏电阻的实际阻值，再代入Steinhart-Hart方程求解温度T。
+   - 首先从PCF8591读取经过A/D转换后的数值$analogVal =PCF8591.read(0)$，然后根据已知条件（如供电电压$V_{cc}=5V$，ADC分辨率为8位即0~255对应0~5V）计算出对应的模拟电压$V_r = V_{cc} * float(analogVal) / 255.0 * $。
+   - 接着利用分压比公式计算得到热敏电阻的实际阻值$R_t = R_0 * V_r / (V_{cc} - V_r)$。
+   - 再代入Steinhart-Hart方程求解温度T。
 
 #### 三、实验步骤
 1. **硬件连接**：
@@ -54,32 +55,30 @@ import smbus
 import math
 import time
 
-# Define the I2C address of the PCF8591 and control bits
-address = 0x48  # Default address for PCF8591
-control_bit = 0x40  # Command to start conversion on channel 0 (AIN0)
+address = 0x48  # 地址
+control_bit = 0x40  # 控制字
 
-# Constants for the thermistor calculation
-R0 = 10000  # Resistance at 25°C in ohms
-B = 3950  # Thermistor constant in Kelvin
-T0 = 298.15  # Standard temperature in Kelvin (25°C)
-Vcc = 5.0  # Supply voltage in volts
+# 常数
+R0 = 10000  
+B = 3950  
+T0 = 298.15  # 25°C -> 开氏温度
+Vcc = 5.0  # 5V供电
 
-# Initialize the SMBus library
-bus = smbus.SMBus(1)  # Use I2C bus 1
+bus = smbus.SMBus(1)
 
 def read_temperature():
     try:
-        # Write the control byte to initiate an A/D conversion on channel 0
+        # 设置PCF8591地址和控制位
         bus.write_byte(address, control_bit)
         
         analog_value = bus.read_byte(address)
         
         Vr = (analog_value / 255.0) * Vcc
         
-        # Calculate the resistance of the thermistor
+        # 计算热敏电阻的阻值
         Rt = R0 * Vr / (Vcc - Vr)
         
-        # Apply the Steinhart-Hart equation to calculate temperature
+        # 计算温度
         temp_kelvin = 1 / (math.log(Rt / R0) / B + 1 / T0)
         temp_celsius = temp_kelvin - 273.15
         
@@ -97,7 +96,7 @@ try:
         else:
             print("Failed to read temperature.")
         
-        time.sleep(1)  # Small delay between readings
+        time.sleep(1)
 
 except KeyboardInterrupt:
    print("\nExiting program.")

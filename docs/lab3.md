@@ -55,18 +55,17 @@ graph TD
 import RPi.GPIO as GPIO
 import time
 
-# Define GPIO pins for the LED (BCM numbering)
-RED_PIN = 19  # Red part of the dual-color LED
-GREEN_PIN = 20  # Green part of the dual-color LED
-SWITCH_PIN = 21  # GPIO pin for the tactile switch
+RED_PIN = 19  
+GREEN_PIN = 20  
+SWITCH_PIN = 21  # 开关引脚
 
-# Setup GPIO mode and pin directions
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(RED_PIN, GPIO.OUT)
 GPIO.setup(GREEN_PIN, GPIO.OUT)
 GPIO.setup(SWITCH_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def switch_with_delay(pin, delay=0.1):
+   """检测开关状态"""
     state = GPIO.input(pin)
     time.sleep(delay)
     return state == GPIO.input(pin)
@@ -113,23 +112,23 @@ graph TD
 import RPi.GPIO as GPIO
 import time
 
-# Define GPIO pins for the LED (BCM numbering)
-RED_PIN = 19  # Red part of the dual-color LED
-GREEN_PIN = 20  # Green part of the dual-color LED
-SWITCH_PIN = 21  # GPIO pin for the tactile switch
+RED_PIN = 19  
+GREEN_PIN = 20  
+SWITCH_PIN = 21  # 开关引脚
 
-# Setup GPIO mode and pin directions
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(RED_PIN, GPIO.OUT)
 GPIO.setup(GREEN_PIN, GPIO.OUT)
 GPIO.setup(SWITCH_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def switch_with_delay(pin, delay=0.1):
+   """检测开关状态"""
     state = GPIO.input(pin)
     time.sleep(delay)
     return state == GPIO.input(pin)
 
 def toggle_led(pin):
+   """切换LED状态"""
     GPIO.output(pin, not GPIO.input(pin))
 
 try:

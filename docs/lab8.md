@@ -4,7 +4,7 @@
 PS2 操纵杆模块类似于手柄中的模拟游戏杆，是一种输入设备，其在许多项
 目中得到应用。它是通过以 90 度角安装两个电位计来制成的。电位计连接到以
 弹簧为中心的短杆上。本次实验任务为用 PS2 操纵杆控制不同的 LED 以及其亮
-度变化。
+度变化。一个轴控制红灯亮度，另一个轴控制绿灯亮度，按下按钮则熄灭两者。
 
 
 #### 二、实验原理
@@ -40,74 +40,81 @@ Z 轴上按下。处于静止位置时，其在 X 和 Y 方向产生约 2.5V 的
 
 程序框图：
 ```mermaid
-    graph TD
-        A[开始] --> B{初始化I2C总线}
-        B --> C{设置PCF8591地址和控制位}
-        C --> D{循环开始}
-        D --> E{读取X轴和Y轴模拟值}
-        E --> F{计算LED亮度}
-        F --> G{设置LED亮度}
-        G --> H{延时}
-        H --> D
-        D -- 中断 --> I[退出]
+graph TD
+    subgraph 输入部分
+        A[PS2 操纵杆] --> B{ADC (PCF8591)}
+    end
+    B -- X 轴值 --> C[将 X 轴值映射到红色 LED 亮度];
+    B -- Y 轴值 --> D[将 Y 轴值映射到绿色 LED 亮度];
+    subgraph 控制部分
+        C --> E[设置红色 LED 的 PWM 占空比];
+        D --> F[设置绿色 LED 的 PWM 占空比];
+        E -- GPIO (PWM) --> H[红色 LED]
+        F -- GPIO (PWM) --> I[绿色 LED]
+        subgraph 树莓派
+        end
+    end
+    A -- 按键信号 --> G{检测按键是否按下?};
+    G -- 是 --> J[熄灭所有 LED (停止 PWM)];
+    J --> K[延时];
+    K --> G
+    G -- 否 --> B;
+    style A fill:#ccf,stroke:#888,stroke-width:2px
+    style K fill:#ccf,stroke:#888,stroke-width:2px
+    style 树莓派 fill:#efe,stroke:#888,stroke-width:2px
 ```
 Python代码
 ```python
 import smbus
+import RPi.GPIO as GPIO
 import time
 
-# Define the I2C address of the PCF8591 and control bits
-address = 0x48  # Default address for PCF8591
-control_bit_x = 0x40  # Command to start conversion on channel 0 (AIN0, X-axis)
-control_bit_y = 0x41  # Command to start conversion on channel 1 (AIN1, Y-axis)
+# I2C 地址
+PCF8591_ADDRESS = 0x48
 
-# Initialize the SMBus library
-bus = smbus.SMBus(1)  # Use I2C bus 1
+# GPIO 引脚
+RED_LED_PIN = 27
+GREEN_LED_PIN = 22
+BUTTON_PIN = 17
 
-def read_joystick(axis='x'):
-    """Read joystick position from specified axis."""
-    if axis.lower() == 'x':
-        control_bit = control_bit_x
-    elif axis.lower() == 'y':
-        control_bit = control_bit_y
-    else:
-        raise ValueError("Invalid axis. Choose 'x' or 'y'.")
-    
-    try:
-        # Write the control byte to initiate an A/D conversion on selected channel
-        bus.write_byte(address, control_bit)
-        
-        # Read back the converted value from the PCF8591
-        analog_value = bus.read_byte(address)
-        
-        return analog_value
-    
-    except Exception as e:
-        print(f"Error reading {axis}-axis:", str(e))
-        return None
+# 初始化
+bus = smbus.SMBus(1) # 使用 I2C 总线 1
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(RED_LED_PIN, GPIO.OUT)
+GPIO.setup(GREEN_LED_PIN, GPIO.OUT)
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-def map_to_brightness(value, in_min=0, in_max=255, out_min=0, out_max=100):
-    """Map joystick value to LED brightness percentage."""
-    return int((value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
+def read_adc(channel):
+    bus.write_byte(PCF8591_ADDRESS, 0x40 | channel) # 选择通道
+    bus.read_byte(PCF8591_ADDRESS) # 丢弃第一次读取
+    return bus.read_byte(PCF8591_ADDRESS)
 
 try:
     while True:
-        x_value = read_joystick('x')
-        y_value = read_joystick('y')
-        
-        if x_value is not None and y_value is not None:
-            print(f"X-axis: {x_value}, Y-axis: {y_value}")
-            
-            # Calculate LED brightness based on joystick position
-            led_brightness_x = map_to_brightness(x_value)
-            led_brightness_y = map_to_brightness(y_value)
-            
-            # Here you would add code to set the LED brightness using PWM or similar method.
-            # For demonstration purposes, we'll just print the calculated brightness.
-            print(f"LED Brightness X (%): {led_brightness_x}, Y (%): {led_brightness_y}")
-        
-        time.sleep(0.1)  # Small delay between readings
+        x_value = read_adc(0) # 读取 X 轴
+        y_value = read_adc(1) # 读取 Y 轴
+
+        # 将 ADC 值 (0-255) 映射到 PWM 值 (0-100)
+        red_brightness = int(x_value / 255 * 100)
+        green_brightness = int(y_value / 255 * 100)
+
+        # 使用 PWM 控制 LED 亮度（你需要设置 GPIO 为 PWM 输出）
+        red_pwm = GPIO.PWM(RED_LED_PIN, 100) # 100Hz 频率
+        green_pwm = GPIO.PWM(GREEN_LED_PIN, 100)
+        red_pwm.start(red_brightness)
+        green_pwm.start(green_brightness)
+
+        if GPIO.input(BUTTON_PIN) == GPIO.LOW: # 按键按下
+            red_pwm.stop()
+            green_pwm.stop()
+            GPIO.output(RED_LED_PIN, GPIO.LOW)
+            GPIO.output(GREEN_LED_PIN, GPIO.LOW)
+            time.sleep(0.5) # 延时防止抖动
+        else:
+          red_pwm.ChangeDutyCycle(red_brightness)
+          green_pwm.ChangeDutyCycle(green_brightness)
 
 except KeyboardInterrupt:
-    pass  # Allow the program to exit cleanly with Ctrl+C
-```
+    red_pwm.stop()
+    green_pwm.stop()
+    GPIO.cleanup()

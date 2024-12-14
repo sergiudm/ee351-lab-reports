@@ -5,7 +5,7 @@
 种机制，用于暂停当前程序的执行，转而执行其他指定任务。外部中断的存在
 主要是为了处理紧急事件，例如硬件设备的输入、定时器的到期等。树莓派也
 可实现类似的功能。本次实验任务为通过中断机制在树莓派上实现对不同外接
-设备的及时响应。任务一为通过中断实现对按键的响应，改变LED灯的状态；任二为通过中断实现按键每按下一次，超声波传感器测距一次。
+设备的及时响应。任务一为通过中断实现对按键的响应，改变LED灯的状态；任二为通过中断实现按键每按下一次，超声波传感器测距一次。**最终的效果为：按下按键，LED灯亮，超声波传感器测距一次;松开按键，LED灯灭，超声波传感器不再测距**。
 
 #### 二、实验原理
 1. **树莓派中断函数**：
@@ -40,14 +40,17 @@
 程序框图：
 ```mermaid
 graph TD
-    A[开始] --> B{设置GPIO引脚}
-    B --> C{添加事件检测}
-    C --> D{等待按键按下}
-    D --> E{调用回调函数}
-    E --> F{测距}
-    F --> G{打印距离}
-    G --> H{切换LED状态}
-    H --> D
+    A[程序开始] --> B{按键按下?};
+    B -- 是 --> C[点亮 LED];
+    C --> D[触发超声波];
+    D --> E{接收到回波?};
+    E -- 是 --> F[计算距离并打印];
+    F --> G{按键松开?};
+    G -- 是 --> H[熄灭 LED];
+    H --> B;
+    E -- 否 --> G;
+    B -- 否 --> I[程序循环];
+    I --> B;
 ```
 Python代码：
 
@@ -55,59 +58,64 @@ Python代码：
 import RPi.GPIO as GPIO
 import time
 
-# Define GPIO pins for the button and LED
-BUTTON_PIN = 23  # BCM numbering
-LED_PIN = 18  # BCM numbering
+BUTTON_PIN = 23
+LED_PIN = 18
+TRIG = 17
+ECHO = 27  # 确保 ECHO 引脚正确
 
-# Define GPIO pins for the ultrasonic sensor
-TRIG = 17  # BCM numbering
-ECHO = 18  # BCM numbering
-
-# Setup GPIO mode and pin directions
+# 设置 GPIO 模式
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(LED_PIN, GPIO.OUT)
 GPIO.setup(TRIG, GPIO.OUT)
 GPIO.setup(ECHO, GPIO.IN)
 
-# Function to toggle LED state
-def button_callback(channel):
-    if GPIO.input(LED_PIN):
-        GPIO.output(LED_PIN, GPIO.LOW)
-    else:
-        GPIO.output(LED_PIN, GPIO.HIGH)
+# 全局变量，用于控制超声波测量
+measuring = False
+pulse_start = 0
+pulse_end = 0
 
-# Function to measure distance with ultrasonic sensor
-def ultrasonic_callback(channel):
-    # Send a 10us pulse to TRIG
+def button_pressed_callback(channel):
+    """按键按下回调函数：点亮 LED 并启动测距"""
+    global measuring
+    GPIO.output(LED_PIN, GPIO.HIGH)
+    measuring = True  # 设置为 True 以允许测距
+    GPIO.output(TRIG, False) #先拉低，再拉高，使得输出一个干净的脉冲
+    time.sleep(0.01)
+
     GPIO.output(TRIG, True)
-    time.sleep(0.00001)
+    time.sleep(0.00001)  # 10us 脉冲
     GPIO.output(TRIG, False)
 
-    # Wait for ECHO to go high
-    while GPIO.input(ECHO) == 0:
-        pulse_start = time.time()
+def button_released_callback(channel):
+    """按键松开回调函数：熄灭 LED"""
+    global measuring
+    GPIO.output(LED_PIN, GPIO.LOW)
+    measuring = False  # 设置为 False 以停止测距
 
-    # Wait for ECHO to go low again
-    while GPIO.input(ECHO) == 1:
-        pulse_end = time.time()
+def echo_callback(channel):
+    """ECHO 引脚状态变化回调函数：计算距离"""
+    global measuring, pulse_start, pulse_end
+    if measuring:  # 只有在测量状态下才进行计算
+        if GPIO.input(ECHO) == GPIO.HIGH:
+            pulse_start = time.time()
+        elif GPIO.input(ECHO) == GPIO.LOW:
+            pulse_end = time.time()
+            pulse_duration = pulse_end - pulse_start
+            distance = pulse_duration * 34300 / 2
+            print(f"Distance: {distance:.2f} cm")
 
-    # Calculate duration of the pulse
-    pulse_duration = pulse_end - pulse_start
+# 添加按键按下和松开事件检测
+GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_pressed_callback, bouncetime=200)  #按下
+GPIO.add_event_detect(BUTTON_PIN, GPIO.RISING, callback=button_released_callback,bouncetime=200)  #松开
 
-    # Calculate distance in cm
-    distance = pulse_duration * 34300 / 2
-    print(f"Distance: {distance:.2f} cm")
-
-# Add event detection for the button
-GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_callback, bouncetime=200)
+# 添加 ECHO 引脚状态变化检测
+GPIO.add_event_detect(ECHO, GPIO.BOTH, callback=echo_callback)
 
 try:
-    print("Press the button to toggle the LED state.")
-    print("Press the button to measure distance with the ultrasonic sensor.")
+    print("Press the button...")
     while True:
-        GPIO.wait_for_edge(BUTTON_PIN, GPIO.FALLING)
-        ultrasonic_callback(BUTTON_PIN)
+        time.sleep(0.1)  # 主循环中可以添加其他任务
 
 except KeyboardInterrupt:
     print("\nCleaning up...")
