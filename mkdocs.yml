@@ -12,6 +12,9 @@ nav:
     - PS2操纵杆实验: lab8.md
     - 红外遥控实验: lab9.md
     - 中断实验: lab10.md
+
+repo_url: https://github.com/sergiudm/ee351-lab-reports
+
 theme:
   name: material
   language: zh
@@ -54,8 +57,12 @@ theme:
   features:
     - content.code.copy
     - content.code.select
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.path
+    - toc.integrate 
+  custom_dir: overrides
 
-repo_name: sergiudm/ee351-lab-reports
 edit_uri: https://github.com/sergiudm/ee351-lab-reports/main/docs/
 plugins:
   - glightbox
