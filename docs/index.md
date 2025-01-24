@@ -1,3 +1,6 @@
+---
+comments: true
+---
 # EE351实验报告
 此处是EE351“微机原理与微系统”24Fall课程实验报告的主页，你可以在[这里](https://sergiudm.github.io/ee351-lab-reports/#_1)找到所有的实验报告。
 

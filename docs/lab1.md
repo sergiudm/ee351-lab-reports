@@ -1,3 +1,6 @@
+---
+comments: true
+---
 ### Lab1实验报告：Raspberry Pi开发环境搭建
 
 #### 一、实验介绍
